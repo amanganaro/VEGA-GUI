@@ -114,8 +114,7 @@ public class FrameAbout extends JFrame {
         protected Object doInBackground() throws Exception {
             Parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             try {
-                PDFDocumentLauncher PDF = new PDFDocumentLauncher(UrlPDF, ModelName);
-                PDF.Open();
+                PDFDocumentLauncher.Open(UrlPDF, ModelName);
             } catch (GenericFailureException ex) {
                 JOptionPane.showMessageDialog(Parent,
                     "Unable to open file.\n(Error: " + ex.getMessage() + ")", "Error", JOptionPane.ERROR_MESSAGE);            

@@ -16,16 +16,7 @@ import javax.swing.JFileChooser;
  */
 public class PDFDocumentLauncher {
 
-    private final String DocumentURL;
-    private final String DocumentFilename;
-    
-    
-    public PDFDocumentLauncher(String DocumentURL, String DocumentFilename) {
-        this.DocumentFilename = DocumentFilename;
-        this.DocumentURL = DocumentURL;
-    }
-    
-    public void Open() throws GenericFailureException {
+    public static void Open(String DocumentURL, String DocumentFilename) throws GenericFailureException {
         
         try {
 
@@ -39,7 +30,7 @@ public class PDFDocumentLauncher {
                 }
             }
 
-            URL uPDF = getClass().getResource(DocumentURL);
+            URL uPDF = PDFDocumentLauncher.class.getResource(DocumentURL);
 
             if (DesktopSupported) {
 
@@ -83,5 +74,55 @@ public class PDFDocumentLauncher {
         } catch (IOException ex) {
             throw new GenericFailureException("Unable to open file.\n(Error: " + ex.getMessage() + ")");            
         }            
+    }
+
+
+    public static void Open(byte[] DocByte, String DocumentFilename) throws GenericFailureException {
+
+        try {
+
+            boolean DesktopSupported = true;
+            if (!Desktop.isDesktopSupported()) {
+                DesktopSupported = false;
+            } else {
+                Desktop desktop = Desktop.getDesktop();
+                if (!desktop.isSupported(Desktop.Action.OPEN)) {
+                    DesktopSupported = false;
+                }
+            }
+
+            if (DesktopSupported) {
+
+                File doc = File.createTempFile("VEGA_doc_", ".pdf");
+                doc.deleteOnExit();
+                FileOutputStream out = new FileOutputStream(doc);
+
+                out.write(DocByte);
+
+                out.close();
+                Desktop.getDesktop().open(doc);
+
+            } else {
+
+                // Gets output directory
+                JFileChooser fc = new JFileChooser();
+                fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                fc.setDialogTitle("Save PDF document");
+                fc.setSelectedFile(new File(DocumentFilename + ".pdf"));
+                int res = fc.showSaveDialog(null);
+
+                // Saves doc
+                if (!((res == JFileChooser.CANCEL_OPTION) || (res ==
+                        JFileChooser.ERROR_OPTION))) {
+
+                    FileOutputStream out = new FileOutputStream(fc.getSelectedFile());
+                    out.write(DocByte);
+                }
+
+            }
+
+        } catch (IOException ex) {
+            throw new GenericFailureException("Unable to open file.\n(Error: " + ex.getMessage() + ")");
+        }
     }
 }

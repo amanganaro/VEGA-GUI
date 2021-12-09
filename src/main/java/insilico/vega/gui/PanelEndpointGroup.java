@@ -34,7 +34,7 @@ public class PanelEndpointGroup extends JPanel {
     private final static int V_STARTING_VALUE = 5; // 8
     private final static int V_STEP = 24; // 23
     
-    private static VegaModelsWrapper.VegaEndpoint EP;
+    private final VegaModelsWrapper.VegaEndpoint EP;
     
     public final int Group;
     
@@ -234,7 +234,11 @@ public class PanelEndpointGroup extends JPanel {
         for (JCheckBox ComboboxModel : ComboboxModels) {
             ComboboxModel.setSelected(status);
         }
-    }        
+        for (VegaModelsWrapper.VegaModel m : EP.Models)
+            m.Selected = status;
+        for (VegaModelsWrapper.VegaModelConsensus m : EP.ModelsConsensus)
+            m.Selected = status;
+    }
     
     
     private class CBListener implements ActionListener {

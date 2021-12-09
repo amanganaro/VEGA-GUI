@@ -1,18 +1,34 @@
 package insilico.vega.gui.models;
 
-import insilico.carcinogenicity_antares.ismCarcinogenicityAntares;
-import insilico.daphnia_demetra.ismDaphniaDemetra;
-import insilico.fathead_knn.ismFatheadKnn;
+import insilico.aromatase_activity.ismAromataseTox21;
+import insilico.carcinogenicity_caesar.ismCarcinogenicityCaesar;
+import insilico.carcinogenicity_isscancgx.ismCarcinogenicityIsscanCgx;
+import insilico.carcinogenicity_rat_female.ismCarcinogenicityRatFemale;
+import insilico.carcinogenicity_rat_male.ismCarcinogenicityRatMale;
 import insilico.core.exception.InitFailureException;
 import insilico.core.model.InsilicoModel;
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
+import insilico.endocrine_disruptors_irfmn.ismEndocrineDisruptorsIRFMN;
+import insilico.fathead_epa.ismFatheadEPA;
+import insilico.fish_lc50.ismFishLC50;
+import insilico.km_arnot.ismKmArnot;
+import insilico.ld50.ismLD50;
+import insilico.logk.ismLogK;
+import insilico.logp_alogp.ismLogPALogP;
+import insilico.meylanlogp.ismLogPMeylan;
+import insilico.persistence_quantative_water_irfmn.ismPersistenceWaterQuantitativeIrfmn;
+import insilico.persistence_sediment_quantitative_irfmn.ismPersistenceSedimentQuantitativeIrfmn;
+import insilico.persistence_soil_quantitative_irfmn.ismPersistenceSoilQuantitativeIrfmn;
+import insilico.ppara_up.ismPPARAUp;
+import insilico.pparg_up.ismPPARGup;
+import insilico.ppb_coral.ismPPBCoral;
+import insilico.pxr_up.ismPxrUp;
+import insilico.skin_caesar.ismSkinCaesar;
+import insilico.skin_cosmetics.ismSkinCosmetics;
+import insilico.skin_sensitization_toxtree.ismSkinSensitizationToxTree;
 
 import java.util.ArrayList;
-import insilico.logp_alogp.ismLogPALogP;
-import insilico.logp_mlogp.ismLogPMLogP;
-import insilico.meylanlogp.ismLogPMeylan;
-import insilico.watersolubility.ismWaterSolubilityIRFMN;
 
 
 /**
@@ -63,6 +79,7 @@ public class VegaModelsWrapper {
             Selected = false;
         }
     }
+
     public class VegaEndpoint {
         public String Name;
         public int Section;
@@ -91,152 +108,86 @@ public class VegaModelsWrapper {
         VegaEndpoint ep;
         Endpoints = new ArrayList<>();
 
-//        ep = new VegaEndpoint("Mutagenicity (Ames test)", SECTION_HUMAN);
-//        ep.AddModel(new ismMutagenicityCaesar());
-//        ep.AddModel(new ismMutagenicitySarpy());
-//        ep.AddModel(new ismMutagenicityBB());
-//        ep.AddModel(new ismMutagenicityKnn());
-//        Endpoints.add(ep);
-        
+        // Human
+
         ep = new VegaEndpoint("Carcinogenicity", SECTION_HUMAN);
-        ep.AddModel(new ismCarcinogenicityAntares());
+        ep.AddModel(new ismCarcinogenicityCaesar());
+        ep.AddModel(new ismCarcinogenicityIsscanCgx());
+        ep.AddModel(new ismCarcinogenicityRatMale());
+        ep.AddModel(new ismCarcinogenicityRatFemale());
         Endpoints.add(ep);
-        
-        ep = new VegaEndpoint("Fish acute toxcity", SECTION_ECOTOX);
-        ep.AddModel(new ismFatheadKnn());
-        ep.AddModel(new ismDaphniaDemetra());
+
+        ep = new VegaEndpoint("Acute Toxicity (LD50)", SECTION_HUMAN);
+        ep.AddModel(new ismLD50());
         Endpoints.add(ep);
-        
-//        ep = new VegaEndpoint("Ready Biodegradability", SECTION_FATE);
-//        ep.AddModel(new ismReadyBioIRFMN());
-//        Endpoints.add(ep);
-        
-//        ep = new VegaEndpoint("Persistence (sediment)", SECTION_FATE);
-//        ep.AddModel(new ismPersistenceSedimentIrfmn());
-//        ep.AddModel(new ismPersistenceSedimentQuantitativeIrfmn());
-//        Endpoints.add(ep);
-        
-        ep = new VegaEndpoint("Octanol/Water partition", SECTION_PHYS);
+
+        ep = new VegaEndpoint("Skin Sensitization", SECTION_HUMAN);
+        ep.AddModel(new ismSkinCaesar());
+        ep.AddModel(new ismSkinCosmetics());
+        ep.AddModel(new ismSkinSensitizationToxTree());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Endocrine Disruptor activity", SECTION_HUMAN);
+        ep.AddModel(new ismEndocrineDisruptorsIRFMN());
+        Endpoints.add(ep);
+
+
+        // Ecotox
+
+        ep = new VegaEndpoint("Aquatic Acute Toxicity", SECTION_ECOTOX);
+        ep.AddModel(new ismFishLC50());
+        ep.AddModel(new ismFatheadEPA());
+        Endpoints.add(ep);
+
+
+        // Fate and Distribution
+
+        ep = new VegaEndpoint("Persistence (sediment)", SECTION_FATE);
+        ep.AddModel(new ismPersistenceSedimentQuantitativeIrfmn());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Persistence (soil)", SECTION_FATE);
+        ep.AddModel(new ismPersistenceSoilQuantitativeIrfmn());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Persistence (water)", SECTION_FATE);
+        ep.AddModel(new ismPersistenceWaterQuantitativeIrfmn());
+        Endpoints.add(ep);
+
+
+        // Physical Chemical properties
+
+        ep = new VegaEndpoint("Octanol/Water partition coefficient", SECTION_PHYS);
         ep.AddModel(new ismLogPMeylan());
-        ep.AddModel(new ismLogPMLogP());
         ep.AddModel(new ismLogPALogP());
         Endpoints.add(ep);
-        
-        ep = new VegaEndpoint("Water solubility", SECTION_PHYS);
-        ep.AddModel(new ismWaterSolubilityIRFMN());
+
+
+        // Human PBPK
+
+        ep = new VegaEndpoint("Plasma Protein Binding", SECTION_HUMAN_PBPK);
+        ep.AddModel(new ismLogK());
+        ep.AddModel(new ismPPBCoral());
         Endpoints.add(ep);
-        
-//        ep = new VegaEndpoint("Skin permeation", SECTION_HUMAN_PBPK);
-//        ep.AddModel(new ismSkinPermeationPotts());
-//        ep.AddModel(new ismSkinPermeationTenBerge());
-//        Endpoints.add(ep);
-        
-//        ep = new VegaEndpoint("BCF in fish", SECTION_ECO_PBPK);
-//        ep.AddModel(new ismBCFCaesar());
-//        ep.AddModel(new ismBCFMeylan());
-//        ep.AddModel(new ismBCFArnotGobas());
-//        Endpoints.add(ep);
-        
-        
-        
-        
-//        Tox = new ModelsGroup();
-//        Tox.AddModel(new ismMutagenicityCaesar());
-//        Tox.AddModel(new ismMutagenicitySarpy());
-//        Tox.AddModel(new ismMutagenicityBB());
-//        Tox.AddModel(new ismMutagenicityKnn());
-//        Tox.AddModel(new ismCarcinogenicityCaesar());
-//        Tox.AddModel(new ismCarcinogenicityBB());
-//        Tox.AddModel(new ismCarcinogenicityAntares());
-//        Tox.AddModel(new ismCarcinogenicityIsscanCgx());
-//        Tox.AddModel(new ismCarcinogenicitySFOClassification());
-//        Tox.AddModel(new ismCarcinogenicitySFORegression());
-//        Tox.AddModel(new ismCarcinogenicitySFIClassification());
-//        Tox.AddModel(new ismCarcinogenicitySFIRegression());
-//        Tox.AddModel(new ismDevtoxCaesar());
-//        Tox.AddModel(new ismDevToxPG());
-//        Tox.AddModel(new ismZebrafishCoral());
-//        Tox.AddModel(new ismChromosomalAberrationCoral());
-//        Tox.AddModel(new ismRbaIRFMN());
-//        Tox.AddModel(new ismEstrogenBindingCerapp());
-//        Tox.AddModel(new ismAndrogenBindingComparaIRFMN());
-//        Tox.AddModel(new ismTRAlphaNRMEA());
-//        Tox.AddModel(new ismTRBetaNRMEA());
-//        Tox.AddModel(new ismAromataseIRFMN());
-//        Tox.AddModel(new ismPgpNic());
-//        Tox.AddModel(new ismSkinCaesar());
-//        Tox.AddModel(new ismSkinIRFMN());
-//        Tox.AddModel(new ismHepatotoxicityIrfmn());
-//        Tox.AddModel(new ismTissueBloodIneris());
-//        Tox.AddModel(new ismTotalHLQsarins());        
-//        Tox.AddModel(new ismMicronucleusInVitro()); 
-//        Tox.AddModel(new ismMicronucleusInVivo()); 
-//        Tox.AddModel(new ismNoaelCoral());
-//        Tox.AddModel(new ismCramerToxtree());
-//
-//        ConsTox = new ModelsConsensusGroup();
-//        ConsTox.AddModel(new ismcMutagenicity());
-//        
-//        EcoTox = new ModelsGroup();
-//        EcoTox.AddModel(new ismMoaEpa());
-//        EcoTox.AddModel(new ismMoaIrfmn());
-//        EcoTox.AddModel(new ismVerhaarToxtree());
-//        EcoTox.AddModel(new ismFishIRFMN());
-//        EcoTox.AddModel(new ismFishKnn());
-//        EcoTox.AddModel(new ismFishNic());
-//        EcoTox.AddModel(new ismFishLC50());        
-//        EcoTox.AddModel(new ismFishCombase());        
-//        EcoTox.AddModel(new ismFishNOEC());        
-//        EcoTox.AddModel(new ismFatheadEPA());
-//        EcoTox.AddModel(new ismFatheadKnn());
-//        EcoTox.AddModel(new ismGuppyKnn());
-//        EcoTox.AddModel(new ismDaphniaEPA());
-//        EcoTox.AddModel(new ismDaphniaDemetra());
-//        EcoTox.AddModel(new ismDaphniaEC50());
-//        EcoTox.AddModel(new ismDaphniaCombase());
-//        EcoTox.AddModel(new ismDaphniaNOEC());
-//        EcoTox.AddModel(new ismAlgaeEC50());
-//        EcoTox.AddModel(new ismAlgaeCombaseEC50());
-//        EcoTox.AddModel(new ismAlgaeNOEC());
-//        EcoTox.AddModel(new ismAlgaeCombaseClass());
-//        EcoTox.AddModel(new ismBeeKnn());
-//        EcoTox.AddModel(new ismSludgeCombaseClass());
-//        EcoTox.AddModel(new ismSludgeCombaseEC50());
-//        // EcoTox.AddModel(new ismLoelIrfmn()); // not for now!
-//        
-//        ConsEcoTox = new ModelsConsensusGroup();
-//        
-//        Environ = new ModelsGroup();
-//        Environ.AddModel(new ismBCFCaesar());
-//        Environ.AddModel(new ismBCFMeylan());
-//        Environ.AddModel(new ismBCFKnn());
-//        Environ.AddModel(new ismBCFArnotGobas());
-//        Environ.AddModel(new ismKmArnot());
-//        Environ.AddModel(new ismReadyBioIRFMN());
-//        Environ.AddModel(new ismPersistenceSedimentIrfmn());
-//        Environ.AddModel(new ismPersistenceSedimentQuantitativeIrfmn());
-//        Environ.AddModel(new ismPersistenceSoilIrfmn());
-//        Environ.AddModel(new ismPersistenceSoilQuantitativeIrfmn());
-//        Environ.AddModel(new ismPersistenceWaterIrfmn());
-//        Environ.AddModel(new ismPersistenceWaterQuantitativeIrfmn());
-//        Environ.AddModel(new ismPersistenceAirCoral());
-//
-//        ConsEnviron = new ModelsConsensusGroup();
-//        
-//        Phys = new ModelsGroup();
-//        Phys.AddModel(new ismLogPMeylan());
-//        Phys.AddModel(new ismLogPMLogP());
-//        Phys.AddModel(new ismLogPALogP());
-//        Phys.AddModel(new ismWaterSolubilityIRFMN());
-//        Phys.AddModel(new ismHydrolysisCoral());
-//        Phys.AddModel(new ismHenrysLawOpera());
-//        Phys.AddModel(new ismKocOpera());
-//        Phys.AddModel(new ismKoaOpera());
-//        Phys.AddModel(new ismSkinPermeationPotts());
-//        Phys.AddModel(new ismSkinPermeationTenBerge());
-//        
-//        ConsPhys = new ModelsConsensusGroup();
-        
+
+        ep = new VegaEndpoint("Aromatase activity", SECTION_HUMAN_PBPK);
+        ep.AddModel(new ismAromataseTox21());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Hepatic Steatosis MIE", SECTION_HUMAN_PBPK);
+        ep.AddModel(new ismPxrUp());
+        ep.AddModel(new ismPPARGup());
+        ep.AddModel(new ismPPARAUp());
+//        ep.AddModel(new ismNRF2Up());
+        Endpoints.add(ep);
+
+
+        // Eco PBPK
+
+        ep = new VegaEndpoint("kM/Half Life", SECTION_ECO_PBPK);
+        ep.AddModel(new ismKmArnot());
+        Endpoints.add(ep);
+
     }
     
     

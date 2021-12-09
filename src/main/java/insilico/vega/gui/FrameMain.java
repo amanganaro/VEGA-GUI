@@ -641,89 +641,89 @@ public class FrameMain extends JFrame {
                 
                     //// Multiple PDF reports
 
-//                    if(PDF_Choice1.isSelected()){
-//
-//                        Bar_Txt.append("\n Generating Multiple PDF Documents...");  
-//                        ReportPDFSingle PDF = new ReportPDFSingle(Resolution);
-//                        for (InsilicoModelWrapper curModel : Runner.GetModelWrappers()) {
-//                            if (curModel.isFlagForOutput()) {
-//                                try {
-//                                    byte[] document = PDF.CreateReport(DataSet, curModel);
-//                                    String ReportFile = CreateAndChekReportFilename(PDF_Panel1_Txt.getText() + "/report_" + curModel.getModel().getInfo().getKey(), "pdf");
-//                                    File Script = new File(ReportFile);
-//                                    Script.createNewFile();
-//                                    FileOutputStream outFileStream = new FileOutputStream(Script);
-//                                    outFileStream.write(document);
-//                                    outFileStream.flush();
-//                                    outFileStream.close();
-//                                } catch (InitFailureException | GenericFailureException | IOException e) {
-//                                    Bar_Txt.append("\n ERROR while generating report for model " +curModel.getModel().getInfo().getName() + " (cause: " + e.getMessage() + ")");
-//                                    RunnerError = true;
-//                                }                        
-//                            }
-//                        }
-//                        for (InsilicoModelConsensusWrapper curModel : Runner.GetModelConsensusWrappers()) {
-//                            try {
-//                                byte[] document = PDF.CreateReport(DataSet, curModel);
-//                                String ReportFile = CreateAndChekReportFilename(PDF_Panel1_Txt.getText() + "/report_" + curModel.getModel().getInfo().getKey(), "pdf");
-//                                File Script = new File(ReportFile);
-//                                Script.createNewFile();
-//                                FileOutputStream outFileStream = new FileOutputStream(Script);
-//                                outFileStream.write(document);
-//                                outFileStream.flush();
-//                                outFileStream.close();
-//                            } catch (InitFailureException | GenericFailureException | IOException e) {
-//                                Bar_Txt.append("\n ERROR while generating report for model " +curModel.getModel().getInfo().getName() + " (cause: " + e.getMessage() + ")");
-//                                RunnerError = true;
-//                            }                        
-//                        }
-//                    }
+                    if(PDF_Choice1.isSelected()){
+
+                        Bar_Txt.append("\n Generating Multiple PDF Documents...");
+                        ReportPDFSingle PDF = new ReportPDFSingle(true);
+                        for (InsilicoModelWrapper curModel : Runner.GetModelWrappers()) {
+                            if (curModel.isFlagForOutput()) {
+                                try {
+                                    byte[] document = PDF.CreateReport(DataSet, curModel);
+                                    String ReportFile = CreateAndChekReportFilename(PDF_Panel1_Txt.getText() + "/report_" + curModel.getModel().getInfo().getKey(), "pdf");
+                                    File Script = new File(ReportFile);
+                                    Script.createNewFile();
+                                    FileOutputStream outFileStream = new FileOutputStream(Script);
+                                    outFileStream.write(document);
+                                    outFileStream.flush();
+                                    outFileStream.close();
+                                } catch (InitFailureException | GenericFailureException | IOException e) {
+                                    Bar_Txt.append("\n ERROR while generating report for model " +curModel.getModel().getInfo().getName() + " (cause: " + e.getMessage() + ")");
+                                    RunnerError = true;
+                                }
+                            }
+                        }
+                        for (InsilicoModelConsensusWrapper curModel : Runner.GetModelConsensusWrappers()) {
+                            try {
+                                byte[] document = PDF.CreateReport(DataSet, curModel);
+                                String ReportFile = CreateAndChekReportFilename(PDF_Panel1_Txt.getText() + "/report_" + curModel.getModel().getInfo().getKey(), "pdf");
+                                File Script = new File(ReportFile);
+                                Script.createNewFile();
+                                FileOutputStream outFileStream = new FileOutputStream(Script);
+                                outFileStream.write(document);
+                                outFileStream.flush();
+                                outFileStream.close();
+                            } catch (InitFailureException | GenericFailureException | IOException e) {
+                                Bar_Txt.append("\n ERROR while generating report for model " +curModel.getModel().getInfo().getName() + " (cause: " + e.getMessage() + ")");
+                                RunnerError = true;
+                            }
+                        }
+                    }
 
 
                     //// Single PDF report by model
 
-//                    if(PDF_Choice2.isSelected()){
-//
-//                        Bar_Txt.append("\n Generating PDF single document (ordered by model)..."); 
-//                        ReportPDFMultiple PDF = new ReportPDFMultiple(Resolution);
-//                        try {
-//                            byte[] document = PDF.CreateReportByModel(DataSet, Runner.GetModelWrappers(), Runner.GetModelConsensusWrappers());
-//                            String ReportFile = CreateAndChekReportFilename(PDF_Panel2_Txt.getText() + "/report_by_models", "pdf");
-//                            File Script = new File(ReportFile);
-//                            Script.createNewFile();
-//                            FileOutputStream outFileStream = new FileOutputStream(Script);
-//                            outFileStream.write(document);
-//                            outFileStream.flush();
-//                            outFileStream.close();
-//                            Bar_Txt.append("  Done.");       
-//                        } catch (InitFailureException | GenericFailureException | IOException e) {
-//                            Bar_Txt.append("\n ERROR while generating report (cause: " + e.getMessage() + ")");
-//                            RunnerError = true;
-//                        }
-//                    }
+                    if(PDF_Choice2.isSelected()){
+
+                        Bar_Txt.append("\n Generating PDF single document (ordered by model)...");
+                        ReportPDFMultiple PDF = new ReportPDFMultiple(Resolution);
+                        try {
+                            byte[] document = PDF.CreateReportByModel(DataSet, Runner.GetModelWrappers(), Runner.GetModelConsensusWrappers());
+                            String ReportFile = CreateAndChekReportFilename(PDF_Panel2_Txt.getText() + "/report_by_models", "pdf");
+                            File Script = new File(ReportFile);
+                            Script.createNewFile();
+                            FileOutputStream outFileStream = new FileOutputStream(Script);
+                            outFileStream.write(document);
+                            outFileStream.flush();
+                            outFileStream.close();
+                            Bar_Txt.append("  Done.");
+                        } catch (InitFailureException | GenericFailureException | IOException e) {
+                            Bar_Txt.append("\n ERROR while generating report (cause: " + e.getMessage() + ")");
+                            RunnerError = true;
+                        }
+                    }
 
 
                     //// Single PDF report by molecule
 
-//                    if(PDF_Choice3.isSelected()){
-//
-//                        Bar_Txt.append("\n Generating PDF single document (ordered by molecule)...");
-//                        ReportPDFMultiple PDF = new ReportPDFMultiple(Resolution);
-//                        try {
-//                            byte[] document = PDF.CreateReportByMolecule(DataSet, Runner.GetModelWrappers(), Runner.GetModelConsensusWrappers());
-//                            String ReportFile = CreateAndChekReportFilename(PDF_Panel3_Txt.getText() + "/report_by_molecules", "pdf");
-//                            File Script = new File(ReportFile);
-//                            Script.createNewFile();
-//                            FileOutputStream outFileStream = new FileOutputStream(Script);
-//                            outFileStream.write(document);
-//                            outFileStream.flush();
-//                            outFileStream.close();
-//                            Bar_Txt.append("  Done.");       
-//                        } catch (InitFailureException | GenericFailureException | IOException e) {
-//                            Bar_Txt.append("\n ERROR while generating report (cause: " + e.getMessage() + ")");
-//                            RunnerError = true;
-//                        }
-//                    }
+                    if(PDF_Choice3.isSelected()){
+
+                        Bar_Txt.append("\n Generating PDF single document (ordered by molecule)...");
+                        ReportPDFMultiple PDF = new ReportPDFMultiple(Resolution);
+                        try {
+                            byte[] document = PDF.CreateReportByMolecule(DataSet, Runner.GetModelWrappers(), Runner.GetModelConsensusWrappers());
+                            String ReportFile = CreateAndChekReportFilename(PDF_Panel3_Txt.getText() + "/report_by_molecules", "pdf");
+                            File Script = new File(ReportFile);
+                            Script.createNewFile();
+                            FileOutputStream outFileStream = new FileOutputStream(Script);
+                            outFileStream.write(document);
+                            outFileStream.flush();
+                            outFileStream.close();
+                            Bar_Txt.append("  Done.");
+                        } catch (InitFailureException | GenericFailureException | IOException e) {
+                            Bar_Txt.append("\n ERROR while generating report (cause: " + e.getMessage() + ")");
+                            RunnerError = true;
+                        }
+                    }
 
 
                     //// Text summary report
@@ -885,7 +885,6 @@ public class FrameMain extends JFrame {
         // Builds list of selected models
         CurModels = Models.GetSelectedModels();
         CurConsModels = Models.GetSelectedModelsCons();
-        System.out.println(CurModels.size()+CurConsModels.size());
         
         // Checks for models
         if (!( (CurModels.size()+CurConsModels.size()) > 0)) {

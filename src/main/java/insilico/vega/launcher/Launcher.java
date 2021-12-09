@@ -13,14 +13,10 @@ import javax.swing.JFrame;
 public class Launcher {
     
     public static void main(String args[]) throws Exception {
-        
-//        VegaModelsWrapper list = new VegaModelsWrapper();
-        
-//        JFrame f = new JFrame();
-//        f.add(new PanelModelList(f));
-//        f.setVisible(true);
-//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
+        // to avoid blurring of images in labels
+        System.setProperty("sun.java2d.uiScale", "1.0");
+
         // Run GUI
         FrameMain.launch();
             

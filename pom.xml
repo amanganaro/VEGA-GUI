@@ -60,6 +60,13 @@
             <version>11-ea+24</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>Core</artifactId>
+            <version>1.3.9</version>
+        </dependency>
+
         <dependency>
             <groupId>insilico</groupId>
             <artifactId>additionalui</artifactId>
@@ -75,12 +82,183 @@
 <!--        </dependency>-->
 <!--        &lt;!&ndash; Thanks for using https://jar-download.com &ndash;&gt;-->
 
+<!--
+                <dependency>
+                    <groupId>InSilico</groupId>
+                    <artifactId>VegaModels-All</artifactId>
+                    <version>1.0</version>
+                </dependency>
+-->
+
+        <!-- VEGA SINGLE MODELS -->
+
+
+        <!-- HUMAN -->
 
         <dependency>
             <groupId>InSilico</groupId>
-            <artifactId>VegaModels-All</artifactId>
-            <version>1.0</version>
+            <artifactId>VegaModels-CarcinogenicityCaesar</artifactId>
+            <version>2.1.10</version>
         </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicityRatMale</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicityRatFemale</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicityISSCANGX</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-LD50</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-SkinCaesar</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-SkinCosmetics</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-SkinSensitizationToxTree</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-EndocrineDisruptorsIRFMN</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
+        <!-- ECOTOX -->
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-FishLC50</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-FatheadEPA</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+
+
+        <!-- FATE -->
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PersistenceSedimentQuantitativeIRFMN</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PersistenceSoilQuantitativeIRFMN</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PersistenceWaterQuantatitativeIRFMN</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
+        <!-- PHYS-CHEM PROP -->
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-LogPMeylan</artifactId>
+            <version>1.1.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-LogPALogP</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
+        <!-- HUMAN PBPK -->
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PPBCoral</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-LogK</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-AromataseTox21</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PXR_up</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PPARg_up</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PPARa_up</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-NRF2Up</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+
+        <!-- ECO PBPK -->
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-KmArnot</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
+
+
+
+
 
     </dependencies>
 

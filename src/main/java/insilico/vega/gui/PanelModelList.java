@@ -1,9 +1,13 @@
 package insilico.vega.gui;
 
 import insilico.vega.gui.models.VegaModelsWrapper;
-import javax.swing.JFrame;
-import javax.swing.SpringLayout;
+
+import javax.swing.*;
+
 import layout.SpringUtilities;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -185,5 +189,7 @@ public class PanelModelList extends javax.swing.JPanel {
     private javax.swing.JPanel jPanelModels;
     private javax.swing.JPanel jPanelWrapper;
     private javax.swing.JScrollPane jScrollPane1;
+
+
     // End of variables declaration//GEN-END:variables
 }
