@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>1.18.18</version>
             <scope>provided</scope>
         </dependency>
 
@@ -199,7 +199,7 @@
 
         <dependency>
             <groupId>InSilico</groupId>
-            <artifactId>VegaModels-RBACompareIRFMN</artifactId>
+            <artifactId>VegaModels-RBAIrfmn</artifactId>
             <version>1.0.1</version>
         </dependency>
 
@@ -542,12 +542,6 @@
                     <source>11</source>
                     <target>11</target>
                     <release>11</release>
-
-                    <excludes>
-                        <exclude>insilico/core/alerts/builders/toberefactored/*.java</exclude>
-                        <exclude>insilico/core/descriptor/blocks/old/logp/*.java</exclude>
-                        <exclude>insilico/core/molecule/matrix/old/*.java</exclude>
-                    </excludes>
 
                     <annotationProcessorPaths>
                         <path>

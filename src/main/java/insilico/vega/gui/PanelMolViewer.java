@@ -1,12 +1,12 @@
 package insilico.vega.gui;
 
 import insilico.core.molecule.InsilicoMolecule;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import insilico.core.molecule.tools.Depiction;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 //import org.openscience.cdk.interfaces.IMolecule;
@@ -95,8 +95,16 @@ public class PanelMolViewer extends javax.swing.JPanel {
             renderer.setZoomToFit(drawArea.width, drawArea.height, diagramBounds.width, diagramBounds.height);
 
             // Builds the Image object
+            g2D.drawImage(Depiction.DepictMolecule(mol, this.getWidth(), this.getHeight()), 0, 0 , null);
             g2D.setBackground(Color.WHITE);
-            g2D.clearRect(0, 0, this.getWidth(), this.getHeight());
+//            g2D.clearRect(0, 0, this.getWidth(), this.getHeight());
+            g2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+            g2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+            g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+            g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+            g2D.dispose();
+
 
             renderer.paint(mol, new AWTDrawVisitor(g2D));
 
