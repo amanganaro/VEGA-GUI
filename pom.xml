@@ -47,12 +47,12 @@
             <version>2.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>1.18.18</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -197,11 +197,11 @@
             <version>1.0.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>InSilico</groupId>
-            <artifactId>VegaModels-RBAIrfmn</artifactId>
-            <version>1.0.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-RBAIrfmn</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>InSilico</groupId>
@@ -326,11 +326,11 @@
             <version>1.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>InSilico</groupId>
-            <artifactId>VegaModels-VerhaarToxtree</artifactId>
-            <version>1.0.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-VerhaarToxtree</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>InSilico</groupId>
@@ -517,6 +517,23 @@
 
     <build>
 
+        <resources>
+            <resource>
+                <directory>src/main/resources/icons</directory>
+                <targetPath>../classes/icons</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources/resources</directory>
+                <targetPath>../classes/resources</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources/form</directory>
+                <targetPath>../classes/</targetPath>
+            </resource>
+        </resources>
+
+
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -543,13 +560,13 @@
                     <target>11</target>
                     <release>11</release>
 
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.12</version>
-                        </path>
-                    </annotationProcessorPaths>
+<!--                    <annotationProcessorPaths>-->
+<!--                        <path>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok</artifactId>-->
+<!--                            <version>1.18.18</version>-->
+<!--                        </path>-->
+<!--                    </annotationProcessorPaths>-->
 
                 </configuration>
             </plugin>
@@ -609,6 +626,26 @@
                         <version>LATEST</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>insilico.vega.launcher.SuperLauncher</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
 
