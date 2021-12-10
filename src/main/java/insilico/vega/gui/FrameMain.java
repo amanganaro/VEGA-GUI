@@ -129,6 +129,15 @@ public class FrameMain extends JFrame {
             this.dispose();
         }
 
+        if (VegaVersion.PRINT_MODEL_LIST_TO_STDOUT) {
+            for (VegaModelsWrapper.VegaEndpoint ep : Models.Endpoints) {
+                for (VegaModelsWrapper.VegaModel vm : ep.Models) {
+                    System.out.print(VegaModelsWrapper.SECTION_NAMES[ep.Section] + "\t" + ep.Name + "\t");
+                    System.out.println(vm.Model.getInfo().getName() + " " + vm.Model.getInfo().getVersion());
+                }
+            }
+        }
+
         // Build the models tab
         ModelsTab = new PanelModelList(this, Models);
         Step2.add(ModelsTab, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 135-48, 595, 340));

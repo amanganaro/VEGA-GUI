@@ -3,6 +3,8 @@ package insilico.vega.gui;
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
 import insilico.vega.gui.models.VegaModelsWrapper;
+import insilico.vega.gui.resources.VegaVersion;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -129,7 +131,12 @@ public class PanelEndpointGroup extends JPanel {
             CurCB.addActionListener(new CBListener(CurCB, EP.Models.get(i))  );            
             ComboboxModels[idx] = CurCB;
             this.add(ComboboxModels[idx], new org.netbeans.lib.awtextra.AbsoluteConstraints(H_OFFSET_CHECKBOX, CurYPos, -1, -1));
-            
+
+            if (VegaVersion.SET_ALL_CB_SELECTED) {
+                ComboboxModels[idx].setSelected(true);
+                EP.Models.get(i).Selected = true;
+            }
+
             JLabel CurInfo = new JLabel();
             CurInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/question5.png"))); 
             CurInfo.setToolTipText("Show available information for " + curModel.getInfo().getName());
