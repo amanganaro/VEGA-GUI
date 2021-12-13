@@ -40,12 +40,14 @@ public class FrameModelInfo extends JFrame {
         final JFrame Parent = this;
 
         // Always show PDF guide and TS
-        jPanelGuide.setVisible(true);
+//        jPanelGuide.setVisible(true);
+        jPanelGuide.setVisible(false);
         jPanelTraining.setVisible(true);
 
         boolean HasQMRF = !CurModel.getInfo().getQMRF().isEmpty();
         jPanelQMRF.setVisible(false);
-        jPanelQMRFDownload.setVisible(HasQMRF);
+//        jPanelQMRFDownload.setVisible(HasQMRF);
+        jPanelQMRFDownload.setVisible(false);
 
 
         jLabelDownloadGuide.addMouseListener(new java.awt.event.MouseAdapter() {

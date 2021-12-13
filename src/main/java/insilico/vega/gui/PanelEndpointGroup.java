@@ -190,6 +190,9 @@ public class PanelEndpointGroup extends JPanel {
             LabelModelInfo[idx] = CurInfo;
             this.add(LabelModelInfo[idx], new org.netbeans.lib.awtextra.AbsoluteConstraints(H_OFFSET_INFOLABEL, CurYPos+4, -1, -1));
 
+            // per ora disabilitato
+            LabelModelInfo[idx].setVisible(false);
+
             idx++;
             CurYPos += V_STEP;
         }        

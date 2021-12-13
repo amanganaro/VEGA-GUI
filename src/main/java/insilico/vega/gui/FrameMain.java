@@ -133,7 +133,11 @@ public class FrameMain extends JFrame {
             for (VegaModelsWrapper.VegaEndpoint ep : Models.Endpoints) {
                 for (VegaModelsWrapper.VegaModel vm : ep.Models) {
                     System.out.print(VegaModelsWrapper.SECTION_NAMES[ep.Section] + "\t" + ep.Name + "\t");
-                    System.out.println(vm.Model.getInfo().getName() + " " + vm.Model.getInfo().getVersion());
+                    System.out.println(vm.Model.getInfo().getName() + " - ver. " + vm.Model.getInfo().getVersion());
+                }
+                for (VegaModelsWrapper.VegaModelConsensus vc : ep.ModelsConsensus) {
+                    System.out.print(VegaModelsWrapper.SECTION_NAMES[ep.Section] + "\t" + ep.Name + "\t");
+                    System.out.println(vc.Model.getInfo().getName() + " - ver. " + vc.Model.getInfo().getVersion());
                 }
             }
         }

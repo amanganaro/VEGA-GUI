@@ -1,14 +1,6 @@
 package insilico.vega.launcher;
 
-import insilico.core.model.InsilicoModel;
-import insilico.core.model.InsilicoModelOutput;
-import insilico.core.molecule.conversion.SmilesMolecule;
-import insilico.nrf2_up.ismNRF2Up;
 import insilico.vega.gui.FrameMain;
-import insilico.vega.gui.PanelEndpointGroup;
-import insilico.vega.gui.PanelModelList;
-import insilico.vega.gui.models.VegaModelsWrapper;
-import javax.swing.JFrame;
 
 /**
  *

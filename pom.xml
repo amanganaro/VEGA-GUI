@@ -97,14 +97,62 @@
 
         <dependency>
             <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MutagenicityConsensus</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MutagenicityBB</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MutagenicityCaesar</artifactId>
+            <version>2.1.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MutagenicitySarpy</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MutagenicityKNN</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
             <artifactId>VegaModels-DevtoxCaesar</artifactId>
             <version>2.1.8</version>
         </dependency>
 
         <dependency>
             <groupId>InSilico</groupId>
+            <artifactId>VegaModels-DevtoxPG</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
             <artifactId>VegaModels-CarcinogenicityCaesar</artifactId>
             <version>2.1.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicityBB</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicityAntares</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
@@ -116,6 +164,18 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-CarcinogenicitySFOClassification</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicitySFIRegression</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CarcinogenicitySFORegression</artifactId>
             <version>1.0.1</version>
         </dependency>
 
@@ -158,7 +218,7 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-SkinCosmetics</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
@@ -187,6 +247,12 @@
 
         <dependency>
             <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MicronuclueusVivo</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
             <artifactId>VegaModels-RBACerapp</artifactId>
             <version>1.0.1</version>
         </dependency>
@@ -199,7 +265,7 @@
 
         <dependency>
             <groupId>InSilico</groupId>
-            <artifactId>VegaModels-RBAIrfmn</artifactId>
+            <artifactId>VegaModels-RBACompareIRFMN</artifactId>
             <version>1.0.1</version>
         </dependency>
 
@@ -218,6 +284,30 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-NoelCoralIRFMN</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-NoaelLiver</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-LoaelLiver</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-CramerToxTree</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-HepatoxicityIRFMN</artifactId>
             <version>1.0.1</version>
         </dependency>
 
@@ -316,6 +406,48 @@
 
         <dependency>
             <groupId>InSilico</groupId>
+            <artifactId>VegaModels-DaphniaDemetra</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-DaphniaEPA</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-FatHeadKNN</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-FishKNN</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-FishNIC</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-FishNOEC</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-GuppyKnn</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
             <artifactId>VegaModels-SludgeCombaseEC50</artifactId>
             <version>1.0.1</version>
         </dependency>
@@ -329,6 +461,18 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-VerhaarToxtree</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MoaEpa</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-MoaIRFMN</artifactId>
             <version>1.0.1</version>
         </dependency>
 
@@ -412,6 +556,12 @@
 
         <dependency>
             <groupId>InSilico</groupId>
+            <artifactId>VegaModels-LogPMLogP</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
             <artifactId>VegaModels-HydrolysisCoral</artifactId>
             <version>1.0.1</version>
         </dependency>
@@ -419,6 +569,24 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-WaterSolubility</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-HenrysLawOpera</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-KoaOpera</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-KocOpera</artifactId>
             <version>1.0.1</version>
         </dependency>
 
@@ -494,6 +662,12 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-TotalHLQsarins</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-PGPNic</artifactId>
             <version>1.0.1</version>
         </dependency>
 

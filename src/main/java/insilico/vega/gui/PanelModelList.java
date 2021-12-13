@@ -27,7 +27,7 @@ public class PanelModelList extends javax.swing.JPanel {
         this.Endpoints = ModelsList;
         initComponents();
 
-        jScrollPane1.getVerticalScrollBar().setUnitIncrement(15);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(10);
 
         jPanelModels.setOpaque(true);
         jPanelModels.setLayout(new SpringLayout());

@@ -184,8 +184,8 @@ public class FrameAbout extends JFrame {
         jLabelKODE = new JLabel();
 
         setTitle("About VEGA");
-        setMinimumSize(new java.awt.Dimension(520, 440));
-        setPreferredSize(new java.awt.Dimension(520, 440));
+        setMinimumSize(new java.awt.Dimension(520, 460));
+        setPreferredSize(new java.awt.Dimension(520, 460));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
