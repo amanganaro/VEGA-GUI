@@ -6,7 +6,7 @@
 
     <groupId>InSilico</groupId>
     <artifactId>Vega-GUI</artifactId>
-    <version>1.0</version>
+    <version>1.2.0</version>
 
     <name>Vega - GUI</name>
     <description>
@@ -48,13 +48,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>11-ea+24</version>
@@ -73,22 +66,6 @@
             <version>1</version>
         </dependency>
 
-
-
-        <!--        <dependency>-->
-<!--            <groupId>pt.unl.fct.novalincs</groupId>-->
-<!--            <artifactId>nohr-plugin</artifactId>-->
-<!--            <version>2.0.0</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; Thanks for using https://jar-download.com &ndash;&gt;-->
-
-<!--
-                <dependency>
-                    <groupId>InSilico</groupId>
-                    <artifactId>VegaModels-All</artifactId>
-                    <version>1.0</version>
-                </dependency>
--->
 
         <!-- VEGA SINGLE MODELS -->
 
@@ -467,13 +444,13 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-MoaEpa</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-MoaIRFMN</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
 
         <dependency>
@@ -691,6 +668,23 @@
 
     <build>
 
+        <resources>
+            <resource>
+                <directory>src/main/resources/form</directory>
+                <targetPath>../classes/form</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources/icons</directory>
+                <targetPath>../classes/icons</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources/resources</directory>
+                <targetPath>../classes/resources</targetPath>
+            </resource>
+        </resources>
+
+
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -716,17 +710,10 @@
                     <source>11</source>
                     <target>11</target>
                     <release>11</release>
-
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.12</version>
-                        </path>
-                    </annotationProcessorPaths>
-
                 </configuration>
             </plugin>
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -758,34 +745,25 @@
                 </executions>
             </plugin>
 
-
             <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.8</version>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
-                        <id>generate-docs</id>
-                        <phase>prepare-package</phase>
+                        <phase>package</phase>
                         <goals>
-                            <goal>process-asciidoc</goal>
+                            <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <backend>html</backend>
-                            <doctype>book</doctype>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>insilico.vega.launcher.SuperLauncher</mainClass>
+                                </transformer>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.restdocs</groupId>
-                        <artifactId>spring-restdocs-asciidoctor</artifactId>
-                        <version>LATEST</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-
-
 
         </plugins>
     </build>
