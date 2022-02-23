@@ -1409,12 +1409,11 @@ public class FrameMain extends JFrame {
 
             public void valueChanged(ListSelectionEvent arg0) {
                 if(Zebra_Table.getSelectedRow()>=0){
-
                     PanelMoleculeViewer.SetMolecule(DataSet.get(Zebra_Table.getSelectedRow()));
-
                 }
             }
         });
+
         Zebra_Table.setFont(new Font("Verdana", 0, 11)); // NOI18N
         Zebra_Table.setForeground(new Color(61, 69, 76));
         Zebra_Table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
