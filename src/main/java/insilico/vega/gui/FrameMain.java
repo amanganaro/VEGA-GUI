@@ -96,9 +96,9 @@ public class FrameMain extends JFrame {
     /**
      *  Constructor of the class
      */ 
-    public FrameMain() {
-        
-        initComponents();   
+    public FrameMain(JFrame FrameLoader) {
+
+        initComponents();
         
         // Set glass panel
         GlassPanel = new PanelGlass();
@@ -213,6 +213,8 @@ public class FrameMain extends JFrame {
         Updates.start();
         
         Marvin_Panel.add(PanelMoleculeViewer);
+
+        FrameLoader.setVisible(false);
     }
      
     
@@ -2396,13 +2398,31 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         }
         //</editor-fold>
 
+        JFrame fLoader = new JFrame("Loading VEGA");
+        fLoader.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fLoader.setBounds(100, 100, 350, 250);
+        fLoader.setUndecorated(true);
+        JLabel loadImage = new JLabel("      Loading VEGA...      ");
+        loadImage.setFont(new Font("Arial", Font.PLAIN, 26));
+        loadImage.setBackground(Color.WHITE);
+        loadImage.setMinimumSize(new Dimension(350,250));
+        fLoader.add(loadImage, BorderLayout.PAGE_END);
+        fLoader.pack();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = fLoader.getSize().width;
+        int h = fLoader.getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
+        fLoader.setLocation(x, y);
+        fLoader.setVisible(true);
+
         /* Create and display the form */
         
         EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                new FrameMain().setVisible(true);
+                new FrameMain(fLoader).setVisible(true);
             }
         });
     }

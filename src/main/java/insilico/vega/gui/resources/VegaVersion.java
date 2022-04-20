@@ -9,17 +9,17 @@ public class VegaVersion {
     //// internal options
 
     // all models are selected at start
-    public final static boolean SET_ALL_CB_SELECTED = true;
+    public final static boolean SET_ALL_CB_SELECTED = false;
 
     // print list of available models to std out
     public final static boolean PRINT_MODEL_LIST_TO_STDOUT = false;
 
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "12/12/2021";
-    public final static String Version = "1.2.0 BETA";
+    public final static String BuildDate = "20/04/2021";
+    public final static String Version = "1.2.1";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
-    public final static int VersionRevision = 0;
+    public final static int VersionRevision = 1;
     public final static String[] Libraries = {
         "Chemistry Development Kit (CDK) ver 2.3",
         "OpenPDF ver 1.3",
