@@ -15,7 +15,7 @@ public class VegaVersion {
     public final static boolean PRINT_MODEL_LIST_TO_STDOUT = false;
 
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "20/04/2021";
+    public final static String BuildDate = "20/04/2022";
     public final static String Version = "1.2.1";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
@@ -26,6 +26,6 @@ public class VegaVersion {
         "Weka ver 3.5.8",
         "jPMML ver 1.5.6"};
     
-    public final static String GUIDE_URL = "/insilico/vega/gui/resources/manual-1.2.0.pdf";
+    public final static String GUIDE_URL = "/resources/manual-1.2.1.pdf";
     
 }
