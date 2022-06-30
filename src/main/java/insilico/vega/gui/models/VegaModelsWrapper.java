@@ -43,6 +43,7 @@ import insilico.fish_knn.ismFishKnn;
 import insilico.fish_lc50.ismFishLC50;
 import insilico.fish_nic.ismFishNic;
 import insilico.fish_noec.ismFishNOEC;
+import insilico.glucocorticoid_receptor.ismGlucocorticoidReceptor;
 import insilico.guppy_knn.ismGuppyKnn;
 import insilico.henryslaw.ismHenrysLawOpera;
 import insilico.hepatoxicty_irfmn.ismHepatotoxicityIrfmn;
@@ -96,6 +97,7 @@ import insilico.thyroid_tralpha_nrmea.ismTRAlphaNRMEA;
 import insilico.thyroid_trbeta_nrmea.ismTRBetaNRMEA;
 import insilico.tissueblood_ineris.ismTissueBloodIneris;
 import insilico.totalhl_qsarins.ismTotalHLQsarins;
+import insilico.tpo_oberon.ismTpoOberon;
 import insilico.verhaar_toxtree.ismVerhaarToxtree;
 import insilico.watersolubility.ismWaterSolubilityIRFMN;
 import insilico.zebrafish_coral.ismZebrafishCoral;
@@ -240,6 +242,14 @@ public class VegaModelsWrapper {
         ep = new VegaEndpoint("Thyroid receptor effect", SECTION_HUMAN);
         ep.AddModel(new ismTRAlphaNRMEA());
         ep.AddModel(new ismTRBetaNRMEA());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Glucocorticoid Receptor effect", SECTION_HUMAN);
+        ep.AddModel(new ismGlucocorticoidReceptor());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Thyroperoxidase Inhibitory activity", SECTION_HUMAN);
+        ep.AddModel(new ismTpoOberon());
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("Endocrine Disruptor activity", SECTION_HUMAN);
