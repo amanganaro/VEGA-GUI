@@ -34,6 +34,7 @@ import insilico.daphnia_epa.ismDaphniaEPA;
 import insilico.daphnia_noec.ismDaphniaNOEC;
 import insilico.devtox_caesar.ismDevtoxCaesar;
 import insilico.devtox_pg.ismDevToxPG;
+import insilico.earthworm_toxicity.ismEarthworkToxicity;
 import insilico.endocrine_disruptors_irfmn.ismEndocrineDisruptorsIRFMN;
 import insilico.fathead_epa.ismFatheadEPA;
 import insilico.fathead_knn.ismFatheadKnn;
@@ -98,6 +99,7 @@ import insilico.thyroid_trbeta_nrmea.ismTRBetaNRMEA;
 import insilico.tissueblood_ineris.ismTissueBloodIneris;
 import insilico.totalhl_qsarins.ismTotalHLQsarins;
 import insilico.tpo_oberon.ismTpoOberon;
+import insilico.vapour_pressure.ismVapourPressure;
 import insilico.verhaar_toxtree.ismVerhaarToxtree;
 import insilico.watersolubility.ismWaterSolubilityIRFMN;
 import insilico.zebrafish_coral.ismZebrafishCoral;
@@ -315,6 +317,7 @@ public class VegaModelsWrapper {
 
         ep = new VegaEndpoint("Terrestrial Acute Toxicity", SECTION_ECOTOX);
         ep.AddModel(new ismBeeKnn());
+        ep.AddModel(new ismEarthworkToxicity());
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("Sludge Toxicity", SECTION_ECOTOX);
@@ -363,6 +366,10 @@ public class VegaModelsWrapper {
 
         ep = new VegaEndpoint("Water solubility", SECTION_PHYS);
         ep.AddModel(new ismWaterSolubilityIRFMN());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Vapour pressure", SECTION_PHYS);
+        ep.AddModel(new ismVapourPressure());
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("Hydrolysis", SECTION_PHYS);
