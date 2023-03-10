@@ -36,6 +36,9 @@ import insilico.devtox_caesar.ismDevtoxCaesar;
 import insilico.devtox_pg.ismDevToxPG;
 import insilico.earthworm_toxicity.ismEarthworkToxicity;
 import insilico.endocrine_disruptors_irfmn.ismEndocrineDisruptorsIRFMN;
+import insilico.eye_irritation.ismEyeIrritation;
+import insilico.eye_irritation_knn.ismEyeIrritationKnn;
+import insilico.eye_irritation_sarpy.ismEyeIrritationSarpy;
 import insilico.fathead_epa.ismFatheadEPA;
 import insilico.fathead_knn.ismFatheadKnn;
 import insilico.fish_combase.ismFishCombase;
@@ -54,20 +57,25 @@ import insilico.koa_opera.ismKoaOpera;
 import insilico.koc_opera.ismKocOpera;
 import insilico.ld50.ismLD50;
 import insilico.loael_coral_liver.ismLoaelCoralLiver;
+import insilico.loael_general_coral.ismLoaelGeneralCoral;
 import insilico.logk.ismLogK;
 import insilico.logp_alogp.ismLogPALogP;
 import insilico.logp_mlogp.ismLogPMLogP;
+import insilico.melting_point.ismMeltingPoint;
+import insilico.melting_point_knn.ismMeltingPointKnn;
 import insilico.meylanlogp.ismLogPMeylan;
 import insilico.micronculeus_vitro.ismMicronucleusInVitro;
 import insilico.micronuclueus_vivo.ismMicronucleusInVivo;
 import insilico.moa_epa.ismMoaEpa;
 import insilico.moa_irfmn.ismMoaIrfmn;
+import insilico.mutagenicity_amines.ismMutagenicityAmines;
 import insilico.mutagenicity_bb.ismMutagenicityBB;
 import insilico.mutagenicity_caesar.ismMutagenicityCaesar;
 import insilico.mutagenicity_consensus.ismcMutagenicity;
 import insilico.mutagenicity_knn.ismMutagenicityKnn;
 import insilico.mutagenicity_sarpy.ismMutagenicitySarpy;
 import insilico.noael_coral_liver.ismNoaelCoralLiver;
+import insilico.noael_general_coral.ismNoaelGeneralCoral;
 import insilico.noel_coral.ismNoaelCoral;
 import insilico.nrf2_up.ismNRF2Up;
 import insilico.persistence_air_coral.ismPersistenceAirCoral;
@@ -89,8 +97,13 @@ import insilico.readybio_irfmn.ismReadyBioIRFMN;
 import insilico.skin_caesar.ismSkinCaesar;
 import insilico.skin_cosmetics.ismSkinCosmetics;
 import insilico.skin_irfmn.ismSkinIRFMN;
+import insilico.skin_irritation.ismSkinIrritation;
+import insilico.skin_irritation_coral.ismSkinIrritationCoral;
+import insilico.skin_irritation_sarpy.ismSkinIrritationSarpy;
 import insilico.skin_permeation_potts.ismSkinPermeationPotts;
 import insilico.skin_permeation_tenberge.ismSkinPermeationTenBerge;
+import insilico.skin_sensitization_concert.ismSkinSensitizationConcert;
+import insilico.skin_sensitization_sarpy.ismSkinSensitizationSarpy;
 import insilico.skin_sensitization_toxtree.ismSkinSensitizationToxTree;
 import insilico.sludge_combaseEC50.ismSludgeCombaseEC50;
 import insilico.sludge_combaseclass.ismSludgeCombaseClass;
@@ -191,6 +204,7 @@ public class VegaModelsWrapper {
         ep.AddModel(new ismMutagenicityBB());
         ep.AddModel(new ismMutagenicitySarpy());
         ep.AddModel(new ismMutagenicityKnn());
+        ep.AddModel(new ismMutagenicityAmines());
         ep.AddModelConsensus(new ismcMutagenicity());
         Endpoints.add(ep);
 
@@ -221,6 +235,20 @@ public class VegaModelsWrapper {
         ep.AddModel(new ismSkinIRFMN());
         ep.AddModel(new ismSkinCosmetics());
         ep.AddModel(new ismSkinSensitizationToxTree());
+        ep.AddModel(new ismSkinSensitizationConcert());
+        ep.AddModel(new ismSkinSensitizationSarpy());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Skin Irritation", SECTION_HUMAN);
+        ep.AddModel(new ismSkinIrritation());
+        ep.AddModel(new ismSkinIrritationCoral());
+        ep.AddModel(new ismSkinIrritationSarpy());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Eye Irritation", SECTION_HUMAN);
+        ep.AddModel(new ismEyeIrritation());
+        ep.AddModel(new ismEyeIrritationKnn());
+        ep.AddModel(new ismEyeIrritationSarpy());
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("Chromosomal aberration", SECTION_HUMAN);
@@ -259,11 +287,13 @@ public class VegaModelsWrapper {
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("NOAEL", SECTION_HUMAN);
+        ep.AddModel(new ismNoaelGeneralCoral());
         ep.AddModel(new ismNoaelCoral());
         ep.AddModel(new ismNoaelCoralLiver());
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("LOAEL", SECTION_HUMAN);
+        ep.AddModel(new ismLoaelGeneralCoral());
         ep.AddModel(new ismLoaelCoralLiver());
         Endpoints.add(ep);
 
@@ -370,6 +400,11 @@ public class VegaModelsWrapper {
 
         ep = new VegaEndpoint("Vapour pressure", SECTION_PHYS);
         ep.AddModel(new ismVapourPressure());
+        Endpoints.add(ep);
+
+        ep = new VegaEndpoint("Melting point", SECTION_PHYS);
+        ep.AddModel(new ismMeltingPoint());
+        ep.AddModel(new ismMeltingPointKnn());
         Endpoints.add(ep);
 
         ep = new VegaEndpoint("Hydrolysis", SECTION_PHYS);
