@@ -20,22 +20,21 @@
     </properties>
 
     <distributionManagement>
-
         <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://tech.kode-datacenter.net:8081/repository/maven-snapshots/</url>
+            <id>maven-snapshots</id>
+            <url>http://195.231.76.108:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>nexus-releases</id>
-            <url>http://tech.kode-datacenter.net:8081/repository/maven-releases/</url>
+            <id>maven-releases</id>
+            <url>http://195.231.76.108:8081/repository/maven-releases/</url>
         </repository>
 
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>maven-group</id>
-            <url>http://tech.kode-datacenter.net:8081/repository/maven-group/</url>
+            <id>maven-public</id>
+            <url>http://195.231.76.108:8081/repository/maven-public/</url>
         </repository>
     </repositories>
 
