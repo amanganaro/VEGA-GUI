@@ -4,6 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>VegaModels-All</artifactId>
+        <groupId>InSilico</groupId>
+        <version>1.2.3</version>
+    </parent>
+
     <groupId>InSilico</groupId>
     <artifactId>Vega-GUI</artifactId>
     <version>1.2.3</version>
@@ -61,23 +67,22 @@
         </dependency>
 
         <dependency>
-            <groupId>insilico</groupId>
-            <artifactId>additionalui</artifactId>
-            <version>1</version>
-        </dependency>
-
-
-        <dependency>
             <groupId>InSilico</groupId>
-            <artifactId>VegaModels-All</artifactId>
-            <version>1.2.6</version>
+            <artifactId>awtextra</artifactId>
+            <version>1.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>InSilico</groupId>
-            <artifactId>Coral</artifactId>
-            <version>2.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-All</artifactId>-->
+<!--            <version>1.2.3</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>Coral</artifactId>-->
+<!--            <version>2.2</version>-->
+<!--        </dependency>-->
 
 
     </dependencies>

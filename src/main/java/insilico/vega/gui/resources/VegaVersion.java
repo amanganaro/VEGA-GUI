@@ -9,7 +9,7 @@ public class VegaVersion {
     //// internal options
 
     // all models are selected at start
-    public final static boolean SET_ALL_CB_SELECTED = false;
+    public final static boolean SET_ALL_CB_SELECTED = true;
 
     // print list of available models to std out
     public final static boolean PRINT_MODEL_LIST_TO_STDOUT = false;
