@@ -2,6 +2,7 @@ package insilico.vega.gui;
 
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
+import insilico.models.dispatcher.ModelDispatcher;
 import insilico.vega.gui.models.VegaModelsWrapper;
 import insilico.vega.gui.resources.VegaVersion;
 
@@ -60,22 +61,22 @@ public class PanelEndpointGroup extends JPanel {
                 
         // set gradient color
         switch(Group) {
-            case VegaModelsWrapper.SECTION_HUMAN: 
+            case ModelDispatcher.SECTION_HUMAN:
                 GradientStart = new Color(255, 182, 173);
                 break;
-            case VegaModelsWrapper.SECTION_ECOTOX: 
+            case ModelDispatcher.SECTION_ECOTOX:
                 GradientStart = new Color(175, 237, 175);
                 break;
-            case VegaModelsWrapper.SECTION_FATE: 
+            case ModelDispatcher.SECTION_FATE:
                 GradientStart = new Color(184, 216, 227);
                 break;
-            case VegaModelsWrapper.SECTION_PHYS: 
+            case ModelDispatcher.SECTION_PHYS:
                 GradientStart = new Color(208, 219, 158);
                 break;
-            case VegaModelsWrapper.SECTION_HUMAN_PBPK: 
+            case ModelDispatcher.SECTION_HUMAN_PBPK:
                 GradientStart = new Color(209, 182, 123);
                 break;
-            case VegaModelsWrapper.SECTION_ECO_PBPK: 
+            case ModelDispatcher.SECTION_ECO_PBPK:
                 GradientStart = new Color(223, 204, 227);
                 break;
             default:

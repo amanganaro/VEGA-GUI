@@ -1,5 +1,6 @@
 package insilico.vega.gui;
 
+import insilico.models.dispatcher.ModelDispatcher;
 import insilico.vega.gui.models.VegaModelsWrapper;
 
 import javax.swing.*;
@@ -35,8 +36,8 @@ public class PanelModelList extends javax.swing.JPanel {
         // Filter
         jComboFilter.removeAllItems();
         jComboFilter.addItem("All available endpoints");
-        for (int i=1; i<VegaModelsWrapper.SECTION_NAMES.length; i++)
-            jComboFilter.addItem(VegaModelsWrapper.SECTION_NAMES[i]);        
+        for (int i = 1; i< ModelDispatcher.SECTION_NAMES.length; i++)
+            jComboFilter.addItem(ModelDispatcher.SECTION_NAMES[i]);
         
         // Prepare all EP panels
         EpPanels = new PanelEndpointGroup[Endpoints.Endpoints.size()];

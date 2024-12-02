@@ -1,10 +1,12 @@
 package insilico.vega.gui;
 
 import insilico.core.exception.GenericFailureException;
+import insilico.core.main;
 import insilico.core.model.InsilicoModelInfo;
 import insilico.core.model.guide.GuidePDFGenerator;
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
+import insilico.core.model.qmrf.QMRFDocument;
 import insilico.core.model.trainingset.TrainingSet;
 import insilico.vega.gui.utilities.PDFDocumentLauncher;
 import java.awt.Cursor;
@@ -13,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,26 +43,24 @@ public class FrameModelInfo extends JFrame {
         final JFrame Parent = this;
 
         // Always show PDF guide and TS
-//        jPanelGuide.setVisible(true);
         jPanelGuide.setVisible(false);
         jPanelTraining.setVisible(true);
 
         boolean HasQMRF = !CurModel.getInfo().getQMRF().isEmpty();
         jPanelQMRF.setVisible(false);
-//        jPanelQMRFDownload.setVisible(HasQMRF);
-        jPanelQMRFDownload.setVisible(false);
+        jPanelQMRFDownload.setVisible(HasQMRF);
 
 
-        jLabelDownloadGuide.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) {
-                OnClickableLabelMouseOver(evt);
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                (new OpenGuideWorker(Parent, CurModel.getInfo())).execute();               }
-        });
+//        jLabelDownloadGuide.addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mouseEntered(MouseEvent evt) {
+//                OnClickableLabelMouseOver(evt);
+//            }
+//
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                (new OpenGuideWorker(Parent, CurModel.getInfo())).execute();               }
+//        });
         
         jLabelDownloadTraining.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -166,32 +167,32 @@ public class FrameModelInfo extends JFrame {
     }
     
     
-    private class OpenGuideWorker extends SwingWorker<Object, Object> {
-        private final JFrame Parent;
-        private final InsilicoModelInfo CurModelInfo;
-        
-        public OpenGuideWorker(JFrame Parent, InsilicoModelInfo ModelInfo) {
-            this.Parent = Parent;
-            this.CurModelInfo = ModelInfo;
-        }
-        
-        @Override
-        protected Object doInBackground() throws Exception {
-            Parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            try {
-                String ModelName = CurModelInfo.getKey();
-                GuidePDFGenerator pdfGen = new GuidePDFGenerator();
-                byte[] GuideByte = pdfGen.CreateGuide(CurModelInfo);
-                PDFDocumentLauncher.Open(GuideByte, ModelName);
-            } catch (GenericFailureException ex) {
-                JOptionPane.showMessageDialog(Parent,
-                    "Unable to open file.\n(Error: " + ex.getMessage() + ")", "Error", JOptionPane.ERROR_MESSAGE);            
-            } finally {
-                Parent.setCursor(Cursor.getDefaultCursor());
-            }               
-            return null;
-        }
-    }
+//    private class OpenGuideWorker extends SwingWorker<Object, Object> {
+//        private final JFrame Parent;
+//        private final InsilicoModelInfo CurModelInfo;
+//
+//        public OpenGuideWorker(JFrame Parent, InsilicoModelInfo ModelInfo) {
+//            this.Parent = Parent;
+//            this.CurModelInfo = ModelInfo;
+//        }
+//
+//        @Override
+//        protected Object doInBackground() throws Exception {
+//            Parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            try {
+//                String ModelName = CurModelInfo.getKey();
+//                GuidePDFGenerator pdfGen = new GuidePDFGenerator();
+//                byte[] GuideByte = pdfGen.CreateGuide(CurModelInfo);
+//                PDFDocumentLauncher.Open(GuideByte, ModelName);
+//            } catch (GenericFailureException ex) {
+//                JOptionPane.showMessageDialog(Parent,
+//                    "Unable to open file.\n(Error: " + ex.getMessage() + ")", "Error", JOptionPane.ERROR_MESSAGE);
+//            } finally {
+//                Parent.setCursor(Cursor.getDefaultCursor());
+//            }
+//            return null;
+//        }
+//    }
 
 
     private class OpenQMRFWorker extends SwingWorker<Object, Object> {
@@ -208,7 +209,10 @@ public class FrameModelInfo extends JFrame {
             Parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             try {
                 String ModelName = CurModelInfo.getKey();
-                PDFDocumentLauncher.Open(CurModelInfo.getQMRF(), "QMRF_" + ModelName);
+                URL u = main.class.getResource(CurModelInfo.getQMRF());
+                QMRFDocument doc = new QMRFDocument(u);
+                byte[] bos = doc.CreatePDF();
+                PDFDocumentLauncher.Open(bos, "QMRF_" + ModelName);
             } catch (GenericFailureException ex) {
                 JOptionPane.showMessageDialog(Parent,
                         "Unable to open file.\n(Error: " + ex.getMessage() + ")", "Error", JOptionPane.ERROR_MESSAGE);

@@ -78,17 +78,17 @@ public class FrameAbout extends JFrame {
             }
         });
         
-        jLabelKODE.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) {
-                OnClickableLabelMouseOver(evt);
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                OpenExternalWebBrowser("https://chm.kode-solutions.net");
-            }
-        });
+//        jLabelKODE.addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mouseEntered(MouseEvent evt) {
+//                OnClickableLabelMouseOver(evt);
+//            }
+//
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                OpenExternalWebBrowser("https://chm.kode-solutions.net");
+//            }
+//        });
         
     }
 
@@ -305,7 +305,7 @@ public class FrameAbout extends JFrame {
 
         jLabelIRFMN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logoirfmn.jpg"))); // NOI18N
 
-        jLabelKODE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo_chm.png"))); // NOI18N
+        //jLabelKODE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo_chm.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

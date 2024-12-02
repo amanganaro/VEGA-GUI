@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>VegaModels-All</artifactId>
-        <groupId>InSilico</groupId>
-        <version>1.2.3</version>
-    </parent>
+<!--    <parent>-->
+<!--        <artifactId>VegaModels-All</artifactId>-->
+<!--        <groupId>InSilico</groupId>-->
+<!--        <version>1.2.3</version>-->
+<!--    </parent>-->
 
     <groupId>InSilico</groupId>
     <artifactId>Vega-GUI</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
 
     <name>Vega - GUI</name>
     <description>
@@ -27,20 +27,19 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>maven-snapshots</id>
-            <url>http://195.231.76.108:8081/repository/maven-snapshots/</url>
+            <id>amcc-maven-snapshots</id>
+            <url>http://tech-amcc.it:8081/repository/amcc-maven-snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>maven-releases</id>
-            <url>http://195.231.76.108:8081/repository/maven-releases/</url>
+            <id>amcc-maven-releases</id>
+            <url>http://tech-amcc.it:8081/repository/amcc-maven-releases/</url>
         </repository>
-
     </distributionManagement>
 
     <repositories>
         <repository>
             <id>maven-public</id>
-            <url>http://195.231.76.108:8081/repository/maven-public/</url>
+            <url>http://tech-amcc.it:8081/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -63,7 +62,7 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>Core</artifactId>
-            <version>1.3.18</version>
+            <version>1.3.19</version>
         </dependency>
 
         <dependency>
@@ -72,11 +71,11 @@
             <version>1.0</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>InSilico</groupId>-->
-<!--            <artifactId>VegaModels-All</artifactId>-->
-<!--            <version>1.2.3</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaModels-All</artifactId>
+            <version>1.2.4</version>
+        </dependency>
 
 <!--        <dependency>-->
 <!--            <groupId>InSilico</groupId>-->
@@ -84,6 +83,703 @@
 <!--            <version>2.2</version>-->
 <!--        </dependency>-->
 
+
+<!--    &lt;!&ndash;  MODELS &ndash;&gt;-->
+
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-TPOOberon</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-GlucocorticoidReceptor</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MutagenicityConsensus</artifactId>-->
+<!--            <version>1.0.4</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MutagenicityBB</artifactId>-->
+<!--            <version>1.0.3</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MutagenicityCaesar</artifactId>-->
+<!--            <version>2.1.14</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MutagenicitySarpy</artifactId>-->
+<!--            <version>1.0.8</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MutagenicityKNN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MutagenicityAmines</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DevtoxCaesar</artifactId>-->
+<!--            <version>2.1.8</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DevtoxPG</artifactId>-->
+<!--            <version>1.1.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicityCaesar</artifactId>-->
+<!--            <version>2.1.10</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicityBB</artifactId>-->
+<!--            <version>1.0.3</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicityAntares</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicitySFIClassification</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicitySFOClassification</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicitySFIRegression</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicitySFORegression</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicityRatMale</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicityRatFemale</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CarcinogenicityISSCANGX</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LD50</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinCaesar</artifactId>-->
+<!--            <version>2.1.7</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinCosmetics</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinSensitizationToxTree</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinIrritation</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinIrritationSarpy</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinIrritationCoral</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinSensitizationSarpy</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinSensitizationConcert</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-EyeIrritation</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-EyeIrritationSarpy</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-EyeIrritationKnn</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-EndocrineDisruptorsIRFMN</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CoralChromosomal</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MicronucleusVitro</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MicronuclueusVivo</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-RBACerapp</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-RBAIrfmn</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-RBACompareIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-ThyroidTRAlphaNRMEA</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-ThyroidTRBetaNRMEA</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-NoelCoralIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-NoaelLiver</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LoaelLiver</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-NoaelGeneralCoral</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LoaelGeneralCoral</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-CramerToxTree</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-HepatoxicityIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+
+<!--        &lt;!&ndash; ECOTOX &ndash;&gt;-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-BCFCaesar</artifactId>-->
+<!--            <version>2.1.16</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-BCFMeylan</artifactId>-->
+<!--            <version>1.0.5</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-BCFArnotGobas</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-BCFKNN</artifactId>-->
+<!--            <version>1.1.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FishLC50</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FishIRFMN</artifactId>-->
+<!--            <version>1.0.3</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FishCombase</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FatheadEPA</artifactId>-->
+<!--            <version>1.0.10</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-AlgaeEC50</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-AlgaeCombaseClass</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-AlgaeCombaseEC50</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-AlgaeNoec</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DaphniaCombase</artifactId>-->
+<!--            <version>1.0.3</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DaphniaEC50</artifactId>-->
+<!--            <version>1.0.3</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DaphniaNOEC</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DaphniaDemetra</artifactId>-->
+<!--            <version>1.0.5.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-DaphniaEPA</artifactId>-->
+<!--            <version>1.0.9</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FatHeadKNN</artifactId>-->
+<!--            <version>1.1.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FishKNN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FishNIC</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-FishNOEC</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-GuppyKnn</artifactId>-->
+<!--            <version>1.1.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SludgeCombaseEC50</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SludgeCombaseClass</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-VerhaarToxtree</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MoaEpa</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MoaIRFMN</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-ZebrafishCoral</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-BeeKNN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-EarthwormToxicity</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+
+
+<!--        &lt;!&ndash; FATE &ndash;&gt;-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-ReadyBioIRFMN</artifactId>-->
+<!--            <version>1.0.10</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceSedimentIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceSedimentQuantitativeIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceSoilIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceSoilQuantitativeIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceWaterIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceWaterQuantatitativeIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PersistenceAirCoral</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+
+<!--        &lt;!&ndash; PHYS-CHEM PROP &ndash;&gt;-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LogPMeylan</artifactId>-->
+<!--            <version>1.1.5</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LogPALogP</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LogPMLogP</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-HydrolysisCoral</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-WaterSolubility</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-HenrysLawOpera</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-KoaOpera</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-KocOpera</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-VapourPressure</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MeltingPoint</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-MeltingPointKNN</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+
+<!--        &lt;!&ndash; HUMAN PBPK &ndash;&gt;-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PPBCoral</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LogK</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-AromataseIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-AromataseTox21</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PXR_up</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PPARg_up</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PPARa_up</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-NRF2Up</artifactId>-->
+<!--            <version>1.0.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinPermeationTenberge</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-SkinPermeationPotts</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-TissueBloodIneris</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-TotalHLQsarins</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-PGPNic</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-LoelIRFMN</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; ECO PBPK &ndash;&gt;-->
+
+<!--        <dependency>-->
+<!--            <groupId>InSilico</groupId>-->
+<!--            <artifactId>VegaModels-KmArnot</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
