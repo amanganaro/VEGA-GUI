@@ -3,6 +3,7 @@ package insilico.vega.gui;
 
 import insilico.vega.gui.models.VegaModelsWrapper;
 import insilico.core.exception.GenericFailureException;
+import insilico.vega.gui.utilities.PythonSetup;
 import insilico.vega.gui.utilities.UpdatesReader;
 import insilico.core.exception.InitFailureException;
 import insilico.core.exception.MoleculeConversionException;
@@ -91,7 +92,7 @@ public class FrameMain extends JFrame {
     
     private UpdatesReader Updates;
     
-    
+    private PythonSetup pySup;
     
     /**
      *  Constructor of the class
@@ -201,7 +202,58 @@ public class FrameMain extends JFrame {
         
         Marvin_Panel.add(PanelMoleculeViewer);
 
+        ///CHECK PYHTON AND CONDA
+        checkPythonAndConda();
+
+
         FrameLoader.setVisible(false);
+    }
+
+    private boolean checkPythonAndConda(){
+        pySup=new PythonSetup();
+        boolean isOk =false;
+        try{
+            DialogInfo dialogInfo = new DialogInfo("Warning",
+                    "Conda is not installed. It is needed to run some models.\n\r"
+                    + "Click continue to install it.\r\n NB: This is a test execute nothing as all tools are installed .\n\r");
+            dialogInfo.setLocationRelativeTo(this);
+            dialogInfo.setVisible(true);
+
+            isOk = pySup.checkPython();
+            if(!isOk){
+                DialogInfo infoFrame = new DialogInfo("Warning",
+                        "Python is not installed. It is needed to run some models. \n\r"
+                        +"Click continue to install it. \r\n NB: It requires an internet connection.\n\r");
+                infoFrame.setVisible(true);
+
+                isOk = pySup.installPython();
+                if(isOk){
+                    isOk = pySup.checkPython();
+                }
+                else{
+                    //TODO log message and display the error
+                }
+            }
+            if(isOk){
+                isOk= pySup.checkConda();
+                if(!isOk) {
+                    DialogInfo infoFrame = new DialogInfo("Warning",
+                            "Conda is not installed. It is needed to run some models. \n\r"
+                            + "Click continue to install it. \r\n NB: It requires an internet connection.\n\r");
+                    infoFrame.setVisible(true);
+                    boolean temp=pySup.installConda();
+                    if(temp){
+                        isOk= pySup.checkConda();
+                    }
+                    else{
+                        //TODO log message and display the error
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return isOk;
     }
      
     
