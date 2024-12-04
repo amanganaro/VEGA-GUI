@@ -31,6 +31,7 @@ import insilico.vega.gui.resources.VegaVersion;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,7 +93,7 @@ public class FrameMain extends JFrame {
     
     private UpdatesReader Updates;
     
-    private PythonSetup pySup;
+    private static PythonSetup pySup;
     
     /**
      *  Constructor of the class
@@ -202,60 +203,9 @@ public class FrameMain extends JFrame {
         
         Marvin_Panel.add(PanelMoleculeViewer);
 
-        ///CHECK PYHTON AND CONDA
-        checkPythonAndConda();
-
-
         FrameLoader.setVisible(false);
     }
 
-    private boolean checkPythonAndConda(){
-        pySup=new PythonSetup();
-        boolean isOk =false;
-        try{
-            DialogInfo dialogInfo = new DialogInfo("Warning",
-                    "Conda is not installed. It is needed to run some models.\n\r"
-                    + "Click continue to install it.\r\n NB: This is a test execute nothing as all tools are installed .\n\r");
-            dialogInfo.setLocationRelativeTo(this);
-            dialogInfo.setVisible(true);
-
-            isOk = pySup.checkPython();
-            if(!isOk){
-                DialogInfo infoFrame = new DialogInfo("Warning",
-                        "Python is not installed. It is needed to run some models. \n\r"
-                        +"Click continue to install it. \r\n NB: It requires an internet connection.\n\r");
-                infoFrame.setVisible(true);
-
-                isOk = pySup.installPython();
-                if(isOk){
-                    isOk = pySup.checkPython();
-                }
-                else{
-                    //TODO log message and display the error
-                }
-            }
-            if(isOk){
-                isOk= pySup.checkConda();
-                if(!isOk) {
-                    DialogInfo infoFrame = new DialogInfo("Warning",
-                            "Conda is not installed. It is needed to run some models. \n\r"
-                            + "Click continue to install it. \r\n NB: It requires an internet connection.\n\r");
-                    infoFrame.setVisible(true);
-                    boolean temp=pySup.installConda();
-                    if(temp){
-                        isOk= pySup.checkConda();
-                    }
-                    else{
-                        //TODO log message and display the error
-                    }
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return isOk;
-    }
-     
     
     
 ////// IMPORTING of molecules //////////////////////////////////////////////////    
@@ -2455,6 +2405,9 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         fLoader.setLocation(x, y);
         fLoader.setVisible(true);
 
+        /// CHECK PYTHON AND CONDA
+        checkPythonAndConda(fLoader);
+
         /* Create and display the form */
         
         EventQueue.invokeLater(new Runnable() {
@@ -2464,6 +2417,57 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
                 new FrameMain(fLoader).setVisible(true);
             }
         });
+    }
+
+    private static boolean checkPythonAndConda(JFrame frameLoader) {
+        pySup=new PythonSetup();
+        boolean isOk =false;
+
+        try{
+            isOk = pySup.checkPython();
+            if(!isOk){
+                JOptionPane.showMessageDialog(frameLoader,
+                        "Python is not installed. It is needed to run some models. \n\r"
+                                +"Click continue to install it. \r\n NB: It requires an internet connection.\n\r");
+
+                isOk = pySup.installPython();
+                if(isOk){
+                    isOk = pySup.checkPython();
+                }
+                else{
+                    JOptionPane.showMessageDialog(frameLoader,
+                            "An error occurred in Python installation. Please install Python on your own.\n Exiting VEGA",
+                            "Python installation error",
+                            JOptionPane.ERROR_MESSAGE);
+                    frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+                }
+            }
+            if(isOk){
+                isOk= pySup.checkConda();
+                if(!isOk) {
+                    JOptionPane.showMessageDialog(frameLoader,
+                            "Conda is not installed. It is needed to run some models. \n\r"
+                                    +"Click continue to install it.\r\nNB: It requires an internet connection.\n\r");
+                    DialogInstallation di=new DialogInstallation();
+                    di.setVisible(true);
+                    boolean temp=pySup.installConda();
+                    di.dispose();
+                    if(temp){
+                        isOk= pySup.checkConda();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(frameLoader,
+                                "An error occurred in Python installation. Please install Python on your own.\n Exiting VEGA",
+                                "Python installation error",
+                                JOptionPane.ERROR_MESSAGE);
+                        frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+                    }
+                }
+            }
+        }catch (Exception e){
+            java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
+        return isOk;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

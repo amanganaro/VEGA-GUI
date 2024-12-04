@@ -1,11 +1,14 @@
 package insilico.vega.gui.utilities;
 
+import insilico.vega.gui.FrameMain;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class PythonSetup {
 
@@ -33,27 +36,18 @@ public class PythonSetup {
 
     public boolean installPython() throws InterruptedException, IOException {
         boolean result = false;
-        result=checkPython();
         if(isWindows){
-            if(!result){
-                result=executeCommandLine(null,"cmd.exe", "/c", "curl https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe -o python-amd64.exe");
+            result=executeCommandLine(null,"cmd.exe", "/c", "curl https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe -o python-amd64.exe");
+            if(result){
+                result=executeCommandLine(null,"cmd.exe", "/c","\"python-amd64.exe\" /passive InstallAllUsers=1 Include_launcher=0 Include_test=0 PrependPath=1 Include_doc=0 && exit");
                 if(result){
-                    result=executeCommandLine(null,"cmd.exe", "/c","install-python.bat");
-                    if(result){
-                        result=executeCommandLine(null, "cmd.exe", "/c", "del python-amd64.exe");
-                    }
+                    result=executeCommandLine(null, "cmd.exe", "/c", "del python-amd64.exe");
                 }
-            }else{
-                System.out.println("Python already installed");
             }
         }
         // for linux/mac users python must be installed by themselves
         else{
-            if(result){
-                System.out.println("Python already installed");
-            }else{
-                System.out.println("Install Python by yourself");
-            }
+            java.util.logging.Logger.getLogger(PythonSetup.class.getName()).log(java.util.logging.Level.INFO,  "Linux user: Install Python by yourself");
         }
         return result;
     }
@@ -136,7 +130,7 @@ public class PythonSetup {
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         String s = readProcessOutput(process.getInputStream()).toString();
-        System.out.println(s);
+        java.util.logging.Logger.getLogger(PythonSetup.class.getName()).log(Level.INFO, "Process builder: "+s);
         int exitCode = process.waitFor();
         return exitCode == 0;
     }
