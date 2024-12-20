@@ -57,14 +57,14 @@ public class FrameLoading extends JFrame {
                                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        pack();
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int w = getSize().width;
         int h = getSize().height;
         int x = (dim.width-w)/2;
         int y = (dim.height-h)/2;
         setLocation(x, y);
-
-        pack();
     }
 
     public void setLabelText(String text) {
