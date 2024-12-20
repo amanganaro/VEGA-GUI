@@ -1,5 +1,6 @@
 package insilico.vega.gui;
 import javax.swing.*;
+import java.awt.*;
 
 public class FrameLoading extends JFrame {
 
@@ -19,7 +20,7 @@ public class FrameLoading extends JFrame {
         setBackground(new java.awt.Color(191, 225, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         setUndecorated(true);
-        setLocationRelativeTo(null);
+
 
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel1.setIcon(new ImageIcon(getClass().getResource("/icons/vega_logo_small.png"))); // NOI18N
@@ -55,6 +56,13 @@ public class FrameLoading extends JFrame {
                                 .addComponent(jLabel2)
                                 .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = getSize().width;
+        int h = getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
+        setLocation(x, y);
 
         pack();
     }
