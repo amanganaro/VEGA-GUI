@@ -1,6 +1,7 @@
 package insilico.vega.gui;
 
 
+import insilico.core.python.CdddDescriptors;
 import insilico.vega.gui.models.VegaModelsWrapper;
 import insilico.core.exception.GenericFailureException;
 import insilico.vega.gui.utilities.PythonSetup;
@@ -39,6 +40,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -148,6 +150,12 @@ public class FrameMain extends JFrame {
                         }
                     };
                     Models = new VegaModelsWrapper(loadingMessenger);
+
+                    //FOR FUTURE OTHER DESCRIPTORS MAKE AN AUTOMATED IMPLEMENTATION AS MODELS
+                    loadingMessenger.SendMessage("Checking CDDD descriptors environment");
+                    CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), false);
+                    cdddDescriptors.dispose();
+
                 }catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize models.\nReported error: " + ex.getMessage());
                     frameReference.dispose();
