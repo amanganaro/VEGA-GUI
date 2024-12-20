@@ -5,6 +5,7 @@ import insilico.core.model.InsilicoModel;
 import insilico.core.model.InsilicoModelConsensus;
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
+import insilico.core.model.runner.iInsilicoModelRunnerMessenger;
 import insilico.models.dispatcher.ModelDispatcher;
 import insilico.vega.gui.resources.VegaVersion;
 
@@ -74,6 +75,49 @@ public class VegaModelsWrapper {
             for (String modelTag : vegaEP.Models) {
                 try {
                     InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag);
+                    ep.AddModel(m);
+                } catch (Exception e) {
+                    throw new InitFailureException(e);
+                }
+            }
+            for (String consTag : vegaEP.ModelsConsensus) {
+                try {
+                    InsilicoModelConsensus m = ModelDispatcher.GetConsensusFromTag(consTag);
+                    ep.AddModelConsensus(m);
+                } catch (Exception e) {
+                    throw new InitFailureException(e);
+                }
+            }
+            Endpoints.add(ep);
+        }
+
+        if (VegaVersion.PRINT_MODEL_LIST_TO_STDOUT) {
+            System.out.println("------------------");
+            System.out.println("No.\tSection\tEndpoint\tModel\tLabel\tType");
+            int n = 1;
+            for (VegaEndpoint e : Endpoints) {
+                for (VegaModel m : e.Models)
+                    System.out.println(n++ + "\t" + ModelDispatcher.SECTION_NAMES[e.Section] + "\t" + e.Name + "\t" + m.Model.getInfo().getName() +
+                            "\t" + m.Model.getInfo().getKey() + "\t" + "Model");
+                for (VegaModelConsensus m : e.ModelsConsensus)
+                    System.out.println(n++ + "\t" + ModelDispatcher.SECTION_NAMES[e.Section] + "\t" + e.Name + "\t" + m.Model.getInfo().getName() +
+                            "\t" + m.Model.getInfo().getKey() + "\t" + "Model");
+            }
+            System.out.println("------------------");
+        }
+
+    }
+
+    public VegaModelsWrapper(iInsilicoModelRunnerMessenger messenger) throws InitFailureException {
+
+        ModelDispatcher MD = new ModelDispatcher();
+        Endpoints = new ArrayList<>();
+
+        for (ModelDispatcher.VegaEndpoint vegaEP : MD.GetOrganizedModels()) {
+            VegaEndpoint ep = new VegaEndpoint(vegaEP.Name, vegaEP.Section);
+            for (String modelTag : vegaEP.Models) {
+                try {
+                    InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger);
                     ep.AddModel(m);
                 } catch (Exception e) {
                     throw new InitFailureException(e);

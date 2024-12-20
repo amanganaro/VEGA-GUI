@@ -70,7 +70,7 @@ public class FrameMain extends JFrame {
     protected InsilicoModelRunnerByMolecule Runner;
     
     // Tab for models
-    private final PanelModelList ModelsTab;
+    private PanelModelList ModelsTab;
     
     // Dialogs cache
     private File LastMolFile;
@@ -85,7 +85,7 @@ public class FrameMain extends JFrame {
     
     private final PanelMolViewer PanelMoleculeViewer = new PanelMolViewer();
     private final Object[][] arg1 = new Object[8][7];
-    private final Tab_Changer_Step1 tc1;
+    private Tab_Changer_Step1 tc1;
     private DefaultTableModel TableModel;
     private JTableHeader TableHeader;
 
@@ -94,14 +94,14 @@ public class FrameMain extends JFrame {
     private UpdatesReader Updates;
     
     private static PythonSetup pySup;
-    
+
     /**
      *  Constructor of the class
      */ 
     public FrameMain(JFrame FrameLoader) {
 
         initComponents();
-        
+
         // Set glass panel
         GlassPanel = new PanelGlass();
         this.setGlassPane(GlassPanel);
@@ -123,87 +123,126 @@ public class FrameMain extends JFrame {
         // Builds molecules list
         DataSet = new ArrayList<>();
 
-        // Builds models list
-        try {
-            Models = new VegaModelsWrapper();
-        } catch (InitFailureException ex) {
-            JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize models.\nReported error: " + ex.getMessage());
-            this.dispose();
+
+        class InitializeModels extends SwingWorker<Object, Object> {
+
+            final JFrame frameReference;
+
+            InitializeModels(JFrame frameReference) {
+                this.frameReference = frameReference;
+            }
+
+            // Builds models list
+            @Override
+            protected Object doInBackground() throws Exception {
+                try{
+                    iInsilicoModelRunnerMessenger loadingMessenger = new iInsilicoModelRunnerMessenger() {
+                        @Override
+                        public void SendMessage(String msg) {
+                            ((FrameLoading) FrameLoader).setLabelText(msg);
+                        }
+
+                        @Override
+                        public void UpdateProgress() {
+                            return;
+                        }
+                    };
+                    Models = new VegaModelsWrapper(loadingMessenger);
+                }catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize models.\nReported error: " + ex.getMessage());
+                    frameReference.dispose();
+                }
+
+                return null;
+            }
+
+            //once it done run this
+            @Override
+            protected void done() {
+                // Build the models tab
+                ModelsTab = new PanelModelList(frameReference, Models);
+                Step2.add(ModelsTab, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 135-48, 595, 340));
+                //ModelsTab.gotoTox();
+
+                // Sets help tooltip
+                String AboutTxt = "<html> " + VegaVersion.AppName + " <br>";
+                AboutTxt += " Version " + VegaVersion.Version + "<br><br>";
+                AboutTxt += " Click to show more info </html>";
+                Help_Label.setToolTipText(AboutTxt);
+
+                // Sets frame title
+                frameReference.setTitle(VegaVersion.AppName + " - version " +
+                        VegaVersion.VersionMajor + "." + VegaVersion.VersionMinor +
+                        "." + VegaVersion.VersionRevision);
+
+                // Init the form
+                getContentPane().setBackground(Color.white);
+                setSize(800,600);
+
+                Step1.setVisible(true);
+                Step2.setVisible(false);
+                Step3.setVisible(false);
+
+                Step1_Over.setVisible(true);
+                Step1_Label.setVisible(false);
+
+                Progress_Bar.setVisible(false);
+
+                PDF_Panel1.setVisible(false);
+                PDF_Panel2.setVisible(false);
+                PDF_Panel3.setVisible(false);
+                CSV_Panel1.setVisible(false);
+                CSV_Panel2.setVisible(false);
+
+                // Center the form
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                int w = frameReference.getSize().width;
+                int h = frameReference.getSize().height;
+                int x = (dim.width-w)/2;
+                int y = (dim.height-h)/2;
+                frameReference.setLocation(x, y);
+
+                //// TABLE ARGUMENTS TABCHANGER STEP1
+
+                arg1[0][0]= Step1;
+                arg1[0][1]= Step2;
+                arg1[0][2]= Step3;
+                arg1[0][3]= SideBar;
+                arg1[0][4]= Progress_Bar;
+                arg1[1][0]= Step1_Over;
+                arg1[1][1]= Step2_Over;
+                arg1[1][2]= Step3_Over;
+                arg1[1][3]= Predict_Icon;
+                arg1[2][0]= Step1_Label;
+                arg1[2][1]= Step2_Label;
+                arg1[2][2]= Step3_Label;
+                arg1[3][0]= Header_Img1;
+                arg1[3][1]= Header_Img2;
+                arg1[3][2]= Header_Img3;
+                arg1[4][0]= Cancel_Btn1;
+                arg1[4][1]= ProgressBar;
+                arg1[4][2]= Cancel_Lbl;
+
+                tc1 = new Tab_Changer_Step1(arg1);
+
+                //
+                Updates = new UpdatesReader(frameReference);
+                Updates.start();
+
+                Marvin_Panel.add(PanelMoleculeViewer);
+
+                FrameLoader.setVisible(false);
+                frameReference.setVisible(true);
+            }
         }
 
-        // Build the models tab
-        ModelsTab = new PanelModelList(this, Models);
-        Step2.add(ModelsTab, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 135-48, 595, 340));
-//        ModelsTab.gotoTox();
-
-        // Sets help tooltip
-        String AboutTxt = "<html> " + VegaVersion.AppName + " <br>";
-        AboutTxt += " Version " + VegaVersion.Version + "<br><br>";
-        AboutTxt += " Click to show more info </html>";
-        Help_Label.setToolTipText(AboutTxt);
-        
-        // Sets frame title
-        this.setTitle(VegaVersion.AppName + " - version " +
-                VegaVersion.VersionMajor + "." + VegaVersion.VersionMinor + 
-                "." + VegaVersion.VersionRevision);
-        
-        // Init the form        
-        getContentPane().setBackground(Color.white);
-        setSize(800,600);
-        
-        Step1.setVisible(true);
-        Step2.setVisible(false);
-        Step3.setVisible(false);
-        
-        Step1_Over.setVisible(true);
-        Step1_Label.setVisible(false);
-        
-        Progress_Bar.setVisible(false);               
-        
-        PDF_Panel1.setVisible(false);
-        PDF_Panel2.setVisible(false);
-        PDF_Panel3.setVisible(false);
-        CSV_Panel1.setVisible(false);
-        CSV_Panel2.setVisible(false);
-      
-        // Center the form
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int w = this.getSize().width;
-        int h = this.getSize().height;
-        int x = (dim.width-w)/2;
-        int y = (dim.height-h)/2;
-        this.setLocation(x, y);        
-
-        //// TABLE ARGUMENTS TABCHANGER STEP1
- 
-        arg1[0][0]= Step1;
-        arg1[0][1]= Step2;
-        arg1[0][2]= Step3;
-        arg1[0][3]= SideBar;
-        arg1[0][4]= Progress_Bar;
-        arg1[1][0]= Step1_Over;
-        arg1[1][1]= Step2_Over;
-        arg1[1][2]= Step3_Over;
-        arg1[1][3]= Predict_Icon;
-        arg1[2][0]= Step1_Label;
-        arg1[2][1]= Step2_Label;
-        arg1[2][2]= Step3_Label;
-        arg1[3][0]= Header_Img1; 
-        arg1[3][1]= Header_Img2;
-        arg1[3][2]= Header_Img3;
-        arg1[4][0]= Cancel_Btn1;
-        arg1[4][1]= ProgressBar;
-        arg1[4][2]= Cancel_Lbl;
-        
-        tc1 = new Tab_Changer_Step1(arg1);
-       
-        //
-        Updates = new UpdatesReader(this);
-        Updates.start();
-        
-        Marvin_Panel.add(PanelMoleculeViewer);
-
-        FrameLoader.setVisible(false);
+        try {
+            InitializeModels im = new InitializeModels(this);
+            im.execute();
+        }catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Fatal error: unable to start Vega.\nReported error: " + ex.getMessage());
+            dispose();
+        }
     }
 
     
@@ -2364,47 +2403,9 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
      * 
      */
     public static void launch() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Metal".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        JFrame fLoader = new JFrame("Loading VEGA");
-        fLoader.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fLoader.setBounds(100, 100, 350, 250);
-        fLoader.setUndecorated(true);
-        JLabel loadImage = new JLabel("      Loading VEGA...      ");
-        loadImage.setFont(new Font("Arial", Font.PLAIN, 26));
-        loadImage.setBackground(Color.WHITE);
-        loadImage.setMinimumSize(new Dimension(350,250));
-        fLoader.add(loadImage, BorderLayout.PAGE_END);
-        fLoader.pack();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int w = fLoader.getSize().width;
-        int h = fLoader.getSize().height;
-        int x = (dim.width-w)/2;
-        int y = (dim.height-h)/2;
-        fLoader.setLocation(x, y);
+        FrameLoading fLoader=new FrameLoading();
         fLoader.setVisible(true);
-
         /// CHECK PYTHON AND CONDA
         checkPythonAndConda(fLoader);
 
@@ -2414,7 +2415,7 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
 
             @Override
             public void run() {
-                new FrameMain(fLoader).setVisible(true);
+                new FrameMain(fLoader);
             }
         });
     }
