@@ -13,21 +13,15 @@ import java.util.logging.Level;
 public class PythonSetup {
 
     boolean isWindows;
-    String uh;
-    Map<String, String> additionalEnvVariables;
 
     public PythonSetup(){
-        uh=System.getProperty("user.home");
         isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-        additionalEnvVariables = new HashMap<>();
-        additionalEnvVariables.put("PATH", uh+"\\miniconda3\\Scripts\\;"+uh+"\\miniconda3\\;"+
-                "C:\\Program Files\\Python313\\Scripts\\;C:\\Program Files\\Python313\\;");
     }
 
     public boolean checkPython() throws IOException, InterruptedException {
         boolean result = false;
         if(isWindows){
-            result=executeCommandLine(additionalEnvVariables, "cmd.exe", "/C", "python --version");
+            result=executeCommandLine(null, "cmd.exe", "/C", "python --version");
         }else{
             result = executeCommandLine(null, "python", "--version");
         }
@@ -55,35 +49,31 @@ public class PythonSetup {
 
     public boolean installConda() throws IOException, InterruptedException {
         boolean result = false;
-        boolean isInstalled = false;
 
-        isInstalled=checkConda();
-        if(!isInstalled){
-            if(isWindows){
-                result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o miniconda.exe");
+        if(isWindows){
+            result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o miniconda.exe");
+            if(result){
+                result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" .\\miniconda.exe /InstallationType=JustMe /AddToPath=1 /RegisterPython=0 /S");
                 if(result){
-                    result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" .\\miniconda.exe /InstallationType=JustMe /AddToPath=1 /RegisterPython=0 /S");
-                    if(result){
-                        result = executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
-                        if(result){
-                            result = executeCommandLine(additionalEnvVariables, "cmd.exe", "/C", "conda init");
-                        }
-                    }
+                    result = executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
+                    /*if(result){
+                        result = executeCommandLine(null, "cmd.exe", "/C", "conda init");
+                    }*/
                 }
+            }
 
-            }else {
-                result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/miniconda3");
+        }else {
+            result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/miniconda3");
+            if(result){
+                result = executeCommandLine(null,"bash", "-c", "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
+                        "-O ~/miniconda3/miniconda.sh && chmod +x  ~/miniconda3/miniconda.sh");
                 if(result){
-                    result = executeCommandLine(null,"bash", "-c", "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
-                            "-O ~/miniconda3/miniconda.sh && chmod +x  ~/miniconda3/miniconda.sh");
-                    if(result){
-                        result = executeCommandLine(null, "bash","-c", "~/miniconda3/miniconda.sh -b -u -p ~/miniconda3");
-                        if(result) {
-                            result = executeCommandLine(null, "bash", "-c", "rm ~/miniconda3/miniconda.sh");
-                            if(result){
-                                result = executeCommandLine(null, "bash", "-c", "~/miniconda3/bin/conda init bash");
-                            }
-                        }
+                    result = executeCommandLine(null, "bash","-c", "~/miniconda3/miniconda.sh -b -u -p ~/miniconda3");
+                    if(result) {
+                        result = executeCommandLine(null, "bash", "-c", "rm ~/miniconda3/miniconda.sh");
+                        /*if(result){
+                            result = executeCommandLine(null, "bash", "-c", "~/miniconda3/bin/conda init bash");
+                        }*/
                     }
                 }
             }
@@ -92,20 +82,26 @@ public class PythonSetup {
         return result;
     }
 
+    public void condaInit() throws IOException, InterruptedException {
+
+        if(isWindows){
+            executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
+        }else{
+            executeCommandLine(null, "bash", "-c", "conda init bash");
+        }
+
+    }
+
     public boolean checkConda() throws IOException, InterruptedException {
         boolean result = false;
 
         if(isWindows){
-            result=executeCommandLine(null, "cmd.exe", "/c", uh+"\\miniconda3\\_conda --version");
+            result=executeCommandLine(null, "cmd.exe", "/c", "conda --version");
         }else {
-            result = executeCommandLine(null, "bash", "-c", "source ~/miniconda3/etc/profile.d/conda.sh && conda --version");
+            result = executeCommandLine(null, "bash", "-c", "conda --version");
         }
         return result;
     }
-
-
-
-
 
     private StringBuilder readProcessOutput(InputStream inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

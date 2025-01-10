@@ -2415,8 +2415,10 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         FrameLoading fLoader=new FrameLoading();
         fLoader.setVisible(true);
         /// CHECK PYTHON AND CONDA
-        checkPythonAndConda(fLoader);
-
+        boolean result = checkPythonAndConda(fLoader);
+        if(!result){
+            return;
+        }
         /* Create and display the form */
         
         EventQueue.invokeLater(new Runnable() {
@@ -2433,45 +2435,28 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         boolean isOk =false;
 
         try{
-            isOk = pySup.checkPython();
+            isOk = pySup.checkConda();
             if(!isOk){
                 JOptionPane.showMessageDialog(frameLoader,
-                        "Python is not installed. It is needed to run some models. \n\r"
-                                +"Click continue to install it. \r\n NB: It requires an internet connection.\n\r");
-
-                isOk = pySup.installPython();
+                        "Conda is not installed. It is needed to run some models. \n\r"
+                                +"Click OK to download and install it. \r\n" +
+                                "NB: It requires an internet connection.\n\r");
+                isOk = pySup.installConda();
                 if(isOk){
-                    isOk = pySup.checkPython();
+                    //SHUT DOWN VEGA TO REFRESH THE ENV VARIABLES
+                    JOptionPane.showMessageDialog(frameLoader,
+                            "Conda installed successfully. Now VEGA is going to be shut down. \r\n" +
+                                    "Please restart it to complete the installation. \n\r"+
+                                    "If VEGA was launched from a shell, please close it and open a new one.");
                 }
                 else{
                     JOptionPane.showMessageDialog(frameLoader,
-                            "An error occurred in Python installation. Please install Python on your own.\n Exiting VEGA",
-                            "Python installation error",
+                            "An error occurred during Conda installation. Please install it manually and then restart VEGA.",
+                            "Conda installation error",
                             JOptionPane.ERROR_MESSAGE);
-                    frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
                 }
-            }
-            if(isOk){
-                isOk= pySup.checkConda();
-                if(!isOk) {
-                    JOptionPane.showMessageDialog(frameLoader,
-                            "Conda is not installed. It is needed to run some models. \n\r"
-                                    +"Click continue to install it.\r\nNB: It requires an internet connection.\n\r");
-                    DialogInstallation di=new DialogInstallation();
-                    di.setVisible(true);
-                    boolean temp=pySup.installConda();
-                    di.dispose();
-                    if(temp){
-                        isOk= pySup.checkConda();
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(frameLoader,
-                                "An error occurred in Python installation. Please install Python on your own.\n Exiting VEGA",
-                                "Python installation error",
-                                JOptionPane.ERROR_MESSAGE);
-                        frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
-                    }
-                }
+                frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+                return false;
             }
         }catch (Exception e){
             java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, e);

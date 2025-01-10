@@ -16,7 +16,7 @@ public class VegaVersion {
 
     public final static String AppName = "VEGA in silico platform";
     public final static String BuildDate = "20/12/2024";
-    public final static String Version = "1.2.5b1";
+    public final static String Version = "1.2.5b2";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
     public final static int VersionRevision = 5;
