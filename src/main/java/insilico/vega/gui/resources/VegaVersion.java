@@ -14,9 +14,11 @@ public class VegaVersion {
     // print list of available models to std out
     public static boolean PRINT_MODEL_LIST_TO_STDOUT = false;
 
+    public static boolean UNINSTALL_VEGA = false;
+
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "20/12/2024";
-    public final static String Version = "1.2.5b2";
+    public final static String BuildDate = "10/01/2025";
+    public final static String Version = "1.2.5b3";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
     public final static int VersionRevision = 5;

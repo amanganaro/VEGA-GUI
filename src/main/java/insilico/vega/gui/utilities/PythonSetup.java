@@ -1,12 +1,12 @@
 package insilico.vega.gui.utilities;
 
-import insilico.vega.gui.FrameMain;
+import insilico.core.tools.utils.FileUtilities;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -101,6 +101,26 @@ public class PythonSetup {
             result = executeCommandLine(null, "bash", "-c", "conda --version");
         }
         return result;
+    }
+
+    public void removeALlPythonFolders() throws IOException {
+        String folderToRemove;
+        if(isWindows)
+             folderToRemove = Paths.get(System.getProperty("user.home"),
+                "\\AppData\\Local\\vega-models\\").toString();
+        else
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "/.local/share/vega-models/").toString();
+
+        FileUtilities.deleteFolder(folderToRemove);
+        if(isWindows)
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "\\AppData\\Local\\cddd\\").toString();
+        else
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "/.local/share/cddd/").toString();
+
+        FileUtilities.deleteFolder(folderToRemove);
     }
 
     private StringBuilder readProcessOutput(InputStream inputStream) throws IOException {

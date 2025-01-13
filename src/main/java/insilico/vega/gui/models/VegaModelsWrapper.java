@@ -1,11 +1,9 @@
 package insilico.vega.gui.models;
 
 import insilico.core.exception.InitFailureException;
-import insilico.core.model.InsilicoModel;
-import insilico.core.model.InsilicoModelConsensus;
-import insilico.core.model.iInsilicoModel;
-import insilico.core.model.iInsilicoModelConsensus;
+import insilico.core.model.*;
 import insilico.core.model.runner.iInsilicoModelRunnerMessenger;
+import insilico.core.tools.utils.GeneralUtilities;
 import insilico.models.dispatcher.ModelDispatcher;
 import insilico.vega.gui.resources.VegaVersion;
 
@@ -117,8 +115,14 @@ public class VegaModelsWrapper {
             VegaEndpoint ep = new VegaEndpoint(vegaEP.Name, vegaEP.Section);
             for (String modelTag : vegaEP.Models) {
                 try {
-                    InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger);
-                    ep.AddModel(m);
+                    InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger, VegaVersion.UNINSTALL_VEGA);
+                    if(VegaVersion.UNINSTALL_VEGA){
+                        if(InsilicoModelPython.class.isAssignableFrom(m.getClass())){
+                            ((InsilicoModelPython) m).removeCondaEnv();
+                        }
+                    }else{
+                        ep.AddModel(m);
+                    }
                 } catch (Exception e) {
                     throw new InitFailureException(e);
                 }

@@ -27,6 +27,8 @@ public class Launcher {
                     VegaVersion.SET_ALL_CB_SELECTED = true;
                 if (curArg.equalsIgnoreCase("-print"))
                     VegaVersion.PRINT_MODEL_LIST_TO_STDOUT = true;
+                if (curArg.equalsIgnoreCase("-uninstall"))
+                    VegaVersion.UNINSTALL_VEGA = true;
 
             }
         }

@@ -152,9 +152,18 @@ public class FrameMain extends JFrame {
                     Models = new VegaModelsWrapper(loadingMessenger);
 
                     //FOR FUTURE OTHER DESCRIPTORS MAKE AN AUTOMATED IMPLEMENTATION AS MODELS
-                    loadingMessenger.SendMessage("Checking CDDD descriptors environment");
-                    CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), false);
+                    if(!VegaVersion.UNINSTALL_VEGA)
+                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
+                    CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA);
                     cdddDescriptors.dispose();
+                    if(VegaVersion.UNINSTALL_VEGA){
+                        cdddDescriptors.removeCondaEnv();
+                        JOptionPane.showMessageDialog(FrameLoader,
+                                "Uninstallation complete. Shut down.");
+                        FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
+                        return false;
+                    }
+
 
                 }catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize models.\nReported error: " + ex.getMessage());
@@ -2410,10 +2419,32 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
     /**
      * 
      */
-    public static void launch() {
-
-        FrameLoading fLoader=new FrameLoading();
+    public static void launch() throws IOException {
+        pySup=new PythonSetup();
+        FrameLoading fLoader=new FrameLoading(VegaVersion.UNINSTALL_VEGA ? "Uninstalling VEGA..." : "Starting VEGA...");
         fLoader.setVisible(true);
+
+        if(VegaVersion.UNINSTALL_VEGA){
+            var selection = JOptionPane.showOptionDialog(fLoader,
+                    "VEGA is going to be uninstalled, all the conda environments will be removed \r\n" +
+                            "This will remove also all the support files for the python models.\r\n" +
+                            "N.B.: Conda will not be uninstalled, to do that remove it manually.",
+                    "Uninstalling VEGA",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,null, null);
+
+            System.out.println(selection);
+
+            if(selection == 0) {
+                pySup.removeALlPythonFolders();
+            }
+            else{
+                fLoader.dispatchEvent(new WindowEvent(fLoader, WindowEvent.WINDOW_CLOSING));
+                return;
+            }
+        }
+
         /// CHECK PYTHON AND CONDA
         boolean result = checkPythonAndConda(fLoader);
         if(!result){
@@ -2431,7 +2462,6 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
     }
 
     private static boolean checkPythonAndConda(JFrame frameLoader) {
-        pySup=new PythonSetup();
         boolean isOk =false;
 
         try{

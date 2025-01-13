@@ -6,8 +6,10 @@ public class FrameLoading extends JFrame {
 
     private JLabel jLabel1;
     private JLabel jLabel2;
+    private String mainMessage;
 
-    public FrameLoading() {
+    public FrameLoading(String mainMessage) {
+        this.mainMessage = mainMessage;
         initComponents();
     }
 
@@ -27,7 +29,7 @@ public class FrameLoading extends JFrame {
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
         jLabel2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel2.setText("Starting Vega...");
+        jLabel2.setText(mainMessage);
         jLabel2.setVerticalAlignment(SwingConstants.TOP);
         jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
