@@ -159,7 +159,8 @@ public class FrameMain extends JFrame {
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
                         JOptionPane.showMessageDialog(FrameLoader,
-                                "Uninstallation complete. Shut down.");
+                                "All additional files have been removed.\r\n" +
+                                        "It is now possible to delete the folder containing the VEGA binaries.");
                         FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
                         return false;
                     }
@@ -2426,9 +2427,9 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
 
         if(VegaVersion.UNINSTALL_VEGA){
             var selection = JOptionPane.showOptionDialog(fLoader,
-                    "VEGA is going to be uninstalled, all the conda environments will be removed \r\n" +
+                    "VEGA is going to be uninstalled, all the conda environments will be removed.\r\n" +
                             "This will remove also all the support files for the python models.\r\n" +
-                            "N.B.: Conda will not be uninstalled, to do that remove it manually.",
+                            "Note that Conda will not be uninstalled.",
                     "Uninstalling VEGA",
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE,
@@ -2445,10 +2446,12 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
             }
         }
 
-        /// CHECK PYTHON AND CONDA
-        boolean result = checkPythonAndConda(fLoader);
-        if(!result){
-            return;
+        if(!VegaVersion.UNINSTALL_VEGA) {
+            /// CHECK PYTHON AND CONDA
+            boolean result = checkPythonAndConda(fLoader);
+            if (!result) {
+                return;
+            }
         }
         /* Create and display the form */
         
@@ -2461,16 +2464,16 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         });
     }
 
-    private static boolean checkPythonAndConda(JFrame frameLoader) {
+    private static boolean checkPythonAndConda(FrameLoading frameLoader) {
         boolean isOk =false;
-
         try{
             isOk = pySup.checkConda();
             if(!isOk){
+                frameLoader.setLabelText("Installing Conda...");
                 JOptionPane.showMessageDialog(frameLoader,
                         "Conda is not installed. It is needed to run some models. \n\r"
                                 +"Click OK to download and install it. \r\n" +
-                                "NB: It requires an internet connection.\n\r");
+                                "Note that it requires an internet connection.\n\r");
                 isOk = pySup.installConda();
                 if(isOk){
                     //SHUT DOWN VEGA TO REFRESH THE ENV VARIABLES
