@@ -1,6 +1,7 @@
 package insilico.vega.gui.utilities;
 
 import insilico.core.tools.utils.FileUtilities;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,15 +13,13 @@ import java.util.logging.Level;
 
 public class PythonSetup {
 
-    boolean isWindows;
-
     public PythonSetup(){
-        isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+
     }
 
     public boolean checkPython() throws IOException, InterruptedException {
         boolean result = false;
-        if(isWindows){
+        if(SystemUtils.IS_OS_WINDOWS){
             result=executeCommandLine(null, "cmd.exe", "/C", "python --version");
         }else{
             result = executeCommandLine(null, "python", "--version");
@@ -30,7 +29,7 @@ public class PythonSetup {
 
     public boolean installPython() throws InterruptedException, IOException {
         boolean result = false;
-        if(isWindows){
+        if(SystemUtils.IS_OS_WINDOWS){
             result=executeCommandLine(null,"cmd.exe", "/c", "curl https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe -o python-amd64.exe");
             if(result){
                 result=executeCommandLine(null,"cmd.exe", "/c","\"python-amd64.exe\" /passive InstallAllUsers=1 Include_launcher=0 Include_test=0 PrependPath=1 Include_doc=0 && exit");
@@ -50,19 +49,15 @@ public class PythonSetup {
     public boolean installConda() throws IOException, InterruptedException {
         boolean result = false;
 
-        if(isWindows){
+        if(SystemUtils.IS_OS_WINDOWS){
             result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o miniconda.exe");
             if(result){
                 result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" .\\miniconda.exe /InstallationType=JustMe /AddToPath=1 /RegisterPython=0 /S");
                 if(result){
                     result = executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
-                    /*if(result){
-                        result = executeCommandLine(null, "cmd.exe", "/C", "conda init");
-                    }*/
                 }
             }
-
-        }else {
+        }else if(SystemUtils.IS_OS_LINUX){
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/miniconda3");
             if(result){
                 result = executeCommandLine(null,"bash", "-c", "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
@@ -71,9 +66,6 @@ public class PythonSetup {
                     result = executeCommandLine(null, "bash","-c", "~/miniconda3/miniconda.sh -b -u -p ~/miniconda3");
                     if(result) {
                         result = executeCommandLine(null, "bash", "-c", "rm ~/miniconda3/miniconda.sh");
-                        /*if(result){
-                            result = executeCommandLine(null, "bash", "-c", "~/miniconda3/bin/conda init bash");
-                        }*/
                     }
                 }
             }
@@ -84,8 +76,8 @@ public class PythonSetup {
 
     public void condaInit() throws IOException, InterruptedException {
 
-        if(isWindows){
-            executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
+        if(SystemUtils.IS_OS_WINDOWS){
+            executeCommandLine(null, "cmd.exe", "/c", "conda init");
         }else{
             executeCommandLine(null, "bash", "-c", "conda init bash");
         }
@@ -95,7 +87,7 @@ public class PythonSetup {
     public boolean checkConda() throws IOException, InterruptedException {
         boolean result = false;
 
-        if(isWindows){
+        if(SystemUtils.IS_OS_WINDOWS){
             result=executeCommandLine(null, "cmd.exe", "/c", "conda --version");
         }else {
             result = executeCommandLine(null, "bash", "-c", "conda --version");
@@ -105,7 +97,7 @@ public class PythonSetup {
 
     public void removeALlPythonFolders() throws IOException {
         String folderToRemove;
-        if(isWindows)
+        if(SystemUtils.IS_OS_WINDOWS)
              folderToRemove = Paths.get(System.getProperty("user.home"),
                 "\\AppData\\Local\\vega-models\\").toString();
         else
@@ -113,7 +105,7 @@ public class PythonSetup {
                     "/.local/share/vega-models/").toString();
 
         FileUtilities.deleteFolder(folderToRemove);
-        if(isWindows)
+        if(SystemUtils.IS_OS_WINDOWS)
             folderToRemove = Paths.get(System.getProperty("user.home"),
                     "\\AppData\\Local\\cddd\\").toString();
         else
