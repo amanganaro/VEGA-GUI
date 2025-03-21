@@ -2,16 +2,23 @@ package insilico.vega.gui.utilities;
 
 import insilico.core.tools.utils.FileUtilities;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class PythonSetup {
+
+    private static final Logger LOGGER = LogManager.getLogger();
+    private Path userPath = Paths.get(System.getProperty("user.home"));
+    private Path condaInstallationPath = Paths.get(System.getProperty("user.home"), "vega", "conda");
+    private String envVariables = condaInstallationPath.toAbsolutePath().toString() + ";" +
+            condaInstallationPath.toAbsolutePath().toString()+ File.separator+"Scripts";
+    private Map<String, String> env = Map.of("Path", envVariables);
 
     public PythonSetup(){
 
@@ -40,7 +47,7 @@ public class PythonSetup {
         }
         // for linux/mac users python must be installed by themselves
         else{
-            java.util.logging.Logger.getLogger(PythonSetup.class.getName()).log(java.util.logging.Level.INFO,  "Linux user: Install Python by yourself");
+            LOGGER.info("Linux user: Install Python by yourself");
         }
         return result;
     }
@@ -52,7 +59,7 @@ public class PythonSetup {
         if(SystemUtils.IS_OS_WINDOWS){
             result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o miniconda.exe");
             if(result){
-                result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" .\\miniconda.exe /InstallationType=JustMe /AddToPath=1 /RegisterPython=0 /S");
+                result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" .\\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D="+condaInstallationPath.toAbsolutePath().toString());
                 if(result){
                     result = executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
                 }
@@ -63,7 +70,7 @@ public class PythonSetup {
                 result = executeCommandLine(null,"bash", "-c", "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
                         "-O ~/miniconda3/miniconda.sh && chmod +x  ~/miniconda3/miniconda.sh");
                 if(result){
-                    result = executeCommandLine(null, "bash","-c", "~/miniconda3/miniconda.sh -b -u -p ~/miniconda3");
+                    result = executeCommandLine(null, "bash","-c", "~/miniconda3/miniconda.sh -b -u -p"+condaInstallationPath.toAbsolutePath().toString());
                     if(result) {
                         result = executeCommandLine(null, "bash", "-c", "rm ~/miniconda3/miniconda.sh");
                     }
@@ -77,9 +84,9 @@ public class PythonSetup {
     public void condaInit() throws IOException, InterruptedException {
 
         if(SystemUtils.IS_OS_WINDOWS){
-            executeCommandLine(null, "cmd.exe", "/c", "conda init");
+            executeCommandLine(env, "cmd.exe", "/c", "conda init");
         }else{
-            executeCommandLine(null, "bash", "-c", "conda init bash");
+            executeCommandLine(env, "bash", "-c", "conda init bash");
         }
 
     }
@@ -88,9 +95,9 @@ public class PythonSetup {
         boolean result = false;
 
         if(SystemUtils.IS_OS_WINDOWS){
-            result=executeCommandLine(null, "cmd.exe", "/c", "conda --version");
+            result=executeCommandLine(env, "cmd.exe", "/c", "conda --version");
         }else {
-            result = executeCommandLine(null, "bash", "-c", "conda --version");
+            result = executeCommandLine(env, "bash", "-c", "conda --version");
         }
         return result;
     }
@@ -127,18 +134,14 @@ public class PythonSetup {
 
     private boolean executeCommandLine(Map<String, String> envVariables, String... commands) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
-
         if(envVariables != null) {
-            Map<String, String> env = processBuilder.environment();
-            envVariables.forEach((key, variables) ->
-                    env.compute(key, (k, currentPath) ->
-                            variables + (currentPath != null ? currentPath : "")));
+            envVariables.forEach((key, value) ->
+                    processBuilder.environment().put(key, String.valueOf(value)));
         }
-
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         String s = readProcessOutput(process.getInputStream()).toString();
-        java.util.logging.Logger.getLogger(PythonSetup.class.getName()).log(Level.INFO, "Process builder: "+s);
+        LOGGER.info("Process builder: "+s);
         int exitCode = process.waitFor();
         return exitCode == 0;
     }

@@ -29,6 +29,9 @@ import insilico.core.tools.utils.GeneralUtilities;
 //import insilico.core.tools.GeneralUtilities;
 //import insilico.core.tools.logger.InsilicoLogger;
 import insilico.vega.gui.resources.VegaVersion;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
@@ -57,7 +60,9 @@ import javax.swing.table.JTableHeader;
  */
 
 public class FrameMain extends JFrame {
-    
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
     // Molecules list
     private ArrayList<InsilicoMolecule> DataSet;
     
@@ -154,7 +159,7 @@ public class FrameMain extends JFrame {
                     //FOR FUTURE OTHER DESCRIPTORS MAKE AN AUTOMATED IMPLEMENTATION AS MODELS
                     if(!VegaVersion.UNINSTALL_VEGA)
                         loadingMessenger.SendMessage("Checking CDDD descriptors environment");
-                    CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA);
+                    CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA, loadingMessenger);
                     cdddDescriptors.dispose();
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
@@ -2424,7 +2429,7 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         pySup=new PythonSetup();
         FrameLoading fLoader=new FrameLoading(VegaVersion.UNINSTALL_VEGA ? "Uninstalling VEGA..." : "Starting VEGA...");
         fLoader.setVisible(true);
-
+        LOGGER.info("eccoci");
         if(VegaVersion.UNINSTALL_VEGA){
             var selection = JOptionPane.showOptionDialog(fLoader,
                     "VEGA is going to be uninstalled, all the conda environments will be removed.\r\n" +
@@ -2481,6 +2486,7 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
                             "Conda installed successfully. Now VEGA is going to be shut down. \r\n" +
                                     "Please restart it to complete the installation. \n\r"+
                                     "If VEGA was launched from a shell, please close it and open a new one.");
+                    pySup.condaInit();
                 }
                 else{
                     JOptionPane.showMessageDialog(frameLoader,
@@ -2492,7 +2498,7 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
                 return false;
             }
         }catch (Exception e){
-            java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage());
         }
         return isOk;
     }
