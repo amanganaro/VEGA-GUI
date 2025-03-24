@@ -8,13 +8,11 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PythonSetup {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private Path userPath = Paths.get(System.getProperty("user.home"));
     private Path condaInstallationPath = Paths.get(System.getProperty("user.home"), "vega", "conda");
     private String envVariables = condaInstallationPath.toAbsolutePath().toString() + ";" +
             condaInstallationPath.toAbsolutePath().toString()+ File.separator+"Scripts";
@@ -141,7 +139,7 @@ public class PythonSetup {
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         String s = readProcessOutput(process.getInputStream()).toString();
-        LOGGER.info("Process builder: "+s);
+        LOGGER.info("Process builder: {}",s);
         int exitCode = process.waitFor();
         return exitCode == 0;
     }

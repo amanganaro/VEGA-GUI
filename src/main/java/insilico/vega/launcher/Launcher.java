@@ -4,19 +4,20 @@ import insilico.core.ad.ADCheckIndices;
 import insilico.vega.gui.FrameMain;
 import insilico.vega.gui.resources.VegaVersion;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
-import java.util.Properties;
 
 /**
  *
  * @author Alberto Manganaro <a.manganaro@kode-solutions.net>
  */
 public class Launcher {
-    
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
+
     public static void main(String args[]) throws Exception {
 
 //        Properties props = new Properties();
@@ -46,6 +47,8 @@ public class Launcher {
         String logDir = System.getProperty("user.home")+ File.separator+ "vega"+ File.separator + "logs";
         File directory = new File(logDir);
         FileUtils.forceMkdir(directory);
+
+        LOGGER.warn("WELLA");
 
         // Run GUI
         FrameMain.launch();
