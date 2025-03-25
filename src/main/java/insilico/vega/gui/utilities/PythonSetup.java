@@ -120,6 +120,18 @@ public class PythonSetup {
         FileUtilities.deleteFolder(folderToRemove);
     }
 
+    public void removeCondaInstallation() throws IOException {
+        String folderToRemove;
+        if(SystemUtils.IS_OS_WINDOWS)
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "\\vega\\conda\\").toString();
+        else
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "/vega/conda/").toString();
+
+        FileUtilities.deleteFolder(folderToRemove);
+    }
+
     private StringBuilder readProcessOutput(InputStream inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder output = new StringBuilder();
@@ -132,6 +144,8 @@ public class PythonSetup {
 
     private boolean executeCommandLine(Map<String, String> envVariables, String... commands) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
+
+        System.out.println(processBuilder.environment());
         if(envVariables != null) {
             envVariables.forEach((key, value) ->
                     processBuilder.environment().put(key, String.valueOf(value)));

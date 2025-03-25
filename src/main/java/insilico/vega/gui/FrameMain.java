@@ -29,8 +29,6 @@ import insilico.core.tools.utils.GeneralUtilities;
 //import insilico.core.tools.GeneralUtilities;
 //import insilico.core.tools.logger.InsilicoLogger;
 import insilico.vega.gui.resources.VegaVersion;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -50,6 +48,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
         
 
@@ -2429,7 +2429,6 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         pySup=new PythonSetup();
         FrameLoading fLoader=new FrameLoading(VegaVersion.UNINSTALL_VEGA ? "Uninstalling VEGA..." : "Starting VEGA...");
         fLoader.setVisible(true);
-        LOGGER.info("eccoci");
         if(VegaVersion.UNINSTALL_VEGA){
             var selection = JOptionPane.showOptionDialog(fLoader,
                     "VEGA is going to be uninstalled, all the conda environments will be removed.\r\n" +
