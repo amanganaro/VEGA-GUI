@@ -14,9 +14,6 @@ public class PythonSetup {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private Path condaInstallationPath = Paths.get(System.getProperty("user.home"), "vega", "conda");
-    private String envVariables = condaInstallationPath.toAbsolutePath().toString() + ";" +
-            condaInstallationPath.toAbsolutePath().toString()+ File.separator+"Scripts";
-    private Map<String, String> env = Map.of("Path", envVariables);
 
     public PythonSetup(){
 
@@ -82,9 +79,9 @@ public class PythonSetup {
     public void condaInit() throws IOException, InterruptedException {
 
         if(SystemUtils.IS_OS_WINDOWS){
-            executeCommandLine(env, "cmd.exe", "/c", "conda init");
+            executeCommandLine(null,"cmd.exe", "/c", "conda init");
         }else{
-            executeCommandLine(env, "bash", "-c", "conda init bash");
+            executeCommandLine(null, "bash", "-c", "conda init bash");
         }
 
     }
@@ -93,9 +90,11 @@ public class PythonSetup {
         boolean result = false;
 
         if(SystemUtils.IS_OS_WINDOWS){
-            result=executeCommandLine(env, "cmd.exe", "/c", "conda --version");
+            result=executeCommandLine(null, "cmd.exe", "/c",
+                    condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\activate.bat && conda --version");
         }else {
-            result = executeCommandLine(env, "bash", "-c", "conda --version");
+            result = executeCommandLine(null, "bash", "-c",
+                    "source "+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate && conda --version");
         }
         return result;
     }
@@ -145,7 +144,6 @@ public class PythonSetup {
     private boolean executeCommandLine(Map<String, String> envVariables, String... commands) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
 
-        System.out.println(processBuilder.environment());
         if(envVariables != null) {
             envVariables.forEach((key, value) ->
                     processBuilder.environment().put(key, String.valueOf(value)));
