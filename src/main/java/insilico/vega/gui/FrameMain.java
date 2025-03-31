@@ -2485,7 +2485,6 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
                             "Conda installed successfully. Now VEGA is going to be shut down. \r\n" +
                                     "Please restart it to complete the installation. \n\r"+
                                     "If VEGA was launched from a shell, please close it and open a new one.");
-                    pySup.condaInit();
                 }
                 else{
                     JOptionPane.showMessageDialog(frameLoader,
