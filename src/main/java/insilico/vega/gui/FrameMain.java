@@ -2481,27 +2481,20 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         try{
             isOk = pySup.checkConda();
             if(!isOk){
-                frameLoader.setLabelText("Installing Conda...");
                 JOptionPane.showMessageDialog(frameLoader,
-                        "Conda is not installed. It is needed to run some models. \n\r"
+                        "A personalized copy of Conda will be installed on the machine. It is needed to run some models. \n\r"
                                 +"Click OK to download and install it. \r\n" +
                                 "Note that it requires an internet connection.\n\r");
+                frameLoader.setLabelText("Installing Conda...");
                 isOk = pySup.installConda();
-                if(isOk){
-                    //SHUT DOWN VEGA TO REFRESH THE ENV VARIABLES
+                if(!isOk){
                     JOptionPane.showMessageDialog(frameLoader,
-                            "Conda installed successfully. Now VEGA is going to be shut down. \r\n" +
-                                    "Please restart it to complete the installation. \n\r"+
-                                    "If VEGA was launched from a shell, please close it and open a new one.");
-                }
-                else{
-                    JOptionPane.showMessageDialog(frameLoader,
-                            "An error occurred during Conda installation. Please install it manually and then restart VEGA.",
+                            "An error occurred during Conda installation. Please restart VEGA.",
                             "Conda installation error",
                             JOptionPane.ERROR_MESSAGE);
+                    frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+                    return false;
                 }
-                frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
-                return false;
             }
         }catch (Exception e){
             LOGGER.error(e.getMessage());

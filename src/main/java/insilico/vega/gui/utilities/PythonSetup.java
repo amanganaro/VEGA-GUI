@@ -60,14 +60,14 @@ public class PythonSetup {
                 }
             }
         }else if(SystemUtils.IS_OS_LINUX){
-            result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/miniconda3");
+            result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
             if(result){
                 result = executeCommandLine(null,"bash", "-c", "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
-                        "-O ~/miniconda3/miniconda.sh && chmod +x  ~/miniconda3/miniconda.sh");
+                        "-O ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
                 if(result){
-                    result = executeCommandLine(null, "bash","-c", "~/miniconda3/miniconda.sh -b -u -p"+condaInstallationPath.toAbsolutePath().toString());
+                    result = executeCommandLine(null, "bash","-c", "~/vega/miniconda.sh -b -f -p "+condaInstallationPath.toAbsolutePath().toString());
                     if(result) {
-                        result = executeCommandLine(null, "bash", "-c", "rm ~/miniconda3/miniconda.sh");
+                        result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
                     }
                 }
             }
@@ -123,12 +123,11 @@ public class PythonSetup {
         boolean result;
         if(SystemUtils.IS_OS_WINDOWS)
             result = executeCommandLine(null, "cmd.exe", "/c",
-                    condaInstallationPath.toAbsolutePath().toString()+"\\_conda constructor uninstall --prefix " +
-                            condaInstallationPath.toAbsolutePath().toString()+"\\envs");
+                    "start /wait "+condaInstallationPath.toAbsolutePath().toString()
+                            +"\\Uninstall-Miniconda3.exe /S");
         else
             result = executeCommandLine(null, "bash", "-c",
-                    condaInstallationPath.toAbsolutePath().toString()+"/_conda constructor uninstall --prefix "+
-                            condaInstallationPath.toAbsolutePath().toString()+"/envs");
+                    "rm -rf "+condaInstallationPath.toAbsolutePath().toString());
         return result;
     }
 
