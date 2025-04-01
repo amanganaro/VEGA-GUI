@@ -119,16 +119,17 @@ public class PythonSetup {
         FileUtilities.deleteFolder(folderToRemove);
     }
 
-    public void removeCondaInstallation() throws IOException {
-        String folderToRemove;
+    public boolean removeCondaInstallation() throws IOException, InterruptedException {
+        boolean result;
         if(SystemUtils.IS_OS_WINDOWS)
-            folderToRemove = Paths.get(System.getProperty("user.home"),
-                    "\\vega\\conda\\").toString();
+            result = executeCommandLine(null, "cmd.exe", "/c",
+                    condaInstallationPath.toAbsolutePath().toString()+"\\_conda constructor uninstall --prefix " +
+                            condaInstallationPath.toAbsolutePath().toString()+"\\envs");
         else
-            folderToRemove = Paths.get(System.getProperty("user.home"),
-                    "/vega/conda/").toString();
-
-        FileUtilities.deleteFolder(folderToRemove);
+            result = executeCommandLine(null, "bash", "-c",
+                    condaInstallationPath.toAbsolutePath().toString()+"/_conda constructor uninstall --prefix "+
+                            condaInstallationPath.toAbsolutePath().toString()+"/envs");
+        return result;
     }
 
     private StringBuilder readProcessOutput(InputStream inputStream) throws IOException {

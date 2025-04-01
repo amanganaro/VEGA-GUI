@@ -163,9 +163,17 @@ public class FrameMain extends JFrame {
                     cdddDescriptors.dispose();
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
-                        JOptionPane.showMessageDialog(FrameLoader,
-                                "All additional files have been removed.\r\n" +
-                                        "It is now possible to delete the folder containing the VEGA binaries.");
+                        boolean uninstallResult = pySup.removeCondaInstallation();
+                        if(uninstallResult) {
+                            JOptionPane.showMessageDialog(FrameLoader,
+                                    "All additional files have been removed.\r\n" +
+                                            "It is now possible to delete the folder containing the VEGA binaries.");
+
+                        }else{
+                            JOptionPane.showMessageDialog(FrameLoader,
+                                    "Something went wrong during the uninstall\r\n" +
+                                            "Try again, if the problem persists, cancel manually the conda installation");
+                        }
                         FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
                         return false;
                     }
