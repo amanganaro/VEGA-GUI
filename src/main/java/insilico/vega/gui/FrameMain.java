@@ -164,6 +164,7 @@ public class FrameMain extends JFrame {
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
                         boolean uninstallResult = pySup.removeCondaInstallation();
+                        System.out.println("uninstallation: "+uninstallResult);
                         if(uninstallResult) {
                             JOptionPane.showMessageDialog(FrameLoader,
                                     "All additional files have been removed.\r\n" +
@@ -171,7 +172,7 @@ public class FrameMain extends JFrame {
 
                         }else{
                             JOptionPane.showMessageDialog(FrameLoader,
-                                    "Something went wrong during the uninstall\r\n" +
+                                    "Something went wrong during the uninstallation.\r\n" +
                                             "Try again, if the problem persists, cancel manually the conda installation");
                         }
                         FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
