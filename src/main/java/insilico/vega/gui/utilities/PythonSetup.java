@@ -123,11 +123,23 @@ public class PythonSetup {
         boolean result;
         if(SystemUtils.IS_OS_WINDOWS)
             result = executeCommandLine(null, "cmd.exe", "/c",
-                    "start /wait "+condaInstallationPath.toAbsolutePath().toString()
+                    "start /wait \"\" "+condaInstallationPath.toAbsolutePath().toString()
                             +"\\Uninstall-Miniconda3.exe /S");
         else
             result = executeCommandLine(null, "bash", "-c",
                     "rm -rf "+condaInstallationPath.toAbsolutePath().toString());
+
+
+        String folderToRemove;
+        if(SystemUtils.IS_OS_WINDOWS)
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "\\vega\\").toString();
+        else
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "/vega/").toString();
+
+        FileUtilities.deleteFolder(folderToRemove);
+
         return result;
     }
 
