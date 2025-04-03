@@ -129,11 +129,12 @@ public class PythonSetup {
             result = executeCommandLine(null, "bash", "-c",
                     "rm -rf "+condaInstallationPath.toAbsolutePath().toString());
 
-
-//        String folderToRemove = Paths.get(System.getProperty("user.home"), "vega").toString();
-//        FileUtilities.deleteFolder(folderToRemove);
-
         return result;
+    }
+
+    public void removeLogFolder() throws IOException {
+        String folderToRemove = Paths.get(System.getProperty("user.home"), "vega", "logs").toString();
+        FileUtilities.deleteFolder(folderToRemove);
     }
 
     private StringBuilder readProcessOutput(InputStream inputStream) throws IOException {

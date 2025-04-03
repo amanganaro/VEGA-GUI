@@ -164,7 +164,8 @@ public class FrameMain extends JFrame {
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
                         boolean uninstallResult = pySup.removeCondaInstallation();
-                        System.out.println("uninstallation: "+uninstallResult);
+                        LogManager.shutdown();
+                        pySup.removeLogFolder();
                         if(uninstallResult) {
                             JOptionPane.showMessageDialog(FrameLoader,
                                     "All additional files have been removed.\r\n" +
@@ -175,6 +176,7 @@ public class FrameMain extends JFrame {
                                     "Something went wrong during the uninstallation.\r\n" +
                                             "Try again, if the problem persists, cancel manually the conda installation");
                         }
+
                         FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
                         return false;
                     }
@@ -2440,15 +2442,11 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         fLoader.setVisible(true);
         if(VegaVersion.UNINSTALL_VEGA){
             var selection = JOptionPane.showOptionDialog(fLoader,
-                    "VEGA is going to be uninstalled, all the conda environments will be removed.\r\n" +
-                            "This will remove also all the support files for the python models.\r\n" +
-                            "Note that Conda will not be uninstalled.",
+                    "VEGA is going to be uninstalled.",
                     "Uninstalling VEGA",
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE,
                     null,null, null);
-
-            System.out.println(selection);
 
             if(selection == 0) {
                 pySup.removeALlPythonFolders();
