@@ -13,6 +13,7 @@ import java.util.Map;
 public class PythonSetup {
 
     private static final Logger LOGGER = LogManager.getLogger();
+    private Path vegaInstallationPath = Paths.get(System.getProperty("user.home"), "vega");
     private Path condaInstallationPath = Paths.get(System.getProperty("user.home"), "vega", "conda");
 
     public PythonSetup(){
@@ -32,9 +33,11 @@ public class PythonSetup {
     public boolean installPython() throws InterruptedException, IOException {
         boolean result = false;
         if(SystemUtils.IS_OS_WINDOWS){
-            result=executeCommandLine(null,"cmd.exe", "/c", "curl https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe -o python-amd64.exe");
+            result=executeCommandLine(null,"cmd.exe", "/c",
+                    "curl https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe -o python-amd64.exe");
             if(result){
-                result=executeCommandLine(null,"cmd.exe", "/c","\"python-amd64.exe\" /passive InstallAllUsers=1 Include_launcher=0 Include_test=0 PrependPath=1 Include_doc=0 && exit");
+                result=executeCommandLine(null,"cmd.exe", "/c",
+                        "\"python-amd64.exe\" /passive InstallAllUsers=1 Include_launcher=0 Include_test=0 PrependPath=1 Include_doc=0 && exit");
                 if(result){
                     result=executeCommandLine(null, "cmd.exe", "/c", "del python-amd64.exe");
                 }
@@ -52,20 +55,26 @@ public class PythonSetup {
         boolean result = false;
 
         if(SystemUtils.IS_OS_WINDOWS){
-            result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o miniconda.exe");
+            result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o "+
+                    vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
             if(result){
-                result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" .\\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D="+condaInstallationPath.toAbsolutePath().toString());
+                result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" " +
+                        vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D=" +
+                        condaInstallationPath.toAbsolutePath().toString());
                 if(result){
-                    result = executeCommandLine(null, "cmd.exe", "/c", "del miniconda.exe");
+                    result = executeCommandLine(null, "cmd.exe", "/c", "del " +
+                            vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
                 }
             }
         }else if(SystemUtils.IS_OS_LINUX){
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
             if(result){
-                result = executeCommandLine(null,"bash", "-c", "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
+                result = executeCommandLine(null,"bash", "-c",
+                        "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
                         "-O ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
                 if(result){
-                    result = executeCommandLine(null, "bash","-c", "~/vega/miniconda.sh -b -f -p "+condaInstallationPath.toAbsolutePath().toString());
+                    result = executeCommandLine(null, "bash","-c",
+                            "~/vega/miniconda.sh -b -f -p "+condaInstallationPath.toAbsolutePath().toString());
                     if(result) {
                         result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
                     }
