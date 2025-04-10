@@ -161,6 +161,10 @@ public class FrameMain extends JFrame {
                         loadingMessenger.SendMessage("Checking CDDD descriptors environment");
                     CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA, loadingMessenger);
                     cdddDescriptors.dispose();
+
+                    //clean conda installation
+                    pySup.cleanConda();
+
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
                         boolean uninstallResult = pySup.removeCondaInstallation();

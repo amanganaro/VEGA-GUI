@@ -1,6 +1,7 @@
 package insilico.vega.gui.utilities;
 
 import insilico.core.tools.utils.FileUtilities;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -93,6 +94,27 @@ public class PythonSetup {
             executeCommandLine(null, "bash", "-c", "conda init bash");
         }
 
+    }
+
+    /*
+    * Clean cache of conda, that remove all packages in cache. Also remove conda pkgs folder containing (only for windows)
+    * because it contains the packages that are duplicate in each env. This reduces the space by half of original one.
+    * */
+    public void cleanConda() throws IOException, InterruptedException {
+
+        if(SystemUtils.IS_OS_WINDOWS){
+            Path p = Paths.get(condaInstallationPath.toAbsolutePath().toString(), "pkgs");
+            if(!FileUtils.isEmptyDirectory(new File(p.toString()))){
+                FileUtils.cleanDirectory(new File(p.toString()));
+                executeCommandLine(null,"cmd.exe", "/c",
+                        condaInstallationPath.toAbsolutePath().toString()
+                                +"\\Scripts\\activate.bat && conda clean --all --yes");
+            }
+        }else{
+            executeCommandLine(null, "bash", "-c",
+                    "source "+condaInstallationPath.toAbsolutePath().toString()
+                            +"/bin/activate && conda clean --all --yes");
+        }
     }
 
     public boolean checkConda() throws IOException, InterruptedException {
