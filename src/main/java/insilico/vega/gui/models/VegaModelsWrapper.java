@@ -1,10 +1,12 @@
 package insilico.vega.gui.models;
 
+import insilico.core.exception.GenericFailureException;
 import insilico.core.exception.InitFailureException;
 import insilico.core.model.*;
 import insilico.core.model.runner.iInsilicoModelRunnerMessenger;
 import insilico.core.tools.utils.GeneralUtilities;
 import insilico.models.dispatcher.ModelDispatcher;
+import insilico.models.exception.ModelNotFoundException;
 import insilico.vega.gui.resources.VegaVersion;
 
 import java.util.ArrayList;
@@ -115,7 +117,7 @@ public class VegaModelsWrapper {
             VegaEndpoint ep = new VegaEndpoint(vegaEP.Name, vegaEP.Section);
             for (String modelTag : vegaEP.Models) {
                 try {
-                    InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger, VegaVersion.UNINSTALL_VEGA);
+                    InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger, true);
                     if(VegaVersion.UNINSTALL_VEGA){
                         if(InsilicoModelPython.class.isAssignableFrom(m.getClass())){
                             ((InsilicoModelPython) m).removeCondaEnv();
@@ -156,7 +158,15 @@ public class VegaModelsWrapper {
         }
 
     }
-    
+
+    public ArrayList<InsilicoModel> GetAllInsilicoModels() {
+        ArrayList<InsilicoModel> Res = new ArrayList<>();
+        for (VegaEndpoint ep : Endpoints)
+            for (VegaModel model : ep.Models)
+                Res.add((InsilicoModel)model.Model);
+        return Res;
+    }
+
     
     public ArrayList<InsilicoModel> GetSelectedModels() {
         ArrayList<InsilicoModel> Res = new ArrayList<>();
@@ -174,5 +184,9 @@ public class VegaModelsWrapper {
                 if (model.Selected)
                     Res.add(model.Model);
         return Res;
+    }
+
+    public void InitSingleModel(String modelTag, iInsilicoModelRunnerMessenger messenger) throws ModelNotFoundException, InitFailureException, GenericFailureException {
+        InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger, false);
     }
 }

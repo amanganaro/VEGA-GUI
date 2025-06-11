@@ -1,6 +1,7 @@
 package insilico.vega.gui;
 
 
+import insilico.core.model.InsilicoModelPython;
 import insilico.core.python.CdddDescriptors;
 import insilico.vega.gui.models.VegaModelsWrapper;
 import insilico.core.exception.GenericFailureException;
@@ -29,6 +30,8 @@ import insilico.core.tools.utils.GeneralUtilities;
 //import insilico.core.tools.GeneralUtilities;
 //import insilico.core.tools.logger.InsilicoLogger;
 import insilico.vega.gui.resources.VegaVersion;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -48,8 +51,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
         
 
@@ -156,7 +157,19 @@ public class FrameMain extends JFrame {
                     };
                     Models = new VegaModelsWrapper(loadingMessenger);
 
-                    //FOR FUTURE OTHER DESCRIPTORS MAKE AN AUTOMATED IMPLEMENTATION AS MODELS
+                    ArrayList<String> toCheckEnv = new ArrayList<>();
+                    //check conda environments
+                    for(InsilicoModel im : Models.GetAllInsilicoModels()){
+                        if(InsilicoModelPython.class.isAssignableFrom(im.getClass())){
+                            boolean isPresent = toCheckEnv.stream().anyMatch(
+                                    condaEnv -> condaEnv.equals(((InsilicoModelPython) im).getCondaEnv()));
+                            if(!isPresent){
+                                Models.InitSingleModel(im.getInfo().getKey(), loadingMessenger);
+                                toCheckEnv.add(((InsilicoModelPython) im).getCondaEnv());
+                            }
+                        }
+                    }
+
                     if(!VegaVersion.UNINSTALL_VEGA)
                         loadingMessenger.SendMessage("Checking CDDD descriptors environment");
                     CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA, loadingMessenger);
