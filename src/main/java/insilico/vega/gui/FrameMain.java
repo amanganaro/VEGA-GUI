@@ -157,21 +157,24 @@ public class FrameMain extends JFrame {
                     };
                     Models = new VegaModelsWrapper(loadingMessenger);
 
-                    ArrayList<String> toCheckEnv = new ArrayList<>();
-                    //check conda environments
-                    for(InsilicoModel im : Models.GetAllInsilicoModels()){
-                        if(InsilicoModelPython.class.isAssignableFrom(im.getClass())){
-                            boolean isPresent = toCheckEnv.stream().anyMatch(
-                                    condaEnv -> condaEnv.equals(((InsilicoModelPython) im).getCondaEnv()));
-                            if(!isPresent){
-                                Models.InitSingleModel(im.getInfo().getKey(), loadingMessenger);
-                                toCheckEnv.add(((InsilicoModelPython) im).getCondaEnv());
+                    if(!VegaVersion.UNINSTALL_VEGA) {
+
+                        ArrayList<String> toCheckEnv = new ArrayList<>();
+                        //check conda environments
+                        for (InsilicoModel im : Models.GetAllInsilicoModels()) {
+                            if (InsilicoModelPython.class.isAssignableFrom(im.getClass())) {
+                                boolean isPresent = toCheckEnv.stream().anyMatch(
+                                        condaEnv -> condaEnv.equals(((InsilicoModelPython) im).getCondaEnv()));
+                                if (!isPresent) {
+                                    Models.InitSingleModel(im.getInfo().getKey(), loadingMessenger);
+                                    toCheckEnv.add(((InsilicoModelPython) im).getCondaEnv());
+                                }
                             }
                         }
+
+                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
                     }
 
-                    if(!VegaVersion.UNINSTALL_VEGA)
-                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
                     CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA, loadingMessenger);
                     cdddDescriptors.dispose();
 
@@ -181,6 +184,8 @@ public class FrameMain extends JFrame {
                     if(VegaVersion.UNINSTALL_VEGA){
                         cdddDescriptors.removeCondaEnv();
                         boolean uninstallResult = pySup.removeCondaInstallation();
+                        pySup.removeALlPythonFolders();
+
                         LogManager.shutdown();
                         pySup.removeLogFolder();
                         if(uninstallResult) {
@@ -2465,10 +2470,7 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
                     JOptionPane.WARNING_MESSAGE,
                     null,null, null);
 
-            if(selection == 0) {
-                pySup.removeALlPythonFolders();
-            }
-            else{
+            if(selection != 0) {
                 fLoader.dispatchEvent(new WindowEvent(fLoader, WindowEvent.WINDOW_CLOSING));
                 return;
             }
