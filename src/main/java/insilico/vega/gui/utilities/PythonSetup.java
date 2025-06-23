@@ -56,7 +56,8 @@ public class PythonSetup {
         boolean result = false;
 
         if(SystemUtils.IS_OS_WINDOWS){
-            result = executeCommandLine(null,"cmd.exe", "/c", "curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o "+
+            result = executeCommandLine(null,"cmd.exe", "/c",
+                    "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o "+
                     vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
             if(result){
                 result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" " +
