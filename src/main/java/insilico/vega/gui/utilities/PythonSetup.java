@@ -66,6 +66,10 @@ public class PythonSetup {
                 if(result){
                     result = executeCommandLine(null, "cmd.exe", "/c", "del " +
                             vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+                    if(result){
+                        result=executeCommandLine(null, "cmd.exe", "/c",
+                                condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\activate.bat && conda tos accept");
+                    }
                 }
             }
         }else if(SystemUtils.IS_OS_LINUX){
@@ -79,6 +83,10 @@ public class PythonSetup {
                             "~/vega/miniconda.sh -b -f -p "+condaInstallationPath.toAbsolutePath().toString());
                     if(result) {
                         result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
+                        if(result){
+                            result = executeCommandLine(null, "bash", "-c",
+                                    "source "+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate && conda tos accept");
+                        }
                     }
                 }
             }
