@@ -108,6 +108,7 @@ public class PythonSetup {
     /*
     * Clean cache of conda, that remove all packages in cache. Also remove conda pkgs folder containing (only for windows)
     * because it contains the packages that are duplicate in each env. This reduces the space by half of original one.
+    * Also remove other (apparently) not needed files
     * */
     public void cleanConda() throws IOException, InterruptedException {
 
@@ -115,10 +116,15 @@ public class PythonSetup {
             Path p = Paths.get(condaInstallationPath.toAbsolutePath().toString(), "pkgs");
             if(!FileUtils.isEmptyDirectory(new File(p.toString()))){
                 FileUtils.cleanDirectory(new File(p.toString()));
-                executeCommandLine(null,"cmd.exe", "/c",
-                        condaInstallationPath.toAbsolutePath().toString()
-                                +"\\Scripts\\activate.bat && conda clean --all --yes");
             }
+
+            executeCommandLine(null,"cmd.exe", "/c", condaInstallationPath.toAbsolutePath().toString()
+                    +"\\Scripts\\activate.bat && conda clean --all --yes");
+
+            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.a");
+            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.pyc");
+            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.js.map");
+
         }else{
             executeCommandLine(null, "bash", "-c",
                     "source "+condaInstallationPath.toAbsolutePath().toString()
