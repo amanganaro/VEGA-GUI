@@ -122,7 +122,6 @@ public class PythonSetup {
                     +"\\Scripts\\activate.bat && conda clean --all --yes");
 
             executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.a");
-            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.pyc");
             executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.js.map");
 
         }else{
