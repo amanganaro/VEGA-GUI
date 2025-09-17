@@ -17,8 +17,8 @@ public class VegaVersion {
     public static boolean UNINSTALL_VEGA = false;
 
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "28/08/2025";
-    public final static String Version = "1.2.5b16";
+    public final static String BuildDate = "17/09/2025";
+    public final static String Version = "1.2.5b17";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
     public final static int VersionRevision = 5;
@@ -29,5 +29,4 @@ public class VegaVersion {
         "jPMML ver 1.5.6"};
     
     public final static String GUIDE_URL = "/resources/manual-1.2.4.pdf";
-    
 }
