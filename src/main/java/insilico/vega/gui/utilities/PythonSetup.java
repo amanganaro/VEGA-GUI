@@ -90,6 +90,25 @@ public class PythonSetup {
                     }
                 }
             }
+        }else if(SystemUtils.IS_OS_MAC){
+            //controllare se viene usato zsh o bash come default shell
+            result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
+            if(result){
+                result = executeCommandLine(null,"bash", "-c",
+                        "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh " +
+                                "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
+                if(result){
+                    result = executeCommandLine(null, "bash","-c",
+                            "~/vega/miniconda.sh -b -p "+condaInstallationPath.toAbsolutePath().toString());
+                    if(result) {
+                        result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
+                        if(result){
+                            result = executeCommandLine(null, "bash", "-c",
+                                    "source "+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate && conda tos accept");
+                        }
+                    }
+                }
+            }
         }
 
         return result;
@@ -125,6 +144,7 @@ public class PythonSetup {
             executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.js.map");
 
         }else{
+            // dovrebbe andare bene anche per mac -- controllare
             executeCommandLine(null, "bash", "-c",
                     "source "+condaInstallationPath.toAbsolutePath().toString()
                             +"/bin/activate && conda clean --all --yes");
@@ -145,21 +165,27 @@ public class PythonSetup {
     }
 
     public void removeALlPythonFolders() throws IOException {
-        String folderToRemove;
+        String folderToRemove = "";
         if(SystemUtils.IS_OS_WINDOWS)
              folderToRemove = Paths.get(System.getProperty("user.home"),
                 "\\AppData\\Local\\vega-models\\").toString();
-        else
+        else if(SystemUtils.IS_OS_LINUX)
             folderToRemove = Paths.get(System.getProperty("user.home"),
                     "/.local/share/vega-models/").toString();
+        else if(SystemUtils.IS_OS_MAC)
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "/Library/Application Support/vega-models/").toString();
 
         FileUtilities.deleteFolder(folderToRemove);
         if(SystemUtils.IS_OS_WINDOWS)
             folderToRemove = Paths.get(System.getProperty("user.home"),
                     "\\AppData\\Local\\cddd\\").toString();
-        else
+        else if(SystemUtils.IS_OS_LINUX)
             folderToRemove = Paths.get(System.getProperty("user.home"),
                     "/.local/share/cddd/").toString();
+        else if(SystemUtils.IS_OS_MAC)
+            folderToRemove = Paths.get(System.getProperty("user.home"),
+                    "/Library/Application Support/cddd/").toString();
 
         FileUtilities.deleteFolder(folderToRemove);
     }
