@@ -79,9 +79,9 @@ public class PythonSetup {
                 }
             }
             else{
-                // problem with download, delete the miniconda.exe
+                // problem with download, delete the vega folder
                 result = executeCommandLine(null, "cmd.exe", "/c", "del " +
-                        vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+                        vegaInstallationPath.toAbsolutePath().toString());
             }
         }else if(SystemUtils.IS_OS_LINUX){
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
@@ -107,8 +107,8 @@ public class PythonSetup {
                     }
                 }
                 else{
-                    // problem with download, delete the miniconda.sh
-                    result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
+                    // problem with download, delete the vega folder
+                    result = executeCommandLine(null, "bash", "-c", "rm -r ~/vega");
                 }
             }
         }else if(SystemUtils.IS_OS_MAC){
@@ -136,8 +136,8 @@ public class PythonSetup {
                     }
                 }
                 else{
-                    // problem with download, delete the miniconda.sh
-                    result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
+                    // problem with download, delete the vega folder
+                    result = executeCommandLine(null, "bash", "-c", "rm -r ~/vega");
                 }
             }
         }
