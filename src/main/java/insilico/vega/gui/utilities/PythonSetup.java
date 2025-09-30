@@ -56,9 +56,15 @@ public class PythonSetup {
         boolean result = false;
 
         if(SystemUtils.IS_OS_WINDOWS){
-            result = executeCommandLine(null,"cmd.exe", "/c",
-                    "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o "+
-                    vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+            result = executeCommandLine(null,"cmd.exe", "/c", "curl --version");
+            if(result)
+                result = executeCommandLine(null,"cmd.exe", "/c",
+                        "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o "+
+                                vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+            else
+                result = executeCommandLine(null,"cmd.exe", "/c",
+                        "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -O "+
+                                vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
             if(result){
                 result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" " +
                         vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D=" +
@@ -75,9 +81,15 @@ public class PythonSetup {
         }else if(SystemUtils.IS_OS_LINUX){
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
             if(result){
-                result = executeCommandLine(null,"bash", "-c",
-                        "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
-                        "-O ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
+                result = executeCommandLine(null, "bash", "-c", "curl --version");
+                if(result)
+                    result = executeCommandLine(null,"bash", "-c",
+                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
+                                    "-O ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
+                else
+                    result = executeCommandLine(null,"bash", "-c",
+                            "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
+                                    "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
                             "~/vega/miniconda.sh -b -f -p "+condaInstallationPath.toAbsolutePath().toString());
@@ -94,9 +106,15 @@ public class PythonSetup {
             //controllare se viene usato zsh o bash come default shell
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
             if(result){
-                result = executeCommandLine(null,"bash", "-c",
-                        "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh " +
-                                "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
+                result = executeCommandLine(null, "bash", "-c", "curl --version");
+                if(result)
+                    result = executeCommandLine(null,"bash", "-c",
+                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh " +
+                                    "-o ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
+                else
+                    result = executeCommandLine(null,"bash", "-c",
+                            "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh " +
+                                    "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
                             "~/vega/miniconda.sh -b -p "+condaInstallationPath.toAbsolutePath().toString());
