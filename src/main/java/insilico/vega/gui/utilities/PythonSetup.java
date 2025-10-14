@@ -59,11 +59,11 @@ public class PythonSetup {
             result = executeCommandLine(null,"cmd.exe", "/c", "curl --version");
             if(result)
                 result = executeCommandLine(null,"cmd.exe", "/c",
-                        "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o "+
+                        "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Windows-x86_64.exe -o "+
                                 vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
             else
                 result = executeCommandLine(null,"cmd.exe", "/c",
-                        "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -O "+
+                        "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Windows-x86_64.exe -O "+
                                 vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
             if(result){
                 result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" " +
@@ -89,11 +89,11 @@ public class PythonSetup {
                 result = executeCommandLine(null, "bash", "-c", "curl --version");
                 if(result)
                     result = executeCommandLine(null,"bash", "-c",
-                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
+                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Linux-x86_64.sh " +
                                     "-O ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
                 else
                     result = executeCommandLine(null,"bash", "-c",
-                            "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh " +
+                            "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Linux-x86_64.sh " +
                                     "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
@@ -118,11 +118,11 @@ public class PythonSetup {
                 result = executeCommandLine(null, "bash", "-c", "curl --version");
                 if(result)
                     result = executeCommandLine(null,"bash", "-c",
-                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh " +
+                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-MacOSX-x86_64.sh " +
                                     "-o ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 else
                     result = executeCommandLine(null,"bash", "-c",
-                            "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh " +
+                            "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-MacOSX-x86_64.sh " +
                                     "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
@@ -175,7 +175,6 @@ public class PythonSetup {
             executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.js.map");
 
         }else{
-            // dovrebbe andare bene anche per mac -- controllare
             executeCommandLine(null, "bash", "-c",
                     "source "+condaInstallationPath.toAbsolutePath().toString()
                             +"/bin/activate && conda clean --all --yes");
