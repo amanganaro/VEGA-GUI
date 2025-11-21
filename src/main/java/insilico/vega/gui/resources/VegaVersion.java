@@ -17,11 +17,11 @@ public class VegaVersion {
     public static boolean UNINSTALL_VEGA = false;
 
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "21/10/2025";
-    public final static String Version = "1.2.5";
+    public final static String BuildDate = "21/11/2025";
+    public final static String Version = "1.2.6b1";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
-    public final static int VersionRevision = 5;
+    public final static int VersionRevision = 6;
     public final static String[] Libraries = {
         "Chemistry Development Kit (CDK) ver 2.3",
         "OpenPDF ver 1.3",
