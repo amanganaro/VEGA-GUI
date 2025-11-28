@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -17,8 +18,8 @@ public class PythonSetup {
     private Path vegaInstallationPath = Paths.get(System.getProperty("user.home"), "vega");
     private Path condaInstallationPath = Paths.get(System.getProperty("user.home"), "vega", "conda");
 
-    public PythonSetup(){
-
+    public PythonSetup() throws IOException {
+        Files.createDirectories(vegaInstallationPath);
     }
 
     public boolean checkPython() throws IOException, InterruptedException {
@@ -55,26 +56,30 @@ public class PythonSetup {
     public boolean installConda() throws IOException, InterruptedException {
         boolean result = false;
 
+
         if(SystemUtils.IS_OS_WINDOWS){
+
+            String pathToMiniconda = Paths.get(vegaInstallationPath.toString(), "miniconda.exe").toAbsolutePath().toString();
             result = executeCommandLine(null,"cmd.exe", "/c", "curl --version");
             if(result)
                 result = executeCommandLine(null,"cmd.exe", "/c",
                         "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Windows-x86_64.exe -o "+
-                                vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+                                "\"" + pathToMiniconda + "\"");
             else
                 result = executeCommandLine(null,"cmd.exe", "/c",
                         "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Windows-x86_64.exe -O "+
-                                vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+                                "\"" + pathToMiniconda + "\"");
             if(result){
                 result = executeCommandLine( null,"cmd.exe", "/c", "start /wait \"\" " +
-                        vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D=" +
+                        "\"" + pathToMiniconda + "\"" + " /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D=" +
+                        //here the quotes has not to be inserted as conda /D parameter works without them. Even there are spaces in path
                         condaInstallationPath.toAbsolutePath().toString());
                 if(result){
-                    result = executeCommandLine(null, "cmd.exe", "/c", "del " +
-                            vegaInstallationPath.toAbsolutePath().toString()+"\\miniconda.exe");
+                    result = executeCommandLine(null, "cmd.exe", "/c", "del " + "\""+pathToMiniconda+"\"");
                     if(result){
+                        String pathToActivateBat = Paths.get(condaInstallationPath.toString(), "Scripts", "activate.bat").toAbsolutePath().toString();
                         result=executeCommandLine(null, "cmd.exe", "/c",
-                                condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\activate.bat && conda tos accept");
+                                "\""+pathToActivateBat+"\""+" && conda tos accept");
                     }
                 }
             }
@@ -102,7 +107,8 @@ public class PythonSetup {
                         result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
                         if(result){
                             result = executeCommandLine(null, "bash", "-c",
-                                    "source "+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate && conda tos accept");
+                                    "source "+"\""+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate" + "\"" +
+                                            " && conda tos accept");
                         }
                     }
                 }
@@ -126,12 +132,13 @@ public class PythonSetup {
                                     "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
-                            "~/vega/miniconda.sh -b -p "+condaInstallationPath.toAbsolutePath().toString());
+                            "~/vega/miniconda.sh -b -p " + condaInstallationPath.toAbsolutePath().toString());
                     if(result) {
                         result = executeCommandLine(null, "bash", "-c", "rm ~/vega/miniconda.sh");
                         if(result){
                             result = executeCommandLine(null, "bash", "-c",
-                                    "source "+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate && conda tos accept");
+                                    "source " + "\"" + condaInstallationPath.toAbsolutePath().toString() + "/bin/activate" + "\"" +
+                                            " && conda tos accept");
                         }
                     }
                 }
@@ -168,16 +175,19 @@ public class PythonSetup {
                 FileUtils.cleanDirectory(new File(p.toString()));
             }
 
-            executeCommandLine(null,"cmd.exe", "/c", condaInstallationPath.toAbsolutePath().toString()
-                    +"\\Scripts\\activate.bat && conda clean --all --yes");
+            executeCommandLine(null,"cmd.exe", "/c", "\""+condaInstallationPath.toAbsolutePath().toString()
+                    +"\\Scripts\\activate.bat" + "\"" + " && conda clean --all --yes");
 
-            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.a");
-            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " + condaInstallationPath.toAbsolutePath().toString() +"\\*.js.map");
+            executeCommandLine(null,"cmd.exe", "/c", "del /s /q "+
+                    "\"" + condaInstallationPath.toAbsolutePath().toString() +"\\*.a"+"\"");
+            executeCommandLine(null,"cmd.exe", "/c", "del /s /q " +
+                    "\""+condaInstallationPath.toAbsolutePath().toString() +"\\*.js.map"+"\"");
 
         }else{
             executeCommandLine(null, "bash", "-c",
-                    "source "+condaInstallationPath.toAbsolutePath().toString()
-                            +"/bin/activate && conda clean --all --yes");
+                    "source " + "\"" + condaInstallationPath.toAbsolutePath().toString()
+                            + "/bin/activate" + "\"" +
+                            " && conda clean --all --yes");
         }
     }
 
@@ -186,10 +196,12 @@ public class PythonSetup {
 
         if(SystemUtils.IS_OS_WINDOWS){
             result=executeCommandLine(null, "cmd.exe", "/c",
-                    condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\activate.bat && conda --version");
+                    "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\activate.bat" + "\"" +
+                            " && conda --version");
         }else {
             result = executeCommandLine(null, "bash", "-c",
-                    "source "+condaInstallationPath.toAbsolutePath().toString()+"/bin/activate && conda --version");
+                    "source " + "\"" + condaInstallationPath.toAbsolutePath().toString()+"/bin/activate" + "\""+
+                            " && conda --version");
         }
         return result;
     }
@@ -224,11 +236,11 @@ public class PythonSetup {
         boolean result;
         if(SystemUtils.IS_OS_WINDOWS)
             result = executeCommandLine(null, "cmd.exe", "/c",
-                    "start /wait \"\" "+condaInstallationPath.toAbsolutePath().toString()
-                            +"\\Uninstall-Miniconda3.exe /S");
+                    "start /wait \"\" " + "\"" + condaInstallationPath.toAbsolutePath().toString()
+                            + "\\Uninstall-Miniconda3.exe" + "\"" + " /S");
         else
             result = executeCommandLine(null, "bash", "-c",
-                    "rm -rf "+condaInstallationPath.toAbsolutePath().toString());
+                    "rm -rf " + "\"" + condaInstallationPath.toAbsolutePath().toString() + "\"");
 
         return result;
     }
