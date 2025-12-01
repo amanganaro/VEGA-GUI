@@ -95,7 +95,7 @@ public class PythonSetup {
                 if(result)
                     result = executeCommandLine(null,"bash", "-c",
                             "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Linux-x86_64.sh " +
-                                    "-O ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
+                                    "-o ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
                 else
                     result = executeCommandLine(null,"bash", "-c",
                             "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Linux-x86_64.sh " +
