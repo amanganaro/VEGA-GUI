@@ -2459,6 +2459,9 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
      * 
      */
     public static void launch() throws IOException {
+
+        LOGGER.info("================ NEW SESSION OF VEGA STARTED ================");
+
         pySup=new PythonSetup();
         FrameLoading fLoader=new FrameLoading(VegaVersion.UNINSTALL_VEGA ? "Uninstalling VEGA..." : "Starting VEGA...");
         fLoader.setVisible(true);

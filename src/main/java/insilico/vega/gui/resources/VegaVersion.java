@@ -17,8 +17,8 @@ public class VegaVersion {
     public static boolean UNINSTALL_VEGA = false;
 
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "28/11/2025";
-    public final static String Version = "1.2.6b3";
+    public final static String BuildDate = "01/12/2025";
+    public final static String Version = "1.2.6b4";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
     public final static int VersionRevision = 6;

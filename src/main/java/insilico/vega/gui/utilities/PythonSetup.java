@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Map;
 
 public class PythonSetup {
@@ -79,7 +80,7 @@ public class PythonSetup {
                     if(result){
                         String pathToActivateBat = Paths.get(condaInstallationPath.toString(), "Scripts", "activate.bat").toAbsolutePath().toString();
                         result=executeCommandLine(null, "cmd.exe", "/c",
-                                "\""+pathToActivateBat+"\""+" && conda tos accept");
+                                "\""+pathToActivateBat+"\" && conda tos accept");
                     }
                 }
             }
@@ -262,6 +263,8 @@ public class PythonSetup {
 
     private boolean executeCommandLine(Map<String, String> envVariables, String... commands) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
+        String commandString = String.join(" ", commands);
+        LOGGER.info("Process builder command: {}", commandString);
 
         if(envVariables != null) {
             envVariables.forEach((key, value) ->
@@ -270,7 +273,7 @@ public class PythonSetup {
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         String s = readProcessOutput(process.getInputStream()).toString();
-        LOGGER.info("Process builder: {}",s);
+        LOGGER.info("Process builder result: {}",s);
         int exitCode = process.waitFor();
         return exitCode == 0;
     }
