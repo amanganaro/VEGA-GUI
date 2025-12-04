@@ -10,7 +10,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Map;
 
 public class PythonSetup {
@@ -78,9 +77,9 @@ public class PythonSetup {
                 if(result){
                     result = executeCommandLine(null, "cmd.exe", "/c", "del " + "\""+pathToMiniconda+"\"");
                     if(result){
-                        String pathToActivateBat = Paths.get(condaInstallationPath.toString(), "Scripts", "activate.bat").toAbsolutePath().toString();
                         result=executeCommandLine(null, "cmd.exe", "/c",
-                                "\""+pathToActivateBat+"\" && conda tos accept");
+                                "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\python.exe\" " +
+                                        "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\conda-script.py\" tos accept");
                     }
                 }
             }
@@ -176,8 +175,9 @@ public class PythonSetup {
                 FileUtils.cleanDirectory(new File(p.toString()));
             }
 
-            executeCommandLine(null,"cmd.exe", "/c", "\""+condaInstallationPath.toAbsolutePath().toString()
-                    +"\\Scripts\\activate.bat" + "\"" + " && conda clean --all --yes");
+            executeCommandLine(null, "cmd.exe", "/c",
+                    "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\python.exe\" " +
+                            "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\conda-script.py\" clean --all --yes");
 
             executeCommandLine(null,"cmd.exe", "/c", "del /s /q "+
                     "\"" + condaInstallationPath.toAbsolutePath().toString() +"\\*.a"+"\"");
@@ -197,8 +197,8 @@ public class PythonSetup {
 
         if(SystemUtils.IS_OS_WINDOWS){
             result=executeCommandLine(null, "cmd.exe", "/c",
-                    "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\activate.bat" + "\"" +
-                            " && conda --version");
+                    "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\python.exe\" " +
+                            "\"" + condaInstallationPath.toAbsolutePath().toString()+"\\Scripts\\conda-script.py\" --version");
         }else {
             result = executeCommandLine(null, "bash", "-c",
                     "source " + "\"" + condaInstallationPath.toAbsolutePath().toString()+"/bin/activate" + "\""+
