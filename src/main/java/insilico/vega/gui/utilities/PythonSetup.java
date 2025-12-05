@@ -164,7 +164,7 @@ public class PythonSetup {
 
     /*
     * Clean cache of conda, that remove all packages in cache. Also remove conda pkgs folder containing (only for windows)
-    * because it contains the packages that are duplicate in each env. This reduces the space by half of original one.
+    * because it contains the packages that are duplicate in each env. This reduces the space by half of the original one.
     * Also remove other (apparently) not needed files
     * */
     public void cleanConda() throws IOException, InterruptedException {
