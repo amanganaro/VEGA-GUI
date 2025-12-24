@@ -1,5 +1,6 @@
 package insilico.vega.gui;
 
+import insilico.core.model.InsilicoModelPython;
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
 import insilico.models.dispatcher.ModelDispatcher;
@@ -106,6 +107,20 @@ public class PanelEndpointGroup extends JPanel {
             ComboboxSelectAll.setForeground(new Color(54, 96, 181));
             ComboboxSelectAll.setText(" Select all models");
             ComboboxSelectAll.setRequestFocusEnabled(false);
+
+            //check if all models in endpoint are python and they are disabled
+            boolean isEnabled = false;
+            for(int i = 0; i < EP.Models.size(); i++) {
+                iInsilicoModel curModel = EP.Models.get(i).Model;
+                if(VegaVersion.USE_PYTHON_MODELS && InsilicoModelPython.class.isAssignableFrom(curModel.getClass())){
+                    isEnabled = true;
+                }
+                else if(!InsilicoModelPython.class.isAssignableFrom(curModel.getClass())){
+                    isEnabled = true;
+                }
+            }
+            ComboboxSelectAll.setEnabled(isEnabled);
+
             ComboboxSelectAll.addItemListener(new java.awt.event.ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent evt) {
@@ -128,8 +143,13 @@ public class PanelEndpointGroup extends JPanel {
             CurCB.setFont(new Font("Verdana", 0, 12));
             CurCB.setForeground(new Color(54, 96, 181));
             CurCB.setText(" " + curModel.getInfo().getName() + " - v. " + curModel.getInfo().getVersion());
-            CurCB.setRequestFocusEnabled(false);            
-            CurCB.addActionListener(new CBListener(CurCB, EP.Models.get(i))  );            
+            CurCB.setRequestFocusEnabled(false);
+            CurCB.addActionListener(new CBListener(CurCB, EP.Models.get(i))  );
+
+            if(!VegaVersion.USE_PYTHON_MODELS && InsilicoModelPython.class.isAssignableFrom(curModel.getClass())){
+                CurCB.setEnabled(false);
+            }
+
             ComboboxModels[idx] = CurCB;
             this.add(ComboboxModels[idx], new org.netbeans.lib.awtextra.AbsoluteConstraints(H_OFFSET_CHECKBOX, CurYPos, -1, -1));
 
@@ -245,8 +265,17 @@ public class PanelEndpointGroup extends JPanel {
         for (JCheckBox ComboboxModel : ComboboxModels) {
             ComboboxModel.setSelected(status);
         }
-        for (VegaModelsWrapper.VegaModel m : EP.Models)
-            m.Selected = status;
+
+        int indexDisabled = 0;
+        for (VegaModelsWrapper.VegaModel m : EP.Models) {
+            if(VegaVersion.USE_PYTHON_MODELS || !InsilicoModelPython.class.isAssignableFrom(m.Model.getClass())){
+                m.Selected = status;
+            }
+            else{
+                ComboboxModels[indexDisabled].setSelected(false);
+            }
+            indexDisabled++;
+        }
         for (VegaModelsWrapper.VegaModelConsensus m : EP.ModelsConsensus)
             m.Selected = status;
     }

@@ -75,54 +75,10 @@ public class VegaModelsWrapper {
             for (String modelTag : vegaEP.Models) {
                 try {
                     InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag);
-                    ep.AddModel(m);
-                } catch (Exception e) {
-                    throw new InitFailureException(e);
-                }
-            }
-            for (String consTag : vegaEP.ModelsConsensus) {
-                try {
-                    InsilicoModelConsensus m = ModelDispatcher.GetConsensusFromTag(consTag);
-                    ep.AddModelConsensus(m);
-                } catch (Exception e) {
-                    throw new InitFailureException(e);
-                }
-            }
-            Endpoints.add(ep);
-        }
-
-        if (VegaVersion.PRINT_MODEL_LIST_TO_STDOUT) {
-            System.out.println("------------------");
-            System.out.println("No.\tSection\tEndpoint\tModel\tLabel\tType");
-            int n = 1;
-            for (VegaEndpoint e : Endpoints) {
-                for (VegaModel m : e.Models)
-                    System.out.println(n++ + "\t" + ModelDispatcher.SECTION_NAMES[e.Section] + "\t" + e.Name + "\t" + m.Model.getInfo().getName() +
-                            "\t" + m.Model.getInfo().getKey() + "\t" + "Model");
-                for (VegaModelConsensus m : e.ModelsConsensus)
-                    System.out.println(n++ + "\t" + ModelDispatcher.SECTION_NAMES[e.Section] + "\t" + e.Name + "\t" + m.Model.getInfo().getName() +
-                            "\t" + m.Model.getInfo().getKey() + "\t" + "Model");
-            }
-            System.out.println("------------------");
-        }
-
-    }
-
-    public VegaModelsWrapper(iInsilicoModelRunnerMessenger messenger) throws InitFailureException {
-
-        ModelDispatcher MD = new ModelDispatcher();
-        Endpoints = new ArrayList<>();
-
-        for (ModelDispatcher.VegaEndpoint vegaEP : MD.GetOrganizedModels()) {
-            VegaEndpoint ep = new VegaEndpoint(vegaEP.Name, vegaEP.Section);
-            for (String modelTag : vegaEP.Models) {
-                try {
-                    InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger, true);
-                    if(VegaVersion.UNINSTALL_VEGA){
-                        if(InsilicoModelPython.class.isAssignableFrom(m.getClass())){
-                            ((InsilicoModelPython) m).removeCondaEnv();
-                        }
-                    }else{
+                    if(InsilicoModelPython.class.isAssignableFrom(m.getClass()) && VegaVersion.UNINSTALL_VEGA) {
+                        InsilicoModel toRemove = InitSingleModelWithoutEnv(m.getInfo().getKey(), null);
+                        ((InsilicoModelPython) toRemove).removeCondaEnv();
+                    } else {
                         ep.AddModel(m);
                     }
                 } catch (Exception e) {
@@ -140,8 +96,6 @@ public class VegaModelsWrapper {
             Endpoints.add(ep);
         }
 
-
-
         if (VegaVersion.PRINT_MODEL_LIST_TO_STDOUT) {
             System.out.println("------------------");
             System.out.println("No.\tSection\tEndpoint\tModel\tLabel\tType");
@@ -158,6 +112,7 @@ public class VegaModelsWrapper {
         }
 
     }
+
 
     public ArrayList<InsilicoModel> GetAllInsilicoModels() {
         ArrayList<InsilicoModel> Res = new ArrayList<>();
@@ -186,7 +141,22 @@ public class VegaModelsWrapper {
         return Res;
     }
 
-    public void InitSingleModel(String modelTag, iInsilicoModelRunnerMessenger messenger) throws ModelNotFoundException, InitFailureException, GenericFailureException {
-        InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag, messenger, false);
+    public InsilicoModel InitSingleModel(String modelTag, iInsilicoModelRunnerMessenger messenger) throws ModelNotFoundException, InitFailureException, GenericFailureException {
+        return ModelDispatcher.GetModelFromTag(modelTag, messenger, false);
+    }
+
+    public InsilicoModel InitSingleModelWithoutEnv(String modelTag, iInsilicoModelRunnerMessenger messenger) throws ModelNotFoundException, InitFailureException, GenericFailureException {
+        InsilicoModel modelInited = ModelDispatcher.GetModelFromTag(modelTag, messenger, true);
+
+        for (int i=0; i<Endpoints.size(); i++) {
+            VegaEndpoint ep = Endpoints.get(i);
+            for (int j = 0; j < ep.Models.size(); j++) {
+                VegaModel model = ep.Models.get(j);
+                if(model.Model.getInfo().getKey().equals(modelTag)) {
+                    model.Model = modelInited;
+                }
+            }
+        }
+        return modelInited;
     }
 }
