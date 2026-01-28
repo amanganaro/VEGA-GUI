@@ -2,12 +2,16 @@ package insilico.vega.gui.models;
 
 import insilico.core.exception.GenericFailureException;
 import insilico.core.exception.InitFailureException;
+import insilico.core.exception.InitFailurePythonException;
+import insilico.core.exception.PythonModelResourceNotFoundException;
 import insilico.core.model.*;
 import insilico.core.model.runner.iInsilicoModelRunnerMessenger;
 import insilico.core.tools.utils.GeneralUtilities;
 import insilico.models.dispatcher.ModelDispatcher;
 import insilico.models.exception.ModelNotFoundException;
 import insilico.vega.gui.resources.VegaVersion;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 public class VegaModelsWrapper {
     
     public ArrayList<VegaEndpoint> Endpoints;
-    
+    private static final Logger LOGGER = LogManager.getLogger();
    
     public class VegaModel {
         public iInsilicoModel Model;
@@ -81,7 +85,14 @@ public class VegaModelsWrapper {
                     } else {
                         ep.AddModel(m);
                     }
-                } catch (Exception e) {
+                }
+                catch(PythonModelResourceNotFoundException | InitFailurePythonException ex){
+                    LOGGER.error(ex.getMessage());
+                    VegaVersion.USE_PYTHON_MODELS = false;
+                    throw new InitFailureException(ex);
+                }
+                catch (Exception e) {
+                    LOGGER.error(e.getMessage());
                     throw new InitFailureException(e);
                 }
             }
@@ -142,21 +153,36 @@ public class VegaModelsWrapper {
     }
 
     public InsilicoModel InitSingleModel(String modelTag, iInsilicoModelRunnerMessenger messenger) throws ModelNotFoundException, InitFailureException, GenericFailureException {
-        return ModelDispatcher.GetModelFromTag(modelTag, messenger, false);
+
+        try {
+
+            return ModelDispatcher.GetModelFromTag(modelTag, messenger, false);
+
+        }catch(PythonModelResourceNotFoundException | InitFailurePythonException ex){
+            LOGGER.error(ex.getMessage());
+            VegaVersion.USE_PYTHON_MODELS = false;
+            throw new InitFailureException(ex);
+        }
     }
 
     public InsilicoModel InitSingleModelWithoutEnv(String modelTag, iInsilicoModelRunnerMessenger messenger) throws ModelNotFoundException, InitFailureException, GenericFailureException {
-        InsilicoModel modelInited = ModelDispatcher.GetModelFromTag(modelTag, messenger, true);
+        try {
+            InsilicoModel modelInited = ModelDispatcher.GetModelFromTag(modelTag, messenger, true);
 
-        for (int i=0; i<Endpoints.size(); i++) {
-            VegaEndpoint ep = Endpoints.get(i);
-            for (int j = 0; j < ep.Models.size(); j++) {
-                VegaModel model = ep.Models.get(j);
-                if(model.Model.getInfo().getKey().equals(modelTag)) {
-                    model.Model = modelInited;
+            for (int i = 0; i < Endpoints.size(); i++) {
+                VegaEndpoint ep = Endpoints.get(i);
+                for (int j = 0; j < ep.Models.size(); j++) {
+                    VegaModel model = ep.Models.get(j);
+                    if (model.Model.getInfo().getKey().equals(modelTag)) {
+                        model.Model = modelInited;
+                    }
                 }
             }
+            return modelInited;
+        }catch(PythonModelResourceNotFoundException | InitFailurePythonException ex){
+            LOGGER.error(ex.getMessage());
+            VegaVersion.USE_PYTHON_MODELS = false;
+            throw new InitFailureException(ex);
         }
-        return modelInited;
     }
 }

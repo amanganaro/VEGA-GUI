@@ -1,14 +1,12 @@
 package insilico.vega.gui;
 
 
+import insilico.core.exception.*;
 import insilico.core.model.InsilicoModelPython;
 import insilico.core.python.CdddDescriptors;
 import insilico.vega.gui.models.VegaModelsWrapper;
-import insilico.core.exception.GenericFailureException;
 import insilico.vega.gui.utilities.PythonSetup;
 import insilico.vega.gui.utilities.UpdatesReader;
-import insilico.core.exception.InitFailureException;
-import insilico.core.exception.MoleculeConversionException;
 import insilico.core.model.InsilicoModel;
 import insilico.core.model.iInsilicoModel;
 import insilico.core.model.iInsilicoModelConsensus;
@@ -184,8 +182,7 @@ public class FrameMain extends JFrame {
                     // if python models are not used all the conda cleaning are skip and also the CDDD descriptors
                     if(VegaVersion.USE_PYTHON_MODELS) {
 
-                        CdddDescriptors cdddDescriptors = new CdddDescriptors(List.of("CCCCC"), VegaVersion.UNINSTALL_VEGA, loadingMessenger);
-                        cdddDescriptors.dispose();
+                        CdddDescriptors cdddDescriptors = new CdddDescriptors(null, VegaVersion.UNINSTALL_VEGA, loadingMessenger);
 
                         //clean conda installation
                         pySup.cleanConda();
@@ -214,7 +211,16 @@ public class FrameMain extends JFrame {
                     }
 
 
-                }catch (Exception ex) {
+                }
+                catch(PythonModelResourceNotFoundException | InitFailurePythonException ex){
+                    VegaVersion.USE_PYTHON_MODELS = false;
+                    LOGGER.error(ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize python models." +
+                            "\nPython models will be not available" +
+                            "\nReported error: " + ex.getMessage());
+                    frameReference.dispose();
+                }
+                catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize models.\nReported error: " + ex.getMessage());
                     frameReference.dispose();
                 }
