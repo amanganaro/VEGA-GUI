@@ -1,0 +1,46 @@
+Version 1.2.6 - 29/01/2026
+- Fixed the bug for paths containing spaces for conda
+- Added more verbosity to the possible problems in model setup
+- The conda environments now use only public free without license channels, no more conda default channel in conda env
+- Enhanced the logs
+- Added the possibility to run VEGA without installing conda
+- New models released:
+    - DIO1 (ED SCREEN)
+    - STEROIDOGENESIS (ED SCREEN)
+    - TTR (ED SCREEN)
+
+
+Version 1.2.5 - 21/10/2025
+- Included a custom conda installation to run python models
+- Introduced logs to monitor the problems
+- CDDD from Bayer descriptors calculator added
+- New models released:
+    - DILI (BAYER)
+    - APICAL CARDIO TOX (ALTERNATIVE)
+    - MITOCHONDRIAL DYSFUNCTION (ALTERNATIVE)
+    - CARDIO TOX MULTITASK (ALTERNATIVE)
+    - ACE (ONTOX)
+    - NMDA (ONTOX)
+    - PXR (ONTOX)
+    - ACHE (ONTOX)
+    - AHR (ONTOX)
+    - AT1R (ONTOX)
+    - BMP (ONTOX)
+    - BSEP (ONTOX)
+    - COX1 (ONTOX)
+    - CYP26 (ONTOX)
+    - FGFR1 (ONTOX)
+    - FGFR2 (ONTOX)
+    - FGFR3 (ONTOX)
+    - FGFR4 (ONTOX)
+    - GR (ONTOX)
+    - HDEAC (ONTOX)
+    - OAT1 (ONTOX)
+    - PPARA (ONTOX)
+    - PPARD (ONTOX)
+    - PPARG (ONTOX)
+    - THRA (ONTOX)
+    - THRB (ONTOX)
+    - TTR (ONTOX)
+    - VGSC (ONTOX)
+    - WNT (ONTOX)
