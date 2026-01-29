@@ -30,5 +30,5 @@ public class VegaVersion {
         "Weka ver 3.5.8",
         "jPMML ver 1.5.6"};
     
-    public final static String GUIDE_URL = "/resources/manual-1.2.5.pdf";
+    public final static String GUIDE_URL = "/resources/manual-1.2.6.pdf";
 }
