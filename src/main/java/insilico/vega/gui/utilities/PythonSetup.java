@@ -56,7 +56,6 @@ public class PythonSetup {
     public boolean installConda() throws IOException, InterruptedException {
         boolean result = false;
 
-
         if(SystemUtils.IS_OS_WINDOWS){
 
             String pathToMiniconda = Paths.get(vegaInstallationPath.toString(), "miniconda.exe").toAbsolutePath().toString();
@@ -84,9 +83,9 @@ public class PythonSetup {
                 }
             }
             else{
-                // problem with download, delete the vega folder
-                result = executeCommandLine(null, "cmd.exe", "/c", "del " +
-                        vegaInstallationPath.toAbsolutePath().toString());
+                // problem with download, delete the conda folder
+                executeCommandLine(null, "cmd.exe", "/c", "del " +
+                        condaInstallationPath.toAbsolutePath().toString());
             }
         }else if(SystemUtils.IS_OS_LINUX){
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
@@ -113,8 +112,8 @@ public class PythonSetup {
                     }
                 }
                 else{
-                    // problem with download, delete the vega folder
-                    result = executeCommandLine(null, "bash", "-c", "rm -r ~/vega");
+                    // problem with download, delete the conda folder
+                    executeCommandLine(null, "bash", "-c", "rm -r ~/vega/conda");
                 }
             }
         }else if(SystemUtils.IS_OS_MAC){
@@ -143,8 +142,8 @@ public class PythonSetup {
                     }
                 }
                 else{
-                    // problem with download, delete the vega folder
-                    result = executeCommandLine(null, "bash", "-c", "rm -r ~/vega");
+                    // problem with download, delete the conda folder
+                    executeCommandLine(null, "bash", "-c", "rm -r ~/vega/conda");
                 }
             }
         }

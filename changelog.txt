@@ -6,8 +6,9 @@ Version 1.2.6 - 29/01/2026
 - Added the possibility to run VEGA without installing conda
 - New models released:
     - DIO1 (ED SCREEN)
-    - STEROIDOGENESIS (ED SCREEN)
     - TTR (ED SCREEN)
+- Updated models released:
+    - STEROIDOGENESIS (ED SCREEN)
 
 
 Version 1.2.5 - 21/10/2025
@@ -44,3 +45,4 @@ Version 1.2.5 - 21/10/2025
     - TTR (ONTOX)
     - VGSC (ONTOX)
     - WNT (ONTOX)
+    - STEROIDOGENESIS (OBERON)
