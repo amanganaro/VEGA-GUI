@@ -19,8 +19,8 @@ public class VegaVersion {
     public static boolean USE_PYTHON_MODELS = false;
 
     public final static String AppName = "VEGA in silico platform";
-    public final static String BuildDate = "29/01/2026";
-    public final static String Version = "1.2.6";
+    public final static String BuildDate = "22/05/2026";
+    public final static String Version = "1.2.7b1";
     public final static int VersionMajor = 1;
     public final static int VersionMinor = 2;
     public final static int VersionRevision = 6;

@@ -12,7 +12,7 @@
 
     <groupId>InSilico</groupId>
     <artifactId>Vega-GUI</artifactId>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
 
     <name>Vega - GUI</name>
     <description>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>Core</artifactId>
-            <version>1.3.19</version>
+            <version>1.3.20</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -91,7 +91,7 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-All</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
