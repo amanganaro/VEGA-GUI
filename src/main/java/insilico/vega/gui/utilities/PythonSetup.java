@@ -32,26 +32,18 @@ public class PythonSetup {
         return result;
     }
 
-    public boolean installPython() throws InterruptedException, IOException {
-        boolean result = false;
-        if(SystemUtils.IS_OS_WINDOWS){
-            result=executeCommandLine(null,"cmd.exe", "/c",
-                    "curl https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe -o python-amd64.exe");
-            if(result){
-                result=executeCommandLine(null,"cmd.exe", "/c",
-                        "\"python-amd64.exe\" /passive InstallAllUsers=1 Include_launcher=0 Include_test=0 PrependPath=1 Include_doc=0 && exit");
-                if(result){
-                    result=executeCommandLine(null, "cmd.exe", "/c", "del python-amd64.exe");
-                }
-            }
-        }
-        // for linux/mac users python must be installed by themselves
-        else{
-            LOGGER.info("Linux user: Install Python by yourself");
-        }
-        return result;
+    public boolean checkPythonEnvsFolder(){
+        Path path = Paths.get(System.getProperty("user.home"), "vega", "python");
+        return Files.exists(path);
     }
 
+    public boolean removePythonEnvsFolder() throws IOException {
+        Path path = Paths.get(System.getProperty("user.home"), "vega", "python");
+        if(Files.exists(path)){
+            FileUtils.deleteDirectory(new File(path.toAbsolutePath().toString()));
+        }
+        return true;
+    }
 
     public boolean installConda() throws IOException, InterruptedException {
         boolean result = false;

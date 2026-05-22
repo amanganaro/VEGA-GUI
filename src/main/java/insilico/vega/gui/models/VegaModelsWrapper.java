@@ -81,7 +81,8 @@ public class VegaModelsWrapper {
                     InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag);
                     if(InsilicoModelPython.class.isAssignableFrom(m.getClass()) && VegaVersion.UNINSTALL_VEGA) {
                         InsilicoModel toRemove = InitSingleModelWithoutEnv(m.getInfo().getKey(), null);
-                        ((InsilicoModelPython) toRemove).removeCondaEnv();
+//                        ((InsilicoModelPython) toRemove).removeCondaEnv();
+                        ((InsilicoModelPython) toRemove).removePythonEnv();
                     } else {
                         ep.AddModel(m);
                     }
