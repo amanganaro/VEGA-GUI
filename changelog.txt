@@ -1,3 +1,9 @@
+Version 1.2.7 XX/YY/ZZZZ
+- Fixed problem in CDDD script when there is only one invalid molecule (also valid for previous version with a clean installation)
+- Removed conda installation
+- Use of python environment instead of conda environment, built with conda-pack
+- Fixed tag of ISS-CARC-GX model
+
 Version 1.2.6 - 29/01/2026
 - Fixed the bug for paths containing spaces for conda
 - Added more verbosity to the possible problems in model setup

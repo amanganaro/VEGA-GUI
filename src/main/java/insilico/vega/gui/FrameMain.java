@@ -28,6 +28,7 @@ import insilico.core.tools.utils.GeneralUtilities;
 //import insilico.core.tools.GeneralUtilities;
 //import insilico.core.tools.logger.InsilicoLogger;
 import insilico.vega.gui.resources.VegaVersion;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -2521,41 +2522,49 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
 
     private static boolean checkPythonAndConda(FrameLoading frameLoader) {
         boolean isOk =false;
-        try{
-            isOk = pySup.checkPythonEnvsFolder();
-            VegaVersion.USE_PYTHON_MODELS = isOk;
-            if(!isOk){
-                var selection = JOptionPane.showOptionDialog(frameLoader,
-//                        "A version of Conda (Python) will be downloaded and installed on your local machine,\n" +
-//                                "together with a series of Python libraries needed for some of the VEGA models.\n" +
-//                                "Please note that an internet connection is required." +
-//                                "\n\n" +
-//                                "Click OK to proceed, or CANCEL to skip the installation. Note that in this latter\n" +
-//                                "case you will still be able to use VEGA, but the models based on Python will NOT\n" +
-//                                "be available within the application. \n\r",
-                        "Do you want to use Python models? This require to download some files from internet. \n" +
-                                "This could require several time depending also on your internet connection.\n" +
-                                "Keep in mind that the overall download size is around 7GB.",
-                        "Warning",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,null, null);
 
-                // install conda
-                if(selection == 0) {
-//                    frameLoader.setLabelText("Installing Conda...");
-                    frameLoader.setLabelText("Setting up VEGA...");
-//                    isOk = pySup.installConda();
-//                    VegaVersion.USE_PYTHON_MODELS = isOk;
-                    VegaVersion.USE_PYTHON_MODELS = true;
-//                    if(!isOk){
-//                        JOptionPane.showMessageDialog(frameLoader,
-//                                "An error occurred during Conda installation. Please restart VEGA.",
-//                                "Conda installation error",
-//                                JOptionPane.ERROR_MESSAGE);
-//                        frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
-//                        return false;
-//                    }
+        try{
+            if (SystemUtils.IS_OS_WINDOWS) {
+                isOk = pySup.checkPythonEnvsFolder();
+                frameLoader.setLabelText("Setting up VEGA...");
+                VegaVersion.USE_PYTHON_MODELS = true;
+            }
+            else {
+                isOk = pySup.checkConda();
+
+                if(!isOk){
+                    var selection = JOptionPane.showOptionDialog(frameLoader,
+                        "A version of Conda (Python) will be downloaded and installed on your local machine,\n" +
+                                "together with a series of Python libraries needed for some of the VEGA models.\n" +
+                                "Please note that an internet connection is required." +
+                                "\n\n" +
+                                "Click OK to proceed, or CANCEL to skip the installation. Note that in this latter\n" +
+                                "case you will still be able to use VEGA, but the models based on Python will NOT\n" +
+                                "be available within the application. \n\r",
+//                            "Do you want to use Python models? This require to download some files from internet. \n" +
+//                                    "This could require several time depending also on your internet connection.\n" +
+//                                    "Keep in mind that the overall download size is around 7GB.",
+                            "Warning",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.WARNING_MESSAGE,
+                            null,null, null);
+
+                    // install conda
+                    if(selection == 0) {
+                        frameLoader.setLabelText("Installing Conda...");
+
+                        isOk = pySup.installConda();
+                        VegaVersion.USE_PYTHON_MODELS = isOk;
+
+                        if(!isOk){
+                            JOptionPane.showMessageDialog(frameLoader,
+                                    "An error occurred during Conda installation. Please restart VEGA.",
+                                    "Conda installation error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+                            return false;
+                        }
+                    }
                 }
             }
         }catch (Exception e){

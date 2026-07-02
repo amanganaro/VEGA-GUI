@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import static insilico.core.tools.utils.GeneralUtilities.executeCommandLine;
+
 public class PythonSetup {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -75,7 +77,7 @@ public class PythonSetup {
                 }
             }
             else{
-                // problem with download, delete the conda folder
+                // if there was a problem with download, hence delete the conda folder
                 executeCommandLine(null, "cmd.exe", "/c", "del " +
                         condaInstallationPath.toAbsolutePath().toString());
             }
@@ -85,11 +87,11 @@ public class PythonSetup {
                 result = executeCommandLine(null, "bash", "-c", "curl --version");
                 if(result)
                     result = executeCommandLine(null,"bash", "-c",
-                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Linux-x86_64.sh " +
+                            "curl --ssl-revoke-best-effort https://github.com/conda-forge/miniforge/releases/download/26.3.2-2/Miniforge3-26.3.2-2-Linux-x86_64.sh " +
                                     "-o ~/vega/miniconda.sh && chmod +x  ~/vega/miniconda.sh");
                 else
                     result = executeCommandLine(null,"bash", "-c",
-                            "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-Linux-x86_64.sh " +
+                            "wget https://github.com/conda-forge/miniforge/releases/download/26.3.2-2/Miniforge3-26.3.2-2-Linux-x86_64.sh " +
                                     "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
@@ -104,22 +106,21 @@ public class PythonSetup {
                     }
                 }
                 else{
-                    // problem with download, delete the conda folder
+                    // if there was a problem with download, hence delete the conda folder
                     executeCommandLine(null, "bash", "-c", "rm -r ~/vega/conda");
                 }
             }
         }else if(SystemUtils.IS_OS_MAC){
-            //controllare se viene usato zsh o bash come default shell
             result = executeCommandLine(null,"bash", "-c", "mkdir -p ~/vega");
             if(result){
                 result = executeCommandLine(null, "bash", "-c", "curl --version");
                 if(result)
                     result = executeCommandLine(null,"bash", "-c",
-                            "curl --ssl-revoke-best-effort https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-MacOSX-x86_64.sh " +
+                            "curl --ssl-revoke-best-effort https://github.com/conda-forge/miniforge/releases/download/26.3.2-2/Miniforge3-26.3.2-2-MacOSX-x86_64.sh " +
                                     "-o ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 else
                     result = executeCommandLine(null,"bash", "-c",
-                            "wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.5.1-1-MacOSX-x86_64.sh " +
+                            "wget https://github.com/conda-forge/miniforge/releases/download/26.3.2-2/Miniforge3-26.3.2-2-MacOSX-x86_64.sh " +
                                     "-O ~/vega/miniconda.sh && chmod +x ~/vega/miniconda.sh");
                 if(result){
                     result = executeCommandLine(null, "bash","-c",
@@ -134,7 +135,7 @@ public class PythonSetup {
                     }
                 }
                 else{
-                    // problem with download, delete the conda folder
+                    // if there was a problem with download, hence delete the conda folder
                     executeCommandLine(null, "bash", "-c", "rm -r ~/vega/conda");
                 }
             }
@@ -241,32 +242,4 @@ public class PythonSetup {
         String folderToRemove = Paths.get(System.getProperty("user.home"), "vega", "logs").toString();
         FileUtilities.deleteFolder(folderToRemove);
     }
-
-    private StringBuilder readProcessOutput(InputStream inputStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder output = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            output.append(line).append("\n");
-        }
-        return output;
-    }
-
-    private boolean executeCommandLine(Map<String, String> envVariables, String... commands) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder(commands);
-        String commandString = String.join(" ", commands);
-        LOGGER.info("Process builder command: {}", commandString);
-
-        if(envVariables != null) {
-            envVariables.forEach((key, value) ->
-                    processBuilder.environment().put(key, String.valueOf(value)));
-        }
-        processBuilder.redirectErrorStream(true);
-        Process process = processBuilder.start();
-        String s = readProcessOutput(process.getInputStream()).toString();
-        LOGGER.info("Process builder result: {}",s);
-        int exitCode = process.waitFor();
-        return exitCode == 0;
-    }
-
 }
