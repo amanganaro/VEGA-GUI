@@ -186,12 +186,18 @@ public class FrameMain extends JFrame {
                         CdddDescriptors cdddDescriptors = new CdddDescriptors(null, VegaVersion.UNINSTALL_VEGA, loadingMessenger);
 
                         //clean conda installation
-//                        pySup.cleanConda();
+                        if(!SystemUtils.IS_OS_WINDOWS)
+                            pySup.cleanConda();
 
                         if (VegaVersion.UNINSTALL_VEGA) {
-                            cdddDescriptors.removePythonEnv();
-//                            boolean uninstallResult = pySup.removeCondaInstallation();
-                            boolean uninstallResult = pySup.removePythonEnvsFolder();
+                            boolean uninstallResult;
+                            if(SystemUtils.IS_OS_WINDOWS) {
+                                cdddDescriptors.removePythonEnv();
+                                uninstallResult = pySup.removePythonEnvsFolder();
+                            }
+                            else
+                                uninstallResult = pySup.removeCondaInstallation();
+
                             pySup.removeALlPythonFolders();
 
                             LogManager.shutdown();

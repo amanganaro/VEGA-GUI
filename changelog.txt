@@ -1,7 +1,8 @@
 Version 1.2.7 XX/YY/ZZZZ
 - Fixed problem in CDDD script when there is only one invalid molecule (also valid for previous version with a clean installation)
-- Removed conda installation
-- Use of python environment instead of conda environment, built with conda-pack
+- Use of python environment in Windows OS instead of conda environment, built with conda-pack
+- For Windows OS put the packed environment inside the resource of the jar
+- Changed the miniconda server where download in linux and macos to miniforge instead of anaconda repo.
 - Fixed tag of ISS-CARC-GX model
 
 Version 1.2.6 - 29/01/2026
