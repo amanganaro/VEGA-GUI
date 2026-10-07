@@ -1,15 +1,11 @@
 package insilico.vega.launcher;
 
 import insilico.core.ad.ADCheckIndices;
-import insilico.core.tools.utils.GeneralUtilities;
 import insilico.vega.gui.FrameMain;
 import insilico.vega.gui.resources.VegaVersion;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
 
 /**
  *
