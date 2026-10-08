@@ -174,17 +174,18 @@ public class FrameMain extends JFrame {
                             }
                         }
 
-                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
+                        if(!toCheckEnv.isEmpty()) {
+                            //clean conda installation
+                            if(!SystemUtils.IS_OS_WINDOWS)
+                                pySup.cleanConda();
+                        }
                     }
 
-                    // if python models are not used all the conda cleaning are skip and also the CDDD descriptors
+                    // if python models are not used the CDDD descriptors initialization is skipped and also
                     if(VegaVersion.USE_PYTHON_MODELS) {
 
+                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
                         CdddDescriptors cdddDescriptors = new CdddDescriptors(null, VegaVersion.UNINSTALL_VEGA, loadingMessenger);
-
-                        //clean conda installation
-                        if(!SystemUtils.IS_OS_WINDOWS)
-                            pySup.cleanConda();
 
                         if (VegaVersion.UNINSTALL_VEGA) {
                             boolean uninstallResult;
