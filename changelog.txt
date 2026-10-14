@@ -1,3 +1,6 @@
+Version 1.2.8 XX/YY/ZZZZ
+
+
 Version 1.2.7 XX/YY/ZZZZ
 - Fixed problem in CDDD script when there is only one invalid molecule (also valid for previous version with a clean installation)
 - Use of python environment in Windows OS instead of conda environment, built with conda-pack
