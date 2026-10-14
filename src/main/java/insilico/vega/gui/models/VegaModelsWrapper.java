@@ -79,13 +79,7 @@ public class VegaModelsWrapper {
             for (String modelTag : vegaEP.Models) {
                 try {
                     InsilicoModel m = ModelDispatcher.GetModelFromTag(modelTag);
-                    if(InsilicoModelPython.class.isAssignableFrom(m.getClass()) && VegaVersion.UNINSTALL_VEGA) {
-                        InsilicoModel toRemove = InitSingleModelWithoutEnv(m.getInfo().getKey(), null);
-//                        ((InsilicoModelPython) toRemove).removeCondaEnv();
-                        ((InsilicoModelPython) toRemove).removePythonEnv();
-                    } else {
-                        ep.AddModel(m);
-                    }
+                    ep.AddModel(m);
                 }
                 catch(PythonModelResourceNotFoundException | InitFailurePythonException ex){
                     LOGGER.error(ex.getMessage());
