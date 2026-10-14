@@ -154,62 +154,69 @@ public class FrameMain extends JFrame {
 
                     Models = new VegaModelsWrapper();
 
+                    if(!VegaVersion.UNINSTALL_VEGA) {
 
-                    if(VegaVersion.USE_PYTHON_MODELS) {
-                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
-                        CdddDescriptors cdddDescriptors = new CdddDescriptors(null,
-                                VegaVersion.UNINSTALL_VEGA, loadingMessenger);
-
-                        if(VegaVersion.UNINSTALL_VEGA){
-                            cdddDescriptors.removeResourceFolder();
-                            if(pySup.checkIfThereAreCondaPackEnvs())
-                                cdddDescriptors.removePythonEnv();
-                            else
-                                cdddDescriptors.removeCondaEnv();
-                        }
-                    }
-
-                    ArrayList<String> toCheckEnv = new ArrayList<>();
-                    //check conda environments and download support files
-                    for (InsilicoModel im : Models.GetAllInsilicoModels()) {
-                        if (InsilicoModelPython.class.isAssignableFrom(im.getClass())) {
-                            if(VegaVersion.USE_PYTHON_MODELS) {
-                                // here the python model download support files and configures the conda environment
-                                InsilicoModelPython imInit = (InsilicoModelPython) Models.InitSingleModelWithoutEnv(im.getInfo().getKey(), loadingMessenger);
-
-                                if(VegaVersion.UNINSTALL_VEGA){
-                                    imInit.removeResourceFolder();
-
-                                    if(pySup.checkIfThereAreCondaPackEnvs())
-                                        imInit.removePythonEnv();
-                                    else
-                                        imInit.removeCondaEnv();
-
-                                }else{
+                        ArrayList<String> toCheckEnv = new ArrayList<>();
+                        //check conda environments and download support files
+                        for (InsilicoModel im : Models.GetAllInsilicoModels()) {
+                            if (InsilicoModelPython.class.isAssignableFrom(im.getClass())) {
+                                if(VegaVersion.USE_PYTHON_MODELS) {
+                                    // here the python model download support files and configures the conda environment
+                                    InsilicoModel imInited = Models.InitSingleModelWithoutEnv(im.getInfo().getKey(), loadingMessenger);
                                     boolean isPresent = toCheckEnv.stream().anyMatch(
-                                            condaEnv -> condaEnv.equals(imInit.getPythonEnv()));
+                                            condaEnv -> condaEnv.equals(((InsilicoModelPython) imInited).getPythonEnv()));
 
                                     if (!isPresent) {
-                                        if(pySup.checkIfThereAreCondaPackEnvs())
-                                            imInit.configurePythonEnv();
-                                        else
-                                            imInit.configureCondaEnv();
-                                        toCheckEnv.add(imInit.getPythonEnv());
+                                        ((InsilicoModelPython) imInited).configurePythonEnv();
+                                        toCheckEnv.add(((InsilicoModelPython) imInited).getPythonEnv());
                                     }
                                 }
                             }
                         }
+
+                        if(!toCheckEnv.isEmpty()) {
+                            //clean conda installation
+                            if(!SystemUtils.IS_OS_WINDOWS)
+                                pySup.cleanConda();
+                        }
                     }
 
-                    if(VegaVersion.UNINSTALL_VEGA) {
-                        if(VegaVersion.USE_PYTHON_MODELS) {
-                            if (!pySup.checkIfThereAreCondaPackEnvs())
-                                pySup.removeCondaInstallation();
+                    // if python models are not used the CDDD descriptors initialization is skipped and also
+                    if(VegaVersion.USE_PYTHON_MODELS) {
+
+                        loadingMessenger.SendMessage("Checking CDDD descriptors environment");
+                        CdddDescriptors cdddDescriptors = new CdddDescriptors(null, VegaVersion.UNINSTALL_VEGA, loadingMessenger);
+
+                        if (VegaVersion.UNINSTALL_VEGA) {
+                            boolean uninstallResult;
+                            if(SystemUtils.IS_OS_WINDOWS) {
+                                cdddDescriptors.removePythonEnv();
+                                uninstallResult = pySup.removePythonEnvsFolder();
+                            }
+                            else
+                                uninstallResult = pySup.removeCondaInstallation();
+
+                            pySup.removeALlPythonFolders();
+
+                            LogManager.shutdown();
+                            pySup.removeLogFolder();
+                            if (uninstallResult) {
+                                JOptionPane.showMessageDialog(FrameLoader,
+                                        "All additional files have been removed.\r\n" +
+                                                "It is now possible to delete the folder containing the VEGA binaries.");
+
+                            } else {
+                                JOptionPane.showMessageDialog(FrameLoader,
+                                        "Something went wrong during the uninstallation.\r\n" +
+                                                "Try again, if the problem persists, cancel manually the conda installation");
+                            }
+
+                            FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
+                            return false;
                         }
-                        JOptionPane.showMessageDialog(FrameLoader,
-                                "All additional files have been removed.\r\n" +
-                                        "It is now possible to delete the folder containing the VEGA binaries.");
                     }
+
+
                 }
                 catch(PythonModelResourceNotFoundException | InitFailurePythonException ex){
                     VegaVersion.USE_PYTHON_MODELS = false;
@@ -223,20 +230,8 @@ public class FrameMain extends JFrame {
                     JOptionPane.showMessageDialog(null, "Fatal error: unable to initialize models.\nReported error: " + ex.getMessage());
                     frameReference.dispose();
                 }
-                finally {
-                    if(VegaVersion.UNINSTALL_VEGA) {
-                        LogManager.shutdown();
-                        pySup.removeLastFolders();
-                    }
-                }
 
-                if(VegaVersion.UNINSTALL_VEGA){
-                    FrameLoader.dispatchEvent(new WindowEvent(FrameLoader, WindowEvent.WINDOW_CLOSING));
-                    return false;
-                }
-                else{
-                    return null;
-                }
+                return null;
             }
 
             //once it done run this
@@ -2485,7 +2480,7 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
     /**
      * 
      */
-    public static void launch(){
+    public static void launch() throws IOException {
 
         LOGGER.info("================ NEW SESSION OF VEGA STARTED ================");
 
@@ -2507,13 +2502,15 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         }
 
         if(!VegaVersion.UNINSTALL_VEGA) {
-            askIfWantToUsePythonModels(fLoader);
+            /// CHECK PYTHON AND CONDA
+            boolean result = checkPythonAndConda(fLoader);
+
         }
         else{
             try {
-                VegaVersion.USE_PYTHON_MODELS = pySup.checkConda() || pySup.checkIfThereAreCondaPackEnvs();
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Some error occurred while checking conda before uninstalling VEGA");
+                VegaVersion.USE_PYTHON_MODELS = pySup.checkConda();
+            } catch (InterruptedException e) {
+                LOGGER.error("Some error occurred while checking conda before uninstalling vega");
             }
         }
         /* Create and display the form */
@@ -2527,18 +2524,20 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
         });
     }
 
-    private static void askIfWantToUsePythonModels(FrameLoading frameLoader) {
+    private static boolean checkPythonAndConda(FrameLoading frameLoader) {
+        boolean isOk =false;
 
         try{
+            if (SystemUtils.IS_OS_WINDOWS) {
+                isOk = pySup.checkPythonEnvsFolder();
+                frameLoader.setLabelText("Setting up VEGA...");
+                VegaVersion.USE_PYTHON_MODELS = true;
+            }
+            else {
+                isOk = pySup.checkConda();
 
-            if(pySup.checkIfThereAreCondaPackEnvs()){
-                VegaVersion.USE_PYTHON_MODELS = true;
-            }
-            else if(pySup.checkConda()){
-                VegaVersion.USE_PYTHON_MODELS = true;
-            }
-            else{
-                var selection = JOptionPane.showOptionDialog(frameLoader,
+                if(!isOk){
+                    var selection = JOptionPane.showOptionDialog(frameLoader,
                         "A version of Conda (Python) will be downloaded and installed on your local machine,\n" +
                                 "together with a series of Python libraries needed for some of the VEGA models.\n" +
                                 "Please note that an internet connection is required." +
@@ -2546,20 +2545,40 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
                                 "Click OK to proceed, or CANCEL to skip the installation. Note that in this latter\n" +
                                 "case you will still be able to use VEGA, but the models based on Python will NOT\n" +
                                 "be available within the application. \n\r",
-                        "Warning",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,null, null);
+//                            "Do you want to use Python models? This require to download some files from internet. \n" +
+//                                    "This could require several time depending also on your internet connection.\n" +
+//                                    "Keep in mind that the overall download size is around 7GB.",
+                            "Warning",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.WARNING_MESSAGE,
+                            null,null, null);
 
-                // install conda
-                VegaVersion.USE_PYTHON_MODELS = selection == 0;
+                    // install conda
+                    if(selection == 0) {
+                        frameLoader.setLabelText("Installing Conda...");
+
+                        isOk = pySup.installConda();
+                        VegaVersion.USE_PYTHON_MODELS = isOk;
+
+                        if(!isOk){
+                            JOptionPane.showMessageDialog(frameLoader,
+                                    "An error occurred during Conda installation. Please restart VEGA.",
+                                    "Conda installation error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+                            return false;
+                        }
+                    }
+                }
             }
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             frameLoader.dispatchEvent(new WindowEvent(frameLoader, WindowEvent.WINDOW_CLOSING));
+            return false;
         }
+        return isOk;
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JTextArea Bar_Txt;
     private JLabel Bottomhills_Progress;
