@@ -6,7 +6,7 @@
 
     <groupId>InSilico</groupId>
     <artifactId>Vega-GUI</artifactId>
-    <version>1.2.7</version>
+    <version>1.2.8</version>
 
     <name>Vega - GUI</name>
     <description>
@@ -105,12 +105,12 @@
             <id>with-condapack</id>
             <dependencies>
                 <dependency>
-                    <groupId>com.protoqsar</groupId>
+                    <groupId>InSilico</groupId>
                     <artifactId>VegaPythonEnv-Global</artifactId>
                     <version>1.0.0</version>
                 </dependency>
                 <dependency>
-                    <groupId>com.protoqsar</groupId>
+                    <groupId>InSilico</groupId>
                     <artifactId>VegaPythonEnv-Cddd</artifactId>
                     <version>1.0.0</version>
                 </dependency>
