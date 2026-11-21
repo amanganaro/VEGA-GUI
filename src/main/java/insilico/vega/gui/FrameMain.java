@@ -254,9 +254,7 @@ public class FrameMain extends JFrame {
                 Help_Label.setToolTipText(AboutTxt);
 
                 // Sets frame title
-                frameReference.setTitle(VegaVersion.AppName + " - version " +
-                        VegaVersion.VersionMajor + "." + VegaVersion.VersionMinor +
-                        "." + VegaVersion.VersionRevision);
+                frameReference.setTitle(VegaVersion.AppName + " - version " + VegaVersion.Version);
 
                 // Init the form
                 getContentPane().setBackground(Color.white);
