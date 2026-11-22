@@ -10,8 +10,9 @@ its date when the official build is distributed.
   folder, `~/vega-gui`, which can be moved with `-Dvega.home=<path>` or the `VEGA_HOME` environment variable. It is
   separate from the folders of the previous releases, so this build installs everything again the first time and can
   coexist with an older VEGA on the same machine. Uninstallation (`-uninstall`) removes this folder.
-- Core 1.3.25 and VegaResources-Cddd 1.1.1: the trained CDDD model stays in the VEGA folder instead of the location
-  of the cddd library
+- VegaModels-All 1.3.2, with Core 1.3.25 and the CDDD models on VegaResources-Cddd 1.1.1: the trained CDDD model
+  stays in the VEGA folder instead of the location of the cddd library, and the Mitochondrial Dysfunction model
+  files, which could not be extracted on a fresh installation, are fixed
 
 ### 1.2.9-b1 - 21/11/2026
 - Updated to VegaModels-All 1.3.1, which brings Core 1.3.24:
