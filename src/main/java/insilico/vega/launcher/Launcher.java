@@ -1,11 +1,10 @@
 package insilico.vega.launcher;
 
 import insilico.core.ad.ADCheckIndices;
+import insilico.core.tools.utils.VegaFolders;
+import insilico.core.tools.utils.VegaFolders.VegaFolder;
 import insilico.vega.gui.FrameMain;
 import insilico.vega.gui.resources.VegaVersion;
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 
 /**
  *
@@ -13,7 +12,20 @@ import java.io.File;
  */
 public class Launcher {
 
+    /** System property read by log4j2.properties for the log folder. */
+    private static final String LOG_FOLDER_PROPERTY = "vega.logs";
+
+    /** System property read by PadelAdapter (LocalJar) for the folder of the PaDEL service. */
+    private static final String PADEL_FOLDER_PROPERTY = "vega.padel.folder";
+
     public static void main(String args[]) throws Exception {
+
+        // Local folders first, before anything can initialize log4j or start the PaDEL service: both read their
+        // folder from a system property, set here from the single VEGA root
+        System.setProperty(LOG_FOLDER_PROPERTY, VegaFolders.ensure(VegaFolder.LOGS).toString());
+        if (System.getProperty(PADEL_FOLDER_PROPERTY) == null) {
+            System.setProperty(PADEL_FOLDER_PROPERTY, VegaFolders.get(VegaFolder.PADEL).toString());
+        }
 
         // to avoid blurring of images in labels
         System.setProperty("sun.java2d.uiScale", "1.0");
@@ -32,11 +44,6 @@ public class Launcher {
 
             }
         }
-
-        // CREATE THE LOG DIRECTORY IF NOT PRESENT
-        String logDir = System.getProperty("user.home")+ File.separator+ "vega"+ File.separator + "logs";
-        File directory = new File(logDir);
-        FileUtils.forceMkdir(directory);
 
         // Run GUI
         FrameMain.launch();
