@@ -34,13 +34,6 @@ public class FrameAbout extends JFrame {
         } catch (InitFailureException ex) {
             jLabelCoreVersion.setText("N/A");
         }
-        String lib = "";
-        for (String s : VegaVersion.Libraries) {
-            if (!lib.isEmpty()) lib += System.getProperty("line.separator");
-            lib += " " + s;
-        }
-        jTextAreaLibraries.setText(lib);
-        
         final JFrame Parent = this;
         jLabelDownloadGuide.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -62,7 +55,19 @@ public class FrameAbout extends JFrame {
             
             @Override
             public void mouseClicked(MouseEvent e) {
-                OpenExternalWebBrowser("http://www.vega-qsar.eu");
+                OpenExternalWebBrowser("https://www.vegahub.eu/");
+            }
+        });
+
+        jLabelGithubLink.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent evt) {
+                OnClickableLabelMouseOver(evt);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                OpenExternalWebBrowser("https://github.com/amanganaro");
             }
         });
         
@@ -78,17 +83,17 @@ public class FrameAbout extends JFrame {
             }
         });
         
-//        jLabelKODE.addMouseListener(new java.awt.event.MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent evt) {
-//                OnClickableLabelMouseOver(evt);
-//            }
-//
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                OpenExternalWebBrowser("https://chm.kode-solutions.net");
-//            }
-//        });
+        jLabelProtoqsar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent evt) {
+                OnClickableLabelMouseOver(evt);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                OpenExternalWebBrowser("https://protoqsar.com/en/italy/");
+            }
+        });
         
     }
 
@@ -175,17 +180,16 @@ public class FrameAbout extends JFrame {
         jLabelBuildDate = new JLabel();
         jLabel9 = new JLabel();
         jLabelVegaLink = new JLabel();
+        jLabel10 = new JLabel();
+        jLabelGithubLink = new JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new JLabel();
-        jLabel8 = new JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaLibraries = new javax.swing.JTextArea();
         jLabelIRFMN = new JLabel();
-        jLabelKODE = new JLabel();
+        jLabelProtoqsar = new JLabel();
 
         setTitle("About VEGA");
-        setMinimumSize(new java.awt.Dimension(520, 460));
-        setPreferredSize(new java.awt.Dimension(520, 460));
+        setMinimumSize(new java.awt.Dimension(520, 380));
+        setPreferredSize(new java.awt.Dimension(520, 380));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -230,11 +234,18 @@ public class FrameAbout extends JFrame {
         jLabelBuildDate.setText("-");
 
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        jLabel9.setText("Visit the project website:");
+        jLabel9.setText("Visit the official website at");
 
         jLabelVegaLink.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jLabelVegaLink.setForeground(new java.awt.Color(51, 102, 255));
-        jLabelVegaLink.setText("www.vega-qsar.eu");
+        jLabelVegaLink.setText("www.vegahub.eu");
+
+        jLabel10.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabel10.setText("Source code is available on");
+
+        jLabelGithubLink.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        jLabelGithubLink.setForeground(new java.awt.Color(51, 102, 255));
+        jLabelGithubLink.setText("GitHub");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -261,7 +272,11 @@ public class FrameAbout extends JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelVegaLink)))
+                        .addComponent(jLabelVegaLink))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelGithubLink)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -286,6 +301,10 @@ public class FrameAbout extends JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jLabelVegaLink))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabelGithubLink))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -295,17 +314,9 @@ public class FrameAbout extends JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/vega_logo_small.png"))); // NOI18N
         jPanel4.add(jLabel3, new java.awt.GridBagConstraints());
 
-        jLabel8.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        jLabel8.setText("VEGA uses the following open source libraries:");
-
-        jTextAreaLibraries.setEditable(false);
-        jTextAreaLibraries.setColumns(20);
-        jTextAreaLibraries.setRows(1);
-        jScrollPane1.setViewportView(jTextAreaLibraries);
-
         jLabelIRFMN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logoirfmn.jpg"))); // NOI18N
 
-        //jLabelKODE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo_chm.png"))); // NOI18N
+        jLabelProtoqsar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo_protoqsar.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -320,12 +331,8 @@ public class FrameAbout extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelKODE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabelProtoqsar))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -336,12 +343,8 @@ public class FrameAbout extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelKODE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabelProtoqsar)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelIRFMN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -369,20 +372,19 @@ public class FrameAbout extends JFrame {
     private JLabel jLabel5;
     private JLabel jLabel6;
     private JLabel jLabel7;
-    private JLabel jLabel8;
     private JLabel jLabel9;
+    private JLabel jLabel10;
     private JLabel jLabelBuildDate;
     private JLabel jLabelCoreVersion;
     private JLabel jLabelDownloadGuide;
+    private JLabel jLabelGithubLink;
     private JLabel jLabelIRFMN;
-    private JLabel jLabelKODE;
+    private JLabel jLabelProtoqsar;
     private JLabel jLabelVegaLink;
     private JLabel jLabelVegaVersion;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextAreaLibraries;
     // End of variables declaration//GEN-END:variables
 }

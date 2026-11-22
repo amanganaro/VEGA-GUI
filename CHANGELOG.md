@@ -5,6 +5,15 @@ its date when the official build is distributed.
 
 ## 1.2.9 - not released yet
 
+### 1.2.9-b5 - 22/11/2026
+- About box: the website link points to www.vegahub.eu instead of the old www.vega-qsar.eu
+- This changelog now describes the three changes of 1.2.9-b1 that can alter a prediction, and which models they
+  affect
+
+### 1.2.9-b4 - 22/11/2026
+- About box: ProtoQSAR logo next to the Mario Negri one, linking to the ProtoQSAR Italia website; new line with a
+  link to the source code on GitHub; the list of open source libraries is removed and the window is shorter
+
 ### 1.2.9-b3 - 22/11/2026
 - Two explicit build variants: `generic` (default, no Python environment inside) and `win-x64`
   (`mvn -P win-x64 package`, ships the conda-pack environments for Windows x86_64). The profile `with-condapack` is
@@ -27,6 +36,61 @@ its date when the official build is distributed.
 - Updated to VegaModels-All 1.3.1, which brings Core 1.3.24:
     - PaDEL descriptors are computed by a separate local service, started on demand by the models that need it
     - the CDDD model files come from VegaResources-Cddd, with the corrected `app-cddd.py`
+- **Predictions can change** in this build, for three independent reasons, each described below: the BCF Meylan
+  model no longer alters the molecule it is given, the Cramer and Verhaar schemes are computed by VEGA itself, and
+  the CDDD descriptors are now reproducible
+
+#### Predictions that can change: BCF Meylan altered the molecule
+
+When a model looks for a structural fragment, the chemistry library it uses re-reads the molecule first and rewrites
+how its rings and aromatic bonds are described. BCF Meylan let it do so on the molecule itself, and all the models
+of a run share one molecule: every model executed after BCF Meylan therefore saw a structure described differently
+from the one VEGA had prepared, and could return a different result. Run one at a time, those models gave the
+correct value; run together, as the application does, they did not.
+
+BCF Meylan (and its copies in BCF Arnot-Gobas) now searches for its fragments without letting the molecule be
+rewritten, which is what every other model in VEGA already did.
+
+Affected molecules are those with heteroaromatic or sulphur-containing rings; everything else is unchanged. On a
+test of 50 molecules, 99.6% of the values are identical to the previous version, and the models that changed now
+return the values they return when run in isolation. The models that can be affected are the LogP models and
+everything that is computed from them:
+
+- LogP (Meylan-Kowwin), LogP (ALogP), LogP (MLogP)
+- BCF (Arnot-Gobas), kM/Half-Life (Arnot-EpiSuite)
+- Algae EC50 and NOEC (IRFMN), Daphnia Magna EC50 and NOEC (IRFMN), LC50 (DEMETRA) and LC50 (EPA)
+- Fish LC50 (IRFMN), LC50 (NIC), NOEC (IRFMN), Fathead Minnow LC50 (EPA), MOA fish toxicity (EPA T.E.S.T.)
+- Water solubility (IRFMN), Vapour Pressure and Melting Point (CONCERT/Kode), Melting Point (CONCERT/KNN)
+- Persistence in soil and in water, quantitative models (IRFMN)
+- Skin permeation (Potts and Guy) and (Ten Berge), Plasma Protein Binding LogK (IRFMN)
+- Aromatase activity (IRFMN) and (TOX21), P-Glycoprotein activity (NIC), Hepatic Steatosis MIE assays for NRF2,
+  PPARg up and PXR up (TOXCAST)
+
+A molecule found in a model's training set can now be recognised again, so a few predictions are replaced by the
+experimental value of that molecule.
+
+#### Predictions that can change: Cramer and Verhaar
+
+The Cramer and Verhaar classifications were computed through the external ToxTree library, which was built for a
+chemistry toolkit much older than the one VEGA uses. The decision rules of both schemes have been rewritten inside
+VEGA, so that they now read the molecule exactly as the rest of the application does. The rules themselves are
+unchanged, including the known quirks of the original, which were kept on purpose so that results stay comparable.
+
+Both schemes were checked question by question against the original on thousands of molecules. The classification
+is the same for 99.9% of them. What changes are molecules the old library could not read at all, which were
+reported as not classified and now get their class, plus a few whose class moves by one step. In the test of 50
+molecules, one carotenoid moved from Cramer class II (Intermediate) to class I (Low).
+
+#### Predictions that can change: the models based on CDDD descriptors
+
+The CDDD descriptors, used by the DILI (Bayer/ONTOX), Apical Cardiotoxicity, Mitochondrial Dysfunction,
+Cardiotoxicity Multitask and ONTOX assay models, were not exactly reproducible: the same molecule could get
+slightly different descriptors depending on how many molecules were computed with it, and the difference could
+reach the predicted probabilities. The descriptor calculation is now stable, and always returns the same values for
+the same molecule.
+
+The predicted class does not change: in the test of 50 molecules the differences are in the second or third decimal
+of the probability, and every prediction keeps the same Active / Not Active assessment.
 - The Core version is fixed by the GUI, and the build fails if a dependency is silently downgraded
 - Removed the unused JavaFX dependency
 - Compiled for Java 17, the version the Core requires
