@@ -2486,6 +2486,8 @@ private void Step3_LabelMouseExited(MouseEvent evt) {//GEN-FIRST:event_Step3_Lab
     public static void launch(){
 
         LOGGER.info("================ NEW SESSION OF VEGA STARTED ================");
+        LOGGER.info("VEGA {} ({} build, {}), local folder {}", VegaVersion.Version, VegaVersion.Variant,
+                VegaVersion.BuildDate, insilico.core.tools.utils.VegaFolders.root());
 
         pySup=new PythonSetup();
         FrameLoading fLoader=new FrameLoading(VegaVersion.UNINSTALL_VEGA ? "Uninstalling VEGA..." : "Starting VEGA...");

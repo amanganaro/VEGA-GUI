@@ -6,7 +6,7 @@
 
     <groupId>InSilico</groupId>
     <artifactId>Vega-GUI</artifactId>
-    <version>1.2.9-b2</version>
+    <version>1.2.9-b3</version>
 
     <name>Vega - GUI</name>
     <description>
@@ -18,6 +18,8 @@
         <java.version>17</java.version>
         <skipTests>true</skipTests>
         <vega.core.version>1.3.25</vega.core.version>
+        <!-- Overridden by the generic / win-x64 profiles; this default applies if another profile is selected -->
+        <vega.variant>generic</vega.variant>
         <maven.build.timestamp.format>dd/MM/yyyy</maven.build.timestamp.format>
         <!-- maven.build.timestamp cannot be filtered directly inside resources -->
         <vega.build.date>${maven.build.timestamp}</vega.build.date>
@@ -71,7 +73,7 @@
         <dependency>
             <groupId>InSilico</groupId>
             <artifactId>VegaModels-All</artifactId>
-            <version>1.3.2</version>
+            <version>1.3.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -99,9 +101,28 @@
 
     </dependencies>
 
+    <!--
+        Two build variants, chosen by profile; the jar name and vega-build.properties say which one was built.
+        - generic (default): no Python environment inside; on first use VEGA downloads conda and builds them from the
+          yml files. Small jar, any operating system.
+        - win-x64 (mvn -P win-x64 package): ships the conda-pack environments for Windows x86_64, extracted on first
+          use. The models do not bring the environments any more: only this profile puts them on the classpath.
+    -->
     <profiles>
         <profile>
-            <id>with-condapack</id>
+            <id>generic</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <vega.variant>generic</vega.variant>
+            </properties>
+        </profile>
+        <profile>
+            <id>win-x64</id>
+            <properties>
+                <vega.variant>win-x64</vega.variant>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>InSilico</groupId>
@@ -118,6 +139,7 @@
     </profiles>
 
     <build>
+        <finalName>Vega-GUI-${project.version}-${vega.variant}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources/form</directory>
@@ -130,10 +152,6 @@
             <resource>
                 <directory>src/main/resources/resources</directory>
                 <targetPath>../classes/resources</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/resources/condapack-env</directory>
-                <targetPath>../condapack-env</targetPath>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>

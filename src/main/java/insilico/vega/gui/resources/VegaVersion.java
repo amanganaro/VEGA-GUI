@@ -32,6 +32,12 @@ public class VegaVersion {
     /** Full version as in the pom, including any beta qualifier (e.g. 1.2.9-b1). */
     public final static String Version = BUILD.getProperty("version", "unknown");
 
+    /**
+     * Build variant, set by the Maven profile: "win-x64" ships the Python environments ready to extract, "generic"
+     * downloads conda and builds them on first use. Logged at start-up and shown in the About box for support.
+     */
+    public final static String Variant = BUILD.getProperty("variant", "unknown");
+
     public final static String[] Libraries = {
         "Chemistry Development Kit (CDK) ver 2.3",
         "OpenPDF ver 1.3",

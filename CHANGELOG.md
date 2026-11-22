@@ -5,6 +5,15 @@ its date when the official build is distributed.
 
 ## 1.2.9 - not released yet
 
+### 1.2.9-b3 - 22/11/2026
+- Two explicit build variants: `generic` (default, no Python environment inside) and `win-x64`
+  (`mvn -P win-x64 package`, ships the conda-pack environments for Windows x86_64). The profile `with-condapack` is
+  replaced by `win-x64`. The jar name carries the variant (`Vega-GUI-<version>-generic.jar`,
+  `Vega-GUI-<version>-win-x64.jar`), and so do the log at start-up and the About box.
+- VegaModels-All 1.3.3: the Python models no longer bring the Python environment, so the generic build is about
+  1.2 GB instead of about 3 GB (most of what is left is model data: the CDDD encoder and the DiliBayer model files). Python models in the generic build still need the environment resolver planned
+  for the Core: until then, ship the win-x64 build.
+
 ### 1.2.9-b2 - 22/11/2026
 - All local files (logs, conda, Python environments, model scripts, CDDD files, PaDEL service) live under a single
   folder, `~/vega-gui`, which can be moved with `-Dvega.home=<path>` or the `VEGA_HOME` environment variable. It is

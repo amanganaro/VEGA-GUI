@@ -27,7 +27,7 @@ public class FrameAbout extends JFrame {
         initComponents();
         
         jLabelVegaVersion.setText(VegaVersion.Version);
-        jLabelBuildDate.setText("(build date: " + VegaVersion.BuildDate + ")");
+        jLabelBuildDate.setText("(build date: " + VegaVersion.BuildDate + ", " + VegaVersion.Variant + ")");
         try {
             InsilicoInfo info = new InsilicoInfo();
             jLabelCoreVersion.setText(info.getVersion());
